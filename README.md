@@ -25,7 +25,7 @@ Things to do:
     1. Change random setting and hit apply
         -gtk file will be created on home dir named ".gtkrc-2.0"
         -gtk dir will also be created in .config file
-    2. Manually change font in ".gtkrc-2.0" and "~/.config/gtkrc-3.0/settings.ini"
+    2. Manually change font in ".gtkrc-2.0" and "/home/.config/gtkrc-3.0/settings.ini"
         -Replace font with name of desired font in "~/.font" directory
     3. If done correctly, undetected fonts should now appear in lxappearance
 
