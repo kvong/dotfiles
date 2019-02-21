@@ -10,12 +10,13 @@ if [ $# -eq 0 ]; then
     echo Max brightness = $maxBright
     echo Actual brightness = $actBright
     echo Current brightness = $curBright
-    echo $div
 elif [ $# -gt 1 ]; then
     echo "Program only accept one argument"
     exit 1
 else
-    if [ $1 -gt $maxBright ]; then
+    if [ "$1" == "show" ]; then
+        echo $((actBright*100/maxBright))%
+    elif [ $1 -gt $maxBright ]; then
         echo Use a lower number than $maxBright.
     elif [ $1 -lt 1 ]; then
         echo "Use a higher number for brightness."
@@ -27,6 +28,4 @@ else
         echo $1 > /sys/class/backlight/intel_backlight/brightness
     fi
 fi
-            
-        
-            
+
