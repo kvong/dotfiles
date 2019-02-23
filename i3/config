@@ -40,12 +40,16 @@ bindsym $mod+q kill
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec dmenu_run
-bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 400 -opacity "70" -bw 0 -bg "#000000" -fg "#ffffff" -hlbg "#000000" -hlfg "#00ffff" -font "System San Francisco Display 15"
+
+#bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 400 -opacity "70" -bw 0 -color-normal "#000000,#ffffff,#ffffff,#000000,#00ffff" -font "System San Francisco Display 15"
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+# Starting rofi
+bindsym $mod+d exec rofi -show run -config ~/.config/i3/rofi/config
 
 # change focus
 bindsym $mod+h focus left
@@ -134,7 +138,7 @@ assign [class="NetBeans IDE 8.0.2"] $workspace3
 #assign [instance="youtube.com"] $workspace10
 
 # align title
-title_align center
+#title_align center
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -244,7 +248,7 @@ for_window [class="^.*"] focus
 
 # i3 gaps
 
-bindsym $mod+g mode "gaps"
+#bindsym $mod+g mode "gaps"
 mode "gaps" {
     bindsym k gaps inner current minus 5
     bindsym k gaps outer current minus 5
