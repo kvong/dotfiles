@@ -40,12 +40,16 @@ bindsym $mod+q kill
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec dmenu_run
-bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 400 -opacity "70" -bw 0 -bg "#000000" -fg "#ffffff" -hlbg "#000000" -hlfg "#00ffff" -font "System San Francisco Display 15"
+
+#bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 400 -opacity "70" -bw 0 -color-normal "#000000,#ffffff,#ffffff,#000000,#00ffff" -font "System San Francisco Display 15"
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+# Starting rofi
+bindsym $mod+d exec rofi -show run -config ~/.config/i3/rofi/config
 
 # change focus
 bindsym $mod+h focus left
@@ -101,14 +105,15 @@ bindsym $mod+a focus parent
 # workspace variables
 set $workspace1     "1:  "
 set $workspace2     "2:  "
-set $workspace3    "3: "
+set $workspace3     "3: "
+set $workspace4     "4: "
 set $workspace10    "10: "
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
 bindsym $mod+2 workspace $workspace2
 bindsym $mod+3 workspace $workspace3
-bindsym $mod+4 workspace 4
+bindsym $mod+4 workspace $workspace4
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
@@ -120,7 +125,7 @@ bindsym $mod+0 workspace $workspace10
 bindsym $mod+Shift+1 move container to workspace $workspace1
 bindsym $mod+Shift+2 move container to workspace $workspace2
 bindsym $mod+Shift+3 move container to workspace $workspace3
-bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+4 move container to workspace $workspace4
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
@@ -131,10 +136,9 @@ bindsym $mod+Shift+0 move container to workspace $workspace10
 assign [class="Gnome-terminal"] $workspace1
 assign [class="Firefox"] $workspace2
 assign [class="NetBeans IDE 8.0.2"] $workspace3
-#assign [instance="youtube.com"] $workspace10
-
+assign [class="Thunar"] $workspace4
 # align title
-title_align center
+#title_align center
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -259,3 +263,6 @@ mode "gaps" {
 
 # open youtube.com on workspace 10
 bindsym $mod+y exec "firefox -new-window youtube.com"
+
+# Open Thunar on workspace 4
+bindsym $mod+t exec "Thunar"

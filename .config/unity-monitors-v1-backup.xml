@@ -1,0 +1,45 @@
+<monitors version="1">
+  <configuration>
+      <clone>no</clone>
+      <output name="LVDS-1">
+          <vendor>LGD</vendor>
+          <product>0x0306</product>
+          <serial>0x00000000</serial>
+          <width>1600</width>
+          <height>900</height>
+          <rate>60</rate>
+          <x>1080</x>
+          <y>1018</y>
+          <rotation>normal</rotation>
+          <reflect_x>no</reflect_x>
+          <reflect_y>no</reflect_y>
+          <primary>yes</primary>
+      </output>
+      <output name="VGA-1">
+          <vendor>GSM</vendor>
+          <product>0x56db</product>
+          <serial>0x0001d8a4</serial>
+          <width>1920</width>
+          <height>1080</height>
+          <rate>60</rate>
+          <x>0</x>
+          <y>0</y>
+          <rotation>left</rotation>
+          <reflect_x>no</reflect_x>
+          <reflect_y>no</reflect_y>
+          <primary>no</primary>
+      </output>
+      <output name="HDMI-1">
+      </output>
+      <output name="DP-1">
+      </output>
+      <output name="HDMI-2">
+      </output>
+      <output name="HDMI-3">
+      </output>
+      <output name="DP-2">
+      </output>
+      <output name="DP-3">
+      </output>
+  </configuration>
+</monitors>

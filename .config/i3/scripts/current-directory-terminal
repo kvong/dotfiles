@@ -1,0 +1,4 @@
+#!/bin/bash
+
+curDir=$(pwd)
+gnome-terminal --working-directory=$curDir 
