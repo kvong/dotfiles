@@ -1,15 +1,2 @@
 [Added Associations]
 application/x-shellscript=vim.desktop;
-application/x-compressed-tar=org.gnome.FileRoller.desktop;
-text/html=gedit.desktop;firefox.desktop;vim.desktop;
-application/zip=org.gnome.FileRoller.desktop;
-application/x-desktop=panel-desktop-handler.desktop;
-text/x-java=gedit.desktop;
-application/xml=gedit.desktop;firefox.desktop;org.gnome.gedit.desktop;
-application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop;
-text/plain=gedit.desktop;
-application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=libreoffice-calc.desktop;
-text/x-csrc=gedit.desktop;
-application/vnd.openxmlformats-officedocument.presentationml.presentation=libreoffice-impress.desktop;
-image/jpeg=eog.desktop;
-text/css=gedit.desktop;

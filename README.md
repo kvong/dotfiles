@@ -1,45 +1,59 @@
-# dotfiles
+# Things To Install For Ubuntu 18.04 
 
-Description:
-    Backup for existing linux(UBUNTU 16.04) configurations. My i3 configurations closely follows Alex Booker's youtube video at https://www.youtube.com/watch?v=j1I63wGcvU4&list=PL5ze0DjYv5DbCv9vNEzFmP6sU7ZmkGzcf 
+## Core packages
+...
+sudo apt-get install rofi
+sudo apt-get install compton
+sudo apt-get install i3
+sudo apt-get install i3blocks
+sudo apt-get install lxappearance
+sudo apt-get install vim
+sudo apt-get install thunar
+sudo apt install screenfetch
+...
 
-Things to install:
-    -To change background
-    sudo apt-get install feh
+## i3 gaps dependencies
+...
+sudo apt-get install libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev libxcb-icccm4-dev libyajl-dev libstartup-notification0-dev libxcb-randr0-dev libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev autoconf libxcb-xrm0 libxcb-xrm-dev automake libxcb-shape0-dev
+...
 
-    -Replace dmenu with rofi
-    sudo apt-get rofi
+## Install i3 gaps
+...
+git clone https://www.github.com/Airblader/i3 i3-gaps
+cd i3-gaps
+autoreconf --force --install
+rm -rf build/
+mkdir -p build && cd build/
+../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
+make 
+sudo make install
+...
 
-    -For transparency and fade effect
-    sudo apt-get compton
 
-    -Replace i3 bar with i3blocks
-    sudo apt-get install i3blocks
+## Change ubuntu theme
+...
+/usr/share/gnome-shell/theme/ubuntu.css
+...
 
-    -Get theme changer
-    sudo apt-get install lxappearance
+## Install powerline
+...
+sudo apt-get install python-pip
+pip install git+git://github.com/Lokaltog/powerline
+wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+mv PowerlineSymbols.otf /usr/share/fonts/
+fc-cache -vf /usr/share/fonts/
+mv 10-powerline-symbols.conf /etc/fonts/conf.d/
+pip show powerline-status
+...
 
+## Change login screen background
+...
+sudo vi /usr/share/gnome-shell/theme/ubuntu.css
+\#lockDialogGroup {
+background: #2c001e url(file:///home/blankstr13/Pictures/background/background.jpg);
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover; }
+...
 
-Things to do:
-   -lxappearance: change into undetected fonts
-    1. Change random setting and hit apply
-        -gtk file will be created on home dir named ".gtkrc-2.0"
-        -gtk dir will also be created in .config file
-    2. Manually change font in ".gtkrc-2.0" and "/home/.config/gtkrc-3.0/settings.ini"
-        -Replace font with name of desired font in "~/.font" directory
-    3. If done correctly, undetected fonts should now appear in lxappearance
-
-Note:
-    Changing lights: 
-        -xbacklight did not work
-        -light script was created instead to control the brightness
-            light script:
-                -Takes 0-1 argument
-                -change brightness to numerical argument given
-            *light script writes to /sys/class/backlight/intel_backlight/brightness
-                -Unless you are root user, you will have to gain root access 
-                 and give yourself executable permission.
-            Add following to /etc/rc.local
-                chmod 666 /sys/class/backlight/intel_backlight/brightness
-
-    
