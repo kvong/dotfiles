@@ -32,7 +32,7 @@ font pango:System San Francisco Display 10
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Return exec terminator
 
 # kill focused window
 bindsym $mod+q kill
@@ -58,10 +58,10 @@ bindsym $mod+k focus up
 bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+bindsym $mod+Left   focus left
+bindsym $mod+Down   focus down
+bindsym $mod+Up     focus up
+bindsym $mod+Right  focus right
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -70,10 +70,10 @@ bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+bindsym $mod+Shift+Left     move left
+bindsym $mod+Shift+Down     move down
+bindsym $mod+Shift+Up       move up
+bindsym $mod+Shift+Right    move right
 
 
 # split in horizontal orientation
@@ -133,7 +133,7 @@ bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace $workspace10
 
-assign [class="Gnome-terminal"] $workspace1
+assign [class="Terminator"] $workspace1
 assign [class="Firefox"] $workspace2
 assign [class="NetBeans IDE 8.0.2"] $workspace3
 assign [class="Thunar"] $workspace4
@@ -232,8 +232,9 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 
 # # Execute on start up
 # exec
-exec firefox
+#exec firefox
 exec gnome-terminal
+#exec terminator
 
 # # Always execute
 # exec_always
@@ -241,11 +242,11 @@ exec_always feh --bg-scale /home/blankstr13/.config/i3/background/background.jpg
 exec_always compton -f
 
 # No window title bar
-for_window [class="Gnome-terminal"] border pixel 1
+for_window [class="Terminator"] border pixel 1
 for_window [class="Firefox"] border pixel 1
 
 # Focus on newly opened window
-focus_on_window_activation focus
+# focus_on_window_activation focus
 
 # Focus on newly opened window on all workspaces
 for_window [class="^.*"] focus
@@ -271,5 +272,7 @@ mode "gaps" {
 # Open Thunar on workspace 4
 bindsym $mod+t exec "Thunar"
 
-# Natural scrolling
-exec --no-startup-id synclient HorizEdgeScroll=1 VertEdgeScroll=1 VertScrollDelta=-111
+for_window [class="Gnome-terminal"] border pixel 1, move scratchpad
+
+bindsym $mod+u move scratchpad
+bindsym $mod+i scratchpad show; resize set 900px 300px; move position 1019px 775px; border pixel 1

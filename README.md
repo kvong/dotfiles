@@ -1,4 +1,4 @@
-# Things To Install For Ubuntu 18.04 
+# Things To Install For Ubuntu 18.10 
 ## Core packages
 ```
 sudo apt-get install rofi
@@ -8,6 +8,7 @@ sudo apt-get install i3blocks
 sudo apt-get install lxappearance
 sudo apt-get install vim
 sudo apt-get install thunar
+sudo apt-get install terminator
 sudo apt install screenfetch
 ```
 ## i3 gaps dependencies
@@ -25,14 +26,20 @@ mkdir -p build && cd build/
 make 
 sudo make install
 ```
+## Vim plugins
+```
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+git clone https://github.com/morhetz/gruvbox.git ~/.vim/bundle/gruvbox
+vim +PluginInstall +qall
+```
 ## Change ubuntu theme
 ```
 /usr/share/gnome-shell/theme/ubuntu.css
 ```
-## Install powerline
+## Install powerline ( tecmint's instructions )
 ```
 sudo apt-get install python-pip
-pip install git+git://github.com/Lokaltog/powerline
+sudo pip install git+git://github.com/Lokaltog/powerline
 wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
 wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
 mv PowerlineSymbols.otf /usr/share/fonts/
@@ -40,7 +47,7 @@ fc-cache -vf /usr/share/fonts/
 mv 10-powerline-symbols.conf /etc/fonts/conf.d/
 pip show powerline-status
 ```
-## Change login screen background
+## Change login screen background  (NOTE: Seems to break the system; Advised against trying)
 ```
 sudo vi /usr/share/gnome-shell/theme/ubuntu.css
 \#lockDialogGroup {
@@ -48,4 +55,17 @@ background: #2c001e url(file:///home/blankstr13/Pictures/background/background.j
 background-position: center;
 background-repeat: no-repeat;
 background-size: cover; }
+```
+## Set root password
+```
+sudo passwd root
+```
+## Set up rc.local
+```
+su
+echo chmod o+rw /sys/class/backlight/brightness >> rc.local
+```
+## Natural scroll
+```
+Add { Option "NaturalScrolling" "true" } to /usr/share/X11/xorg.conf.d/40-libinput.conf in the correct InputClass touchpad section
 ```
