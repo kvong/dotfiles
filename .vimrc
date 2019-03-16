@@ -4,7 +4,7 @@ set softtabstop=4
 set shiftwidth=4
 set autoindent
 set si
-set nu
+set rnu nu
 syn on
 
 set nocompatible              " be iMproved, required
@@ -37,3 +37,7 @@ hi Normal guibg=NONE ctermbg=NONE
 " VIM powerline
 set  rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
 set laststatus=2
+
+" VIM shortcuts
+nnoremap NN :bnext<CR> 
+nnoremap PP :bprev<CR>
