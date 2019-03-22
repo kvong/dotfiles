@@ -127,7 +127,7 @@ cd(){
 }
 
 export PS1="Blank@\w> "
-export PATH="$PATH:/home/blankstr13/Scripts"
+export PATH="$PATH:/home/blank/Scripts"
 
 export PATH=$PATH:$HOME/Library/Python/2.7/bin
 powerline-daemon -q
