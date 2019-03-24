@@ -1,31 +1,67 @@
 #!/bin/bash
 
-#check for number of argument(s)
-
+# Get max brightness, current brightness, and actual brightness
 maxBright=$(cat /sys/class/backlight/intel_backlight/max_brightness)
 actBright=$(cat /sys/class/backlight/intel_backlight/actual_brightness)
 curBright=$(cat /sys/class/backlight/intel_backlight/brightness)
+minBright=$((maxBright/100))
 
+# If no argument is entered
 if [ $# -eq 0 ]; then
+    # Print out brightness status and usage instruction
     echo Max brightness = $maxBright
     echo Actual brightness = $actBright
     echo Current brightness = $curBright
-elif [ $# -gt 1 ]; then
-    echo "Program only accept one argument"
+    echo Min brightness = $minBright
+    echo "Usage: light [up|down|set|show] {brightness-number}"
+
+# Validation for too many arguments
+elif [ $# -gt 2 ]; then
+    echo "Invalid number of arguments."
+    echo "Usage: light [up|down|set|show] {brightness-percentage}"
     exit 1
 else
-    if [ "$1" == "show" ]; then
+
+    # Option "up" to increment brightness by 5%
+    if [ "$1" == "up" ]; then
+        newBright=$((curBright+(maxBright/20)))
+        echo "$curBright + ( $maxBright / 20 )"
+        if [ $newBright -gt $maxBright ]; then
+            echo "Maximum brightness reached: $maxBright"
+            exit 1
+        else
+            echo $newBright > /sys/class/backlight/intel_backlight/brightness
+        fi
+   
+    # Option "down" to decrement brightness by 5%
+    elif [ "$1" == "down" ]; then
+        newBright=$((curBright-(maxBright/20)))
+        if [ $newBright -lt $minBright ]; then
+            echo "Minimum brightness reached: $minBright"
+            exit 1
+        else
+            echo $newBright > /sys/class/backlight/intel_backlight/brightness
+        fi
+    
+    # Option "show" to show current brightness percentage
+    elif [ "$1" == "show" ]; then
         echo $((actBright*100/maxBright))%
-    elif [ $1 -gt $maxBright ]; then
-        echo Use a lower number than $maxBright.
-    elif [ $1 -lt 1 ]; then
-        echo "Use a higher number for brightness."
-    elif [ $1 -gt 0 ] && [ $1 -lt 10 ]; then
-        input=$1
-        div=$(((maxBright*input)/10))
-        echo $div > /sys/class/backlight/intel_backlight/brightness
+   
+    # Option "set" to set specific brightness percentage
+    elif [ "$1" == "set" ]; then
+        
+        # Validate that the number after "set" is between 1 and 100
+        if [ $2 -gt 0 ] && [ $2 -lt 100 ]; then
+            input=$2
+            div=$((input*maxBright/100))
+            echo $div > /sys/class/backlight/intel_backlight/brightness
+        else
+            echo "Set brightness in percentage 1-100"
+        fi
     else
-        echo $1 > /sys/class/backlight/intel_backlight/brightness
+        echo "Invalid operation."
+        echo "Usage: light [up|down|set|show] {brightness-number}"
+        exit 1
     fi
 fi
-
+exit 0
