@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/classes/OS/vong/vong.2'
+let g:netrw_dirhist_2='/classes/OS/vong/vong.3'
+let g:netrw_dirhist_3='/classes/OS/vong/vong.2'
+let g:netrw_dirhist_4='/classes/OS/vong/vong.1'
+let g:netrw_dirhist_5='/classes/OS/vong'
+let g:netrw_dirhist_6='/classes/OS/vong/vong.3'
+let g:netrw_dirhist_7='/classes/OS/vong/vong.2'
