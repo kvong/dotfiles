@@ -9,19 +9,23 @@ fi
 # export SYSTEMD_PAGER=
 
 # User specific aliases and functions
-alias vi='vim -O'
+
+alias rm='rm -i'
+export PATH=$PATH:$HOME/scripts
 alias cd.='cd ..'
-alias chk="ps -aux | grep vong"
-alias wo='who'
-alias is="ipcs | ps -aux | grep vong"
-alias cd1="cd ~/vong.1"
-alias cd2="cd ~/vong.2"
-alias cd3="cd ~/vong.3"
-alias cd4="cd ~/vong.4"
-alias cd5="cd ~/vong.5"
-alias cd6="cd ~/vong.6"
+alias os='ssh vong@hoare.cs.umsl.edu'
+alias wo='ps -aux | grep hoare'
+alias vis='vim -O'
+alias vit='vim -p'
+alias so='source'
+alias cd0='cd ~/compiler/p0'
+alias cd1='cd ~/compiler/p1'
+alias cd2='cd ~/compiler/p2'
+alias cd3='cd ~/compiler/p3'
+alias cd4='cd ~/compiler/p4'
+alias cd5='cd ~/compiler/p5'
+alias so='source'
 
 cd(){
-     builtin cd "$@" && ls;
+	builtin cd "$@" && ls;
 }
-

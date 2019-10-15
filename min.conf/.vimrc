@@ -3,11 +3,11 @@ set rnu nu
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set si
-syntax enable
+syn on
 
 set nocompatible              " be iMproved, required
-filetype off		              " required
+filetype off	                  " required
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -54,11 +54,21 @@ nnoremap MM zz
 nnoremap mm MM
 
 " Moving through vim splitscreen
-nnoremap <C-J> <C-W>j<C-W>
-nnoremap <C-K> <C-W>k<C-W>
-nnoremap <C-H> <C-W>h<C-W>
-nnoremap <C-L> <C-W>l<C-W>
+nnoremap <C-J> <C-W>j<C-W><CR>
+nnoremap <C-K> <C-W>k<C-W><CR>
+nnoremap <C-H> <C-W>h<C-W><CR>
+nnoremap <C-L> <C-W>l<C-W><CR>
 
 " Moving through tabs
-nnoremap <C-Left> :tabp<CR><CR>
-nnoremap <C-Right> :tabn<CR><CR>
+nnoremap TT :tabn<CR>
+nnoremap BB :tabp<CR>
+" Go to tab by number
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
