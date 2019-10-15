@@ -42,12 +42,15 @@ nmap <C-n> :NERDTreeToggle<CR>
 " Close NerdTree after opening selected file
 let NERDTreeQuitOnOpen=1
 
+" Close all and save
+nnoremap ZZ :wqa
+
 
 inoremap {<CR> {<CR>}<ESC>O<TAB>
 
 " Moving file through files in buffer
-nnoremap NN :bnext<CR>
-nnoremap PP :bprev<CR>
+"nnoremap NN :bnext<CR>
+"nnoremap PP :bprev<CR>
 
 " Scrolling
 nnoremap MM zz
@@ -60,8 +63,8 @@ nnoremap <C-H> <C-W>h<C-W><CR>
 nnoremap <C-L> <C-W>l<C-W><CR>
 
 " Moving through tabs
-nnoremap TT :tabn<CR>
-nnoremap BB :tabp<CR>
+nnoremap NN :tabn<CR>
+nnoremap PP :tabp<CR>
 " Go to tab by number
 noremap <leader>1 1gt
 noremap <leader>2 2gt
