@@ -43,7 +43,7 @@ nmap <C-n> :NERDTreeToggle<CR>
 let NERDTreeQuitOnOpen=1
 
 " Close all and save
-nnoremap ZZ :wqa
+nnoremap ZZ :wqa<CR>
 
 
 inoremap {<CR> {<CR>}<ESC>O<TAB>
