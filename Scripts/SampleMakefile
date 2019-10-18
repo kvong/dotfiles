@@ -1,0 +1,25 @@
+IDIR=../include
+CC=gcc
+CFLAGS=-I$(IDIR) -w
+
+ODIR=.obj
+TEMP= # all temp files
+
+_DEPS = # all .h files
+DEPS = $(patsubst %, $(IDIR)/%, $(_DEPS))
+
+_OBJ = main.o # all .o files
+OBJ = $(patsubst %, $(ODIR)/%, $(_OBJ))
+
+TARGET = p0
+
+$(ODIR)/%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(TARGET): $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.o $(TARGET)  $(TEMP)

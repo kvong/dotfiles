@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Author: Khanh Vong
+# Description: Create work space directory.
+#				- Takes in argument and create a folder with argument as name
+#					- Inside folder
+#						- include directory
+#						- src directory
+#							- main.c
+#							- Makefile (initialized)
+#						- README
+
+# If no argument print error and exit
+if [ $# -eq 0 ]
+then
+	echo WorkSpace: Setup failed: Argument required.
+	exit 1
+# Else loop through argument given and create directories respectively
+else
+	for arg in "$@"
+	do
+		mkdir ./"$arg" && mkdir ./"$arg"/include ./"$arg"/src ./"$arg"/src/.obj && touch ./"$arg"/README ./"$arg"/src/main.c
+		cat ~/scripts/SampleMakefile > ./"$arg"/src/Makefile 
+	done
+	exit 0;	
+fi
+
