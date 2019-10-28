@@ -22,8 +22,8 @@ else
 	do
 		mkdir ./"$arg" && mkdir ./"$arg"/include ./"$arg"/src ./"$arg"/src/.obj && touch ./"$arg"/README ./"$arg"/src/main.c
 		cat ~/scripts/SampleMakefile > ./"$arg"/src/Makefile 
-		mkdir "$arg".git && cd "$arg".git && git init --bare && cd
-		cd "$arg" && git init && git remote add origin <URL>:"$arg".git && cd
+		mkdir "$arg".git && git init --bare "$arg".git
+		cd "$arg" && git init && git remote add origin ../"$arg".git && cd
 	done
 	exit 0;	
 fi
