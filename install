@@ -17,6 +17,10 @@ cp -r ~/dotfiles/polybar ~/.config/
 cp -r ~/dotfiles/.local ~/
 cp -r ~/dotfiles/ranger ~/.config/
 
+# Create note directory for notify scripts
+mkdir ~/Notes/
+touch ~/Notes/notes
+
 # Ensure stable release on i3 (Note: this contrains dmenu and i3lock)
 sudo /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2019.02.01_all.deb keyring.deb SHA256:176af52de1a976f103f9809920d80d02411ac5e763f695327de9fa6aff23f416
 sudo dpkg -i ./keyring.deb
