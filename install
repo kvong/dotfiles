@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# Set root password
+sudo passwd root
+
+# Apply rc files
+cat ~/dotfiles/.bashrc > ~/.bashrc
+cat ~/dotfiles/.fehbg > ~/.fehbg
+sudo cat ~/dotfiles/rc.local > /etc/rc.local
+cat ~/dotfiles/.vimrc > ~/.vimrc
+cat ~/dotfiles/.Xresources > ~/.Xresources
+cp -r ~/dotfiles/dunst ~/.config/
+cp -r ~/dotfiles/i3 ~/.config/
+cp -r ~/dotfiles/Scripts ~/
+cp -r ~/dotfiles/terminator ~/.config/
+cp -r ~/dotfiles/polybar ~/.config/
+cp -r ~/dotfiles/.local ~/
+cp -r ~/dotfiles/ranger ~/.config/
+
+# Ensure stable release on i3 (Note: this contrains dmenu and i3lock)
+sudo /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2019.02.01_all.deb keyring.deb SHA256:176af52de1a976f103f9809920d80d02411ac5e763f695327de9fa6aff23f416
+sudo dpkg -i ./keyring.deb
+sudo bash -c "echo "deb https://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" >> /etc/apt/sources.list.d/sur5r-i3.list"
+sudo apt update
+
+# Install base apps
+sudo apt-get -y install rofi compton i3 lxappearance vim thunar terminator rxvt-unicode dunst feh neofetch python-pip autoconf vifm ranger 
+
+# Install i3-gap dependencies
+sudo apt-get -y install libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev libxcb-icccm4-dev libyajl-dev libstartup-notification0-dev libxcb-randr0-dev libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev autoconf libxcb-xrm0 libxcb-xrm-dev automake libxcb-shape0-dev
+
+# Install i3lock-color (i3lock comes with i3wm)
+sudo apt install libev-dev libxcb-composite0 libxcb-composite0-dev libxcb-xinerama0 libxcb-randr0 libxcb-xinerama0-dev libxcb-xkb-dev libxcb-image0-dev libxcb-util-dev libxkbcommon-x11-dev libjpeg-turbo8-dev libpam0g-dev
+
+# Install i3-gaps
+git clone https://www.github.com/Airblader/i3 ~/.config/i3/i3-gaps
+cd ~/.config/i3/i3-gaps/
+autoreconf --force --install
+rm -rf build/
+mkdir -p build && cd build/
+../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
+make 
+sudo make install
+
+# Install i3lock-color
+git clone https://github.com/PandorasFox/i3lock-color.git ~/.config/i3/i3lock-color
+cd ~/.config/i3/i3lock-color
+autoreconf --force --install
+rm -rf build/
+mkdir -p build && cd build/
+
+../configure \
+  --prefix=/usr \
+  --sysconfdir=/etc \
+  --disable-sanitizers
+make
+cat ~/dotfiles/i3/lock.sh ~/.config/i3/i3lock-color/lock.sh
+
+# Install i3lock-fancy
+git clone https://github.com/meskarune/i3lock-fancy.git ~/.config/i3/i3lock-fancy
+cd ~/.config/i3/i3lock-fancy
+sudo make install
+cat ~/dotfiles/scripts/i3lock-fancy > ~/.config/i3/i3lock-fancy/i3lock-fancy
+
+# Install Vim plugins
+git clone https://github.com/jiangmiao/auto-pairs.git ~/.vim/bundle/auto-pairs
+git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
+git clone https://github.com/SirVer/ultisnips.git ~/.vim/bundle/ultilsnips
+git clone https://github.com/honza/vim-snippets.git ~/.vim/bundle/vim-snippets
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+git clone https://github.com/morhetz/gruvbox.git ~/.vim/bundle/gruvbox
+vim +PluginInstall +qall
+
+# Install Polybar
+sudo apt-get install cmake cmake-data libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-composite0-dev xcb libxcb-ewmh2
+git clone https://github.com/jaagr/polybar.git ~/.config/i3/polybar
+cd ~/.config/i3/polybar && ./build.sh
