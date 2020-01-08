@@ -30,7 +30,7 @@ sudo apt-get -y install rofi compton i3 lxappearance vim thunar terminator rxvt-
 sudo apt-get -y install libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev libxcb-icccm4-dev libyajl-dev libstartup-notification0-dev libxcb-randr0-dev libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev autoconf libxcb-xrm0 libxcb-xrm-dev automake libxcb-shape0-dev
 
 # Install i3lock-color (i3lock comes with i3wm)
-sudo apt install libev-dev libxcb-composite0 libxcb-composite0-dev libxcb-xinerama0 libxcb-randr0 libxcb-xinerama0-dev libxcb-xkb-dev libxcb-image0-dev libxcb-util-dev libxkbcommon-x11-dev libjpeg-turbo8-dev libpam0g-dev
+sudo apt -y install libev-dev libxcb-composite0 libxcb-composite0-dev libxcb-xinerama0 libxcb-randr0 libxcb-xinerama0-dev libxcb-xkb-dev libxcb-image0-dev libxcb-util-dev libxkbcommon-x11-dev libjpeg-turbo8-dev libpam0g-dev
 
 # Install i3-gaps
 git clone https://www.github.com/Airblader/i3 ~/.config/i3/i3-gaps
@@ -54,7 +54,7 @@ mkdir -p build && cd build/
   --sysconfdir=/etc \
   --disable-sanitizers
 make
-cat ~/dotfiles/i3/lock.sh ~/.config/i3/i3lock-color/lock.sh
+cat ~/dotfiles/i3/lock.sh > ~/.config/i3/i3lock-color/lock.sh
 
 # Install i3lock-fancy
 git clone https://github.com/meskarune/i3lock-fancy.git ~/.config/i3/i3lock-fancy
