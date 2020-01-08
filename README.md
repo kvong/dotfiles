@@ -28,6 +28,10 @@ sudo make install
 ```
 ## Vim plugins
 ```
+git clone https://github.com/jiangmiao/auto-pairs.git ~/.vim/bundle/auto-pairs
+git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
+git clone https://github.com/SirVer/ultisnips.git ~/.vim/bundle/ultilsnips
+git clone https://github.com/honza/vim-snippets.git ~/.vim/bundle/vim-snippets
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 git clone https://github.com/morhetz/gruvbox.git ~/.vim/bundle/gruvbox
 vim +PluginInstall +qall
@@ -70,11 +74,4 @@ echo chmod o+rw /sys/class/backlight/brightness >> rc.local
 Add { Option "NaturalScrolling" "true" } to /usr/share/X11/xorg.conf.d/40-libinput.conf in the correct InputClass touchpad section
 ```
 
-## VIM Plugins
-git clone https://github.com/VundleVim/Vundle.vim.git
-git clone https://github.com/jiangmiao/auto-pairs.git
-git clone https://github.com/morhetz/gruvbox.git
-git clone https://github.com/scrooloose/nerdtree.git
-git clone https://github.com/SirVer/ultisnips.git
-git clone https://github.com/honza/vim-snippets.git
 
