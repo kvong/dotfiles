@@ -1,0 +1,4 @@
+#!/bin/bash
+
+notify-send "<b>Notes:</b>" "<span><i>$(cat ~/Notes/notes | sed 's/\(^[^A-Z_0-9a-z].\)/  \1/g'| sed 's/\(^[A-Z_0-9a-z].\)/- \1/g')</i></span>" -i notepad -u low
+#notify-send "<b>Notes:</b>" "<span><i>$(cat ~/notes | sed 's/\(^[A-Z_0-9a-z].\)/- \1/g')</i></span>" -i notepad -u low

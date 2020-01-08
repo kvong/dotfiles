@@ -49,7 +49,7 @@ else
    
     # Option "set" to set specific brightness percentage
     elif [ "$1" == "set" ]; then
-        
+
         # Validate that the number after "set" is between 1 and 100
         if [ $2 -gt 0 ] && [ $2 -lt 100 ]; then
             input=$2

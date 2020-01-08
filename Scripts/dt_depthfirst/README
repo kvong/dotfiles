@@ -1,0 +1,20 @@
+The structure of the program as follows:
+	- The program will begin by initializing an array the same size as the available options.
+		- All element in array is set to the bit 0.
+	- Program will take in user input.
+		- Using getopt to evaluate the user input and flip the bit accordingly.
+	- Before printing out file info, it will take a trial run through the files to find the max depth and longest file name.
+		- This will be useful for aligning the outputs.
+	- Printing the files and info uses loops to run through files in a directory.
+		- If a directory is found go into it recursively before moving to the next file.
+	- On successful run a perror message will display the run result at the end.
+
+Known bug(s):
+	- Following a symbolic link that is pointed to a file will cause an error saying "No such file or directory".
+		- This might not be a programming problem.
+			- ls -L will show the information to the file which the link references
+			- When performing ls -lL manually on a link pointing to a file it yields the following:
+				- ?????????? ? ?    ?           ?            ? link_2
+		- Also the text color(light blue in my case) of link pointed to a directory is different to the link text color(black-red) that is pointed to a file.
+		- Most likely this error is caused brom a broken/bad link.
+

@@ -1,0 +1,59 @@
+commit 77f84c15027dc6e9a091e19ec2c17a79c97224f5
+Author: khanh vong <vong@hoare7.cs.umsl.edu>
+Date:   Tue Sep 3 17:12:23 2019 -0500
+
+    Input argument verification added
+
+commit ba3078a6546c95d0dacc7780d58ab8c923d92099
+Author: khanh vong <vong@hoare7.cs.umsl.edu>
+Date:   Tue Sep 3 11:25:07 2019 -0500
+
+    Set alignment dynamically
+
+commit a75a8787b1e42e1e0acdfde5a1f815aafd88d077
+Author: khanh vong <vong@hoare7.cs.umsl.edu>
+Date:   Mon Sep 2 23:39:16 2019 -0500
+
+    All outputs are aligned
+
+commit ad7efc7f13877d3cc7e7c9b4d7c42fc1a313149f
+Author: khanh vong <vong@hoare7.cs.umsl.edu>
+Date:   Mon Sep 2 01:03:58 2019 -0500
+
+    segfault fixed; -i implemented
+
+commit 0cf730206fad9915fa88fa5b1aed18827512ac71
+Author: khanh vong <vong@hoare7.cs.umsl.edu>
+Date:   Sun Sep 1 20:12:44 2019 -0500
+
+    able list all directories
+
+commit 265c7d73e6173bc111fd16f7707771d4780e9bf6
+Author: khanh vong <vong@hoare7.cs.umsl.edu>
+Date:   Sun Sep 1 16:33:33 2019 -0500
+
+    depthfirst search implemented
+
+commit 1899f1095ede144f6b23526b1b6171009e8f0f1d
+Author: khanh vong <vong@hoare7.cs.umsl.edu>
+Date:   Sun Sep 1 13:48:00 2019 -0500
+
+    Queue added
+
+commit 2b4f80a808311a9b3e727387326f2bfe61e726f8
+Author: khanh vong <vong@hoare7.cs.umsl.edu>
+Date:   Sat Aug 31 14:16:57 2019 -0500
+
+    Header/function created
+
+commit cf3a6d48482e51cea309d02825adcc262e23ee06
+Author: khanh vong <vong@hoare7.cs.umsl.edu>
+Date:   Wed Aug 28 12:02:52 2019 -0500
+
+    Test no pass login
+
+commit e9b7aa9b2864fcb855b808b3ce91ad8f2aea75bf
+Author: khanh vong <vong@hoare7.cs.umsl.edu>
+Date:   Wed Aug 28 11:58:40 2019 -0500
+
+    First Commit

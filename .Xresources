@@ -1,0 +1,40 @@
+URxvt.font:                 xft:Monospace:size=14
+URxvt.scrollBar:            false
+
+*depth:                     32
+!*background:                rgba:0000/0000/0200/c800
+*background:                [80]#000000
+URxvt*foreground:#CBCBCB
+
+urxvt.cursorColor: #a5a5a5
+
+! black
+URxvt.color0: #393939
+URxvt.color8: #474747
+
+! red
+URxvt.color9: #c06d68
+
+! green
+URxvt.color10: #75c68f
+
+! yellow
+URxvt.color11: #38bf82
+
+! blue
+URxvt.color12: #7b9cc6
+!URxvt.color12: #5ea2f9
+
+! magenta
+URxvt.color13: #c67b9c
+
+! cyan
+URxvt.color14: #7bc2c6
+!URxvt.color14: #22f9f6
+
+! white
+URxvt.color15: #EEEEEE
+
+
+! TO SOURCE
+! xrdb .Xresources

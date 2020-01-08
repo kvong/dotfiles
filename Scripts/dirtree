@@ -1,5 +1,5 @@
 #!/bin/bash
-
+ 
 #################################
 # Author: Khanh Vong
 # Date: 3/8/18
@@ -13,7 +13,7 @@ PATH=/bin:/usr/bin
 #function to create tree
 intoTree()
 {
-find $1 | grep -v "/\." | sed 's.[^/]*/.|-----.g' | sed 's.[^|]*|.     |.g' | sed 's/^[^|]*|/|/'
+find $1 | sort | grep -v "/\." | sed 's.[^/]*/.|-----.g' | sed 's.[^|]*|.     |.g' | sed 's/^[^|]*|/|/'
 }
 
 #if statement to check user input

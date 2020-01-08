@@ -119,19 +119,65 @@ fi
 
 #Alias
 alias desk='cd ~/Desktop'
+alias down='cd ~/Downloads'
+alias scripts='cd ~/Scripts'
 alias cd.='cd ..'
 alias cdd='dirtree'
+alias py='python3'
+alias ssh='myssh'
+alias delmar='myssh ksv3b4@delmar.umsl.edu'
+alias vis='vim -O'
+alias vi='vim -p'
+alias so='source'
+alias sob='source ~/.bashrc && notify-send "<b>Updated</b>" ".bashrc updated!" -i terminal'
+alias start='WorkSpace'
+alias sus='/home/blank/Scripts/i3lock-fancy -gp && systemctl suspend'
+alias note='notify-note'
+alias enote='vi ~/Notes/notes'
+alias pm='pomodoro > /dev/null 2>&1 &'
+alias osmc='ssh osmc@192.168.1.9'
+alias install='notify-install'
+alias ranger='urxvt -depth 24 -e "ranger" > /dev/null 2>&1 &'
+alias vpn='sudo openvpn /etc/openvpn/ovpn_tcp/ca916.nordvpn.com.tcp.ovpn'
+alias proc='ps -aux'
+alias brc='vi ~/.bashrc'
 
 cd(){
     builtin cd "$@" && ls;
 }
 
-export PS1="Blank@\w> "
+mkcd(){
+    mkdir -p "$*"
+    cd "$*"
+}
+
+printf "\033[01;36m┐\n"
+export PS1="\[\033[01;36m\]├─[\[\033[01;36m\]\[\033[01;37m\]blank\[\033[01;36m\]]──\[\033[01;36m\][\[\033[01;37m\]$(date +'%I:%S%p')\[\033[01;36m\]]──\[\033[01;37m\]\[\033[01;36m\][\[\033[01;37m\]\w/\[\033[01;36m\]]\[\033[01;32m\]:$\n\[\033[01;36m\]├────➤ \[\033[01;37m\]"
 export PATH="$PATH:/home/blank/Scripts"
 
-export PATH=$PATH:$HOME/Library/Python/2.7/bin
-powerline-daemon -q
-POWERLINE_BASH_CONTINUATION=1
-POWERLINE_BASH_SELECT=1
-. /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh
+export PATH="${PATH}:${HOME}/.local/bin/"
 
+#export PATH=$PATH:$HOME/Library/Python/2.7/bin
+#powerline-daemon -q
+#POWERLINE_BASH_CONTINUATION=1
+#POWERLINE_BASH_SELECT=1
+#. /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh
+
+#note
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+#__conda_setup="$('/home/blank/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+#if [ $? -eq 0 ]; then
+#    eval "$__conda_setup"
+#else
+#    if [ -f "/home/blank/anaconda3/etc/profile.d/conda.sh" ]; then
+#        . "/home/blank/anaconda3/etc/profile.d/conda.sh"
+#    else
+#        export PATH="/home/blank/anaconda3/bin:$PATH"
+#    fi
+#fi
+#unset __conda_setup
+# <<< conda initialize <<<
+
+set -o vi

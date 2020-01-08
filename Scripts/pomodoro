@@ -1,0 +1,7 @@
+#!/bin/bash
+
+notify-send  "<b>Pomodoro</b>" "<i>Starting study session.</i>" -i clock
+sleep 2s
+notify-send "<b>Notes:</b>" "<span><i>$(cat ~/notes | sed 's/\(.*\)/- \1/g')</i></span>" -i notepad -u low
+sleep 30m
+notify-send  "<b>Pomodoro</b>" "<i>Good work! You deserve a quick break.</i>" -i bell -u low
