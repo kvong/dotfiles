@@ -6,7 +6,7 @@ sudo passwd root
 # Apply rc files
 cat ~/dotfiles/.bashrc > ~/.bashrc
 cat ~/dotfiles/.fehbg > ~/.fehbg
-sudo cat ~/dotfiles/rc.local > /etc/rc.local
+sudo bash -c "cat ~/dotfiles/rc.local > /etc/rc.local"
 cat ~/dotfiles/.vimrc > ~/.vimrc
 cat ~/dotfiles/.Xresources > ~/.Xresources
 cp -r ~/dotfiles/dunst ~/.config/
