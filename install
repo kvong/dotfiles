@@ -22,7 +22,8 @@ mkdir ~/Notes/
 touch ~/Notes/notes
 
 # Install standard dependencies
-sudo apt install libnotify-bin
+sudo apt install libnotify-bin xserver-xorg-input-libinput xinput exfat-fuse exfat-utils imagemagick-6.q16 graphicsmagick-imagemagick-compat imagemagick-6.q16hdri
+
 
 # Ensure stable release on i3 (Note: this contrains dmenu and i3lock)
 sudo /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2019.02.01_all.deb keyring.deb SHA256:176af52de1a976f103f9809920d80d02411ac5e763f695327de9fa6aff23f416
