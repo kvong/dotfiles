@@ -242,6 +242,7 @@ bindsym XF86MonBrightnessDown exec ~/Scripts/light down # decrease screen bright
 #exec terminator
 exec firefox
 exec urxvt
+exec ~/.config/dunst/dunst
 
 # # Always execute
 # exec_always

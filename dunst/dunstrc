@@ -165,7 +165,7 @@
     max_icon_size = 32
 
     # Paths to default icons.
-    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/:/home/blank/Pictures/icons/small-n-flat-master/png/96/
+    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/:~/Pictures/icons/small-n-flat-master/png/96/
 
     ### History ###
 
