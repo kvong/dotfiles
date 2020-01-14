@@ -22,7 +22,7 @@ mkdir ~/Notes/
 touch ~/Notes/notes
 
 # Install standard dependencies
-sudo apt -y install libnotify-bin xserver-xorg-input-libinput xinput exfat-fuse exfat-utils imagemagick-6.q16 graphicsmagick-imagemagick-compat imagemagick-6.q16hdri
+sudo apt -y install gtk2-engines-murrine gtk2-engines-pixbuf libnotify-bin xserver-xorg-input-libinput xinput exfat-fuse exfat-utils imagemagick-6.q16 graphicsmagick-imagemagick-compat imagemagick-6.q16hdri
 
 # Dunst dependencies
 sudo apt -y install libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev
@@ -41,7 +41,7 @@ sudo bash -c "echo "deb https://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME='
 sudo apt update
 
 # Install base apps
-sudo apt-get -y install rofi compton i3 lxappearance vim thunar terminator rxvt-unicode dunst feh neofetch python-pip autoconf vifm ranger 
+sudo apt-get -y install rofi compton i3 lxappearance vim thunar terminator rxvt-unicode dunst feh neofetch python-pip autoconf vifm ranger conky
 
 # Install i3-gap dependencies
 sudo apt-get -y install libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev libxcb-icccm4-dev libyajl-dev libstartup-notification0-dev libxcb-randr0-dev libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev autoconf libxcb-xrm0 libxcb-xrm-dev automake libxcb-shape0-dev
