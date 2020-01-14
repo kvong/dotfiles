@@ -4,6 +4,8 @@
 sudo passwd root
 
 sudo bash -c "cat ~/dotfiles/rc.local > /etc/rc.local"
+sudo chmod 760 /etc/rc.local
+
 cat ~/dotfiles/.fehbg > ~/.fehbg
 cat ~/dotfiles/.vimrc > ~/.vimrc
 cat ~/dotfiles/.Xresources > ~/.Xresources
@@ -20,10 +22,10 @@ mkdir ~/Notes/
 touch ~/Notes/notes
 
 # Install standard dependencies
-sudo apt install libnotify-bin xserver-xorg-input-libinput xinput exfat-fuse exfat-utils imagemagick-6.q16 graphicsmagick-imagemagick-compat imagemagick-6.q16hdri
+sudo apt -y install libnotify-bin xserver-xorg-input-libinput xinput exfat-fuse exfat-utils imagemagick-6.q16 graphicsmagick-imagemagick-compat imagemagick-6.q16hdri
 
 # Dunst dependencies
-sudo apt install libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev
+sudo apt -y install libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev
 
 git clone https://github.com/dunst-project/dunst.git ~/.config/dunst
 cd ~/.config/dunst/
