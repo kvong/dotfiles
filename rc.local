@@ -14,7 +14,7 @@
 # Let custom script control brightness
 chmod o+rw /sys/class/backlight/intel_backlight/brightness
 
-# Fix delay caps lock
-xkbcomp /home/blank/.xkbmap/myxkbmap $DISPLAY
+# Start XAMPP
+/opt/lampp/lampp start
 
 exit 0

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+dmenu_run -fn "System San Francisco Display Regular-13" -nb "#1F1F1F" -nf "#FFFFFF" -sb "#515151" -sf "#F1F1F1" -i

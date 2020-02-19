@@ -2,5 +2,6 @@
 
 size="$(ls /home/blank/.config/i3/background/ | wc -l)"
 index=$(shuf -i 0-$((size - 1)) -n 1)
-feh --bg-scale "/home/blank/.config/i3/background/$index.jpg"
+#feh --bg-scale "/home/blank/.config/i3/background/$index.jpg"
 #wal -i "/home/blank/.config/i3/background/$index.jpg" -a 90
+feh --bg-scale "/home/blank/.config/i3/background/3.jpg"

@@ -24,27 +24,21 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'morhetz/gruvbox'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdtree'
-Plugin 'lervag/vimtex'
 Plugin 'sirver/ultisnips'
 Plugin 'honza/vim-snippets'
-"Plugin 'Valloric/YouCompleteMe'
-"Plugin 'ervandew/supertab'
+Plugin 'xuhdev/vim-latex-live-preview'
+Plugin 'lervag/vimtex'
+
+
+let g:tex_flavor='latex'
+let g:vimtex_view_method='zathura'
+let g:vimtex_quickfix_mode=0
+set conceallevel=1
+let g:tex_conceal='abdmg'
 
 " Add plugins before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-
-" make YCM compatible with UltiSnips (using supertab)
-"let g:ycm_key_list_select_completion = ['C-n', '<Down>']
-"let g:ycm_key_list_previous_completion = ['C-p', '<Up>']
-"let g:SuperTabDefaultCompletionType = '<C-n>'
-
-" LaTex setup
-let g:tex_flavor='latex'
-let g:vimtext_view_method='zathura'
-let g:vimtex_quickfix_mode=0
-set conceallevel=1
-let g:tex_conceal='abdmg'
 
 " Snippet setup
 let g:UltiSnipsExpandTrigger = '<tab>'

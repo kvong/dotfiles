@@ -129,11 +129,11 @@ alias delmar='myssh ksv3b4@delmar.umsl.edu'
 alias vis='vim -O'
 alias vi='vim -p'
 alias so='source'
-alias sob='source ~/.bashrc && notify-send "<b>Updated</b>" ".bashrc updated!" -i terminal'
+alias sob='source ~/.bashrc && notify-send "Updated" ".bashrc updated!" -i terminal'
 alias start='WorkSpace'
-#alias sus='/home/blank/.config/i3/i3lock-fancy/i3lock-fancy -gp && systemctl suspend'
-alias sus='/home/blank/Scripts/i3lock-fancy -gp && systemctl suspend'
+alias sus='/home/blank/Scripts/i3lock-fancy -gp && systemctl suspend && pactl set-sink-mute 0 toggle'
 alias note='notify-note'
+alias tnote='nf ~/Notes/notes'
 alias enote='vi ~/Notes/notes'
 alias pm='pomodoro > /dev/null 2>&1 &'
 alias osmc='ssh osmc@192.168.1.9'
@@ -143,6 +143,11 @@ alias vpn='sudo openvpn /etc/openvpn/ovpn_tcp/ca916.nordvpn.com.tcp.ovpn'
 alias proc='ps -aux'
 alias brc='vi ~/.bashrc'
 alias clonedot='git clone https://github.com/kvong/dotfiles.git'
+alias tf='conda activate PythonCPU'
+alias nb='jupyter notebook && conda deactivate && conda deactivate'
+alias fs='~/Scripts/xps_audiofixer'
+alias rd='okular'
+alias tex='vi *.tex'
 
 cd(){
     builtin cd "$@" && ls;
@@ -153,8 +158,29 @@ mkcd(){
     cd "$*"
 }
 
+ex (){
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1   ;;
+      *.tar.gz)    tar xzf $1   ;;
+      *.bz2)       bunzip2 $1   ;;
+      *.rar)       unrar x $1     ;;
+      *.gz)        gunzip $1    ;;
+      *.tar)       tar xf $1    ;;
+      *.tbz2)      tar xjf $1   ;;
+      *.tgz)       tar xzf $1   ;;
+      *.zip)       unzip $1     ;;
+      *.Z)         uncompress $1;;
+      *.7z)        7z x $1      ;;
+      *)           echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
 printf "\033[01;36m┐\n"
-export PS1="\[\033[01;36m\]├─[\[\033[01;36m\]\[\033[01;37m\]blank\[\033[01;36m\]]──\[\033[01;36m\][\[\033[01;37m\]$(date +'%I:%S%p')\[\033[01;36m\]]──\[\033[01;37m\]\[\033[01;36m\][\[\033[01;37m\]\w/\[\033[01;36m\]]\[\033[01;32m\]:$\n\[\033[01;36m\]├────➤ \[\033[01;37m\]"
+export PS1="\[\033[01;36m\]├─[\[\033[01;36m\]\[\033[01;37m\]blank\[\033[01;36m\]]──\[\033[01;36m\][\[\033[01;37m\]$(date +'%I:%M%p')\[\033[01;36m\]]──\[\033[01;37m\]\[\033[01;36m\][\[\033[01;37m\]\w/\[\033[01;36m\]]\[\033[01;32m\]:$\n\[\033[01;36m\]├────➤ \[\033[01;37m\]"
 export PATH="$PATH:/home/blank/Scripts"
 
 export PATH="${PATH}:${HOME}/.local/bin/"
@@ -167,8 +193,8 @@ export PATH="${PATH}:${HOME}/.local/bin/"
 
 #note
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
+## >>> conda initialize >>>
+## !! Contents within this block are managed by 'conda init' !!
 #__conda_setup="$('/home/blank/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 #if [ $? -eq 0 ]; then
 #    eval "$__conda_setup"
@@ -180,6 +206,6 @@ export PATH="${PATH}:${HOME}/.local/bin/"
 #    fi
 #fi
 #unset __conda_setup
-# <<< conda initialize <<<
+## <<< conda initialize <<<
 
 set -o vi

@@ -3,6 +3,7 @@
 # Set root password
 sudo passwd root
 
+echo Copying files over
 sudo bash -c "cat ~/dotfiles/rc.local > /etc/rc.local"
 sudo chmod 760 /etc/rc.local
 
@@ -21,8 +22,12 @@ cp -r ~/dotfiles/ranger ~/.config/
 mkdir ~/Notes/
 touch ~/Notes/notes
 
+echo Updating repo
+sudo apt-get update
+
 # Install standard dependencies
-sudo apt -y install gtk2-engines-murrine gtk2-engines-pixbuf libnotify-bin xserver-xorg-input-libinput xinput exfat-fuse exfat-utils imagemagick-6.q16 graphicsmagick-imagemagick-compat imagemagick-6.q16hdri
+echo Installing dependencies
+sudo apt -y install gtk2-engines-murrine gtk2-engines-pixbuf libnotify-bin xserver-xorg-input-libinput xinput exfat-fuse exfat-utils imagemagick-6.q16 graphicsmagick-imagemagick-compat imagemagick-6.q16hdri texlive-full unrar p7zip-full python-unidecode
 
 # Dunst dependencies
 sudo apt -y install libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev
@@ -41,15 +46,19 @@ sudo bash -c "echo "deb https://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME='
 sudo apt update
 
 # Install base apps
-sudo apt-get -y install rofi compton i3 lxappearance vim thunar terminator rxvt-unicode dunst feh neofetch python-pip autoconf vifm ranger conky
+echo Installing base apps
+sudo apt-get -y install rofi compton i3 lxappearance vim thunar terminator rxvt-unicode dunst feh neofetch python-pip autoconf vifm ranger conky zathura okular
 
 # Install i3-gap dependencies
+echo Installing i3-gap dependencies
 sudo apt-get -y install libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev libxcb-icccm4-dev libyajl-dev libstartup-notification0-dev libxcb-randr0-dev libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev autoconf libxcb-xrm0 libxcb-xrm-dev automake libxcb-shape0-dev
 
 # Install i3lock-color (i3lock comes with i3wm)
+echo Installing i3lock-color
 sudo apt -y install libev-dev libxcb-composite0 libxcb-composite0-dev libxcb-xinerama0 libxcb-randr0 libxcb-xinerama0-dev libxcb-xkb-dev libxcb-image0-dev libxcb-util-dev libxkbcommon-x11-dev libjpeg-turbo8-dev libpam0g-dev
 
 # Install i3-gaps
+echo Installing i3-gaps
 git clone https://www.github.com/Airblader/i3 ~/.config/i3/i3-gaps
 cd ~/.config/i3/i3-gaps/
 autoreconf --force --install
@@ -60,6 +69,7 @@ make
 sudo make install
 
 # Install i3lock-color
+echo Installing i3lock-color
 git clone https://github.com/PandorasFox/i3lock-color.git ~/.config/i3/i3lock-color
 cd ~/.config/i3/i3lock-color
 autoreconf --force --install
@@ -74,23 +84,35 @@ make
 cat ~/dotfiles/i3/lock.sh > ~/.config/i3/i3lock-color/lock.sh
 
 # Install i3lock-fancy
+echo Installing i3lock-fancy
 git clone https://github.com/meskarune/i3lock-fancy.git ~/.config/i3/i3lock-fancy
 cd ~/.config/i3/i3lock-fancy
 sudo make install
 cat ~/dotfiles/scripts/i3lock-fancy > ~/.config/i3/i3lock-fancy/i3lock-fancy
 
 # Install Vim plugins
-git clone https://github.com/jiangmiao/auto-pairs.git ~/.vim/bundle/auto-pairs
-git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
-git clone https://github.com/SirVer/ultisnips.git ~/.vim/bundle/ultilsnips
-git clone https://github.com/honza/vim-snippets.git ~/.vim/bundle/vim-snippets
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-git clone https://github.com/morhetz/gruvbox.git ~/.vim/bundle/gruvbox
+echo Installing Vim plugins
+git clone https://github.com/jiangmiao/auto-pairs.git   ~/.vim/bundle/auto-pairs
+git clone https://github.com/scrooloose/nerdtree.git    ~/.vim/bundle/nerdtree
+git clone https://github.com/SirVer/ultisnips.git       ~/.vim/bundle/ultilsnips
+git clone https://github.com/honza/vim-snippets.git     ~/.vim/bundle/vim-snippets
+git clone https://github.com/VundleVim/Vundle.vim.git   ~/.vim/bundle/Vundle.vim
+git clone https://github.com/morhetz/gruvbox.git        ~/.vim/bundle/gruvbox
+git clone https://github.com/lervag/vimtex.git          ~/.vim/bundle/vimtex
 vim +PluginInstall +qall
 
 # Install Polybar
+echo Installing Polybar
 sudo apt-get -y install cmake cmake-data libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-composite0-dev xcb libxcb-ewmh2
 git clone https://github.com/jaagr/polybar.git ~/.config/i3/polybar
 cd ~/.config/i3/polybar && ./build.sh
+
+# Install java 8
+echo Installing Java-8
+sudo apt install openjdk-8-jdk openjdk-8-jre
+sudo cat >> /etc/environment <<EOL
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+EOL
 
 echo "Installation Completed"

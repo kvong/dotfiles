@@ -17,6 +17,8 @@
     # will be ignored.
     follow = mouse
 
+    corner_radius = 6
+
     # The geometry of the window:
     #   [{width}]x{height}[+/-{x}+/-{y}]
     # The geometry of the message window.
@@ -29,7 +31,7 @@
     # the top and down respectively.
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    geometry = "300x5-30+20"
+    geometry = "300x10-0+28"
 
     # Show how many messages are currently hidden (because of geometry).
     indicate_hidden = yes
@@ -165,7 +167,7 @@
     max_icon_size = 32
 
     # Paths to default icons.
-    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/:~/Pictures/icons/small-n-flat-master/png/96/
+    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/:/home/blank/Pictures/icons/small-n-flat-master/png/96/
 
     ### History ###
 
@@ -248,7 +250,7 @@
     background = "#222222"
     foreground = "#ffffff"
     frame_color = "#f2f2f2"
-    timeout = 0
+    timeout = 20
     # Icon for notifications with low urgency, uncomment to enable
     #icon = /path/to/icon
 

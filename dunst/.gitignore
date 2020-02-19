@@ -1,0 +1,17 @@
+*.o
+*.d
+*.gcda
+*.gcno
+*.gcov
+
+core
+vgcore.*
+
+/docs/dunst.1
+/docs/internal/coverage
+/docs/internal/html
+/dunst
+/dunstify
+/dunst.systemd.service
+/org.knopwob.dunst.service
+/test/test

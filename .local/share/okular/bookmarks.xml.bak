@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xbel>
+<xbel xmlns:mime="http://www.freedesktop.org/standards/shared-mime-info" xmlns:kdepriv="http://www.kde.org/kdepriv" xmlns:bookmark="http://www.freedesktop.org/standards/desktop-bookmarks" dbusName="okular">
+ <folder href="file:///home/blank/Documents/DeepLearning/Books/DeepLearningPython.pdf">
+  <title>/home/blank/Documents/DeepLearning/Books/DeepLearningPython.pdf</title>
+  <bookmark href="file:///home/blank/Documents/DeepLearning/Books/DeepLearningPython.pdf#34;C2:0.499674:0.168396:1">
+   <title>#35</title>
+   <info>
+    <metadata owner="http://freedesktop.org">
+     <bookmark:icon name=""/>
+    </metadata>
+   </info>
+  </bookmark>
+ </folder>
+</xbel>

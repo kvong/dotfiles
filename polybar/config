@@ -66,12 +66,12 @@ module-margin-left = 1
 module-margin-right = 2
 
 font-0 = System San Francisco Display Regular:pixelsize=12;2
-font-1 = Iosevka:style=Solid:size=14;1
-font-2 = FontAwesome5Free:style=Solid:size=14;2
+font-1 = Iosevka:style=Solid:size=15;2
+font-2 = "Font Awesome 5 Free":style=Solid:size=14;0
 
 modules-left = start bspwm i3
-modules-center = mpd
-modules-right = memory cpu pulseaudio light battery date powermenu
+modules-center = date
+modules-right = memory cpu pulseaudio light battery time powermenu
 
 tray-position = right
 tray-padding = 2
@@ -97,9 +97,39 @@ content = ""
 content-padding = 2
 content-background = ${colors.buttonback}
 content-foreground = ${colors.button}
-click-left = dmenu_run -fn "System San Francisco Display Regular-12"     -nb "#1F1F1F" -nf "#FFFFFF" -sb "#515151" -sf "#F1F1F1"
-click-middle = dmenu_run -fn "System San Francisco Display Regular-12"     -nb "#1F1F1F" -nf "#FFFFFF" -sb "#515151" -sf "#F1F1F1"
-click-right = dmenu_run -fn "System San Francisco Display Regular-12"     -nb "#1F1F1F" -nf "#FFFFFF" -sb "#515151" -sf "#F1F1F1"
+click-left = ~/Scripts/dmenu-launcher
+
+[module/terminal]
+type = custom/text
+content = "Terminal"
+content-padding = 2
+content-background = ${colors.buttonback}
+content-foreground = ${colors.button}
+click-left = urxvt &
+
+[module/firefox]
+type = custom/text
+content = "Firefox"
+content-padding = 2
+content-background = ${colors.buttonback}
+content-foreground = ${colors.button}
+click-left = firefox &
+
+[module/okular]
+type = custom/text
+content = "Okular"
+content-padding = 2
+content-background = ${colors.buttonback}
+content-foreground = ${colors.button}
+click-left = okular &
+
+[module/thunar]
+type = custom/text
+content = "Thunar"
+content-padding = 2
+content-background = ${colors.buttonback}
+content-foreground = ${colors.button}
+click-left = thunar &
 
 [module/light]
 type = custom/script
@@ -108,6 +138,10 @@ interval = 1
 format = <label>
 label =  %output%
 format-underline = ${colors.color3}
+format-prefix = "─["
+format-prefix-foreground = ${colors.color3}
+format-suffix = "]─"
+format-suffix-foreground = ${colors.color3}
 
 [module/xwindow]
 type = internal/xwindow
@@ -245,18 +279,22 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = "CPU "
-format-prefix-foreground = ${colors.foreground}
 format-underline = ${colors.color1}
-label = %percentage:2%%
+label = CPU %percentage:2%%
+format-prefix = "─["
+format-prefix-foreground = ${colors.color1}
+format-suffix = "]─"
+format-suffix-foreground = ${colors.color1}
 
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = "RAM "
-format-prefix-foreground = ${colors.foreground}
 format-underline = ${colors.color8}
-label = %percentage_used%%
+label = RAM %percentage_used%%
+format-prefix = "─["
+format-prefix-foreground = ${colors.color8}
+format-suffix = "]─"
+format-suffix-foreground = ${colors.color8}
 
 [module/wlan]
 type = internal/network
@@ -299,18 +337,25 @@ format-disconnected =
 [module/date]
 type = internal/date
 interval = 5
-
-date = "%m/%d/%Y"
-date-alt = " %Y-%m-%d"
-
-time = %I:%M%p
-time-alt = %m/%d/%Y
-
-format-prefix = 
+date = "%A,  %B %e, %Y"
+format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${colors.color5}
+format-underline = ${colors.color8}
+label =  %date%
 
+[module/time]
+type = internal/date
+interval = 5
+date = "%A, %B %e, %Y"
+time = %I:%M%p
+format-foreground = ${colors.foreground-alt}
+format-underline = ${colors.color5}
+format-prefix = "─["
+format-prefix-foreground = ${colors.color5}
+format-suffix = "]─"
+format-suffix-foreground = ${colors.color5}
 label =   %time%
+format = <label>
 
 [module/pulseaudio]
 type = internal/pulseaudio
@@ -326,6 +371,11 @@ label-volume-foreground = ${root.foreground}
 
 label-muted = ﱝ Muted
 label-muted-foreground = ${root.foreground}
+
+format-volume-prefix = "─["
+format-volume-prefix-foreground = ${colors.color2}
+format-volume-suffix = "]─"
+format-volume-suffix-foreground = ${colors.color2}
 
 ramp-volume-0 = 奄
 ramp-volume-1 = 奔
@@ -388,13 +438,25 @@ full-at = 98
 
 format-charging = <animation-charging> <label-charging>
 format-charging-underline = ${colors.color4}
+format-charging-prefix = "─["
+format-charging-prefix-foreground = ${colors.color4}
+format-charging-suffix = "]─"
+format-charging-suffix-foreground = ${colors.color4}
 
 format-discharging = <ramp-capacity> <label-discharging>
 format-discharging-underline = ${colors.color4}
+format-discharging-prefix = "─["
+format-discharging-prefix-foreground = ${colors.color4}
+format-discharging-suffix = "]─"
+format-discharging-suffix-foreground = ${colors.color4}
 
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground-alt}
 format-full-underline = ${colors.color4}
+format-full-prefix = "─["
+format-full-prefix-foreground = ${colors.color4}
+format-full-suffix = "]─"
+format-full-suffix-foreground = ${colors.color4}
+
+label-charging = %percentage%%
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -455,19 +517,9 @@ label-separator = |
 label-separator-foreground = ${colors.foreground-alt}
 
 menu-0-0 = " Reboot "
-menu-0-0-exec = menu-open-1
+menu-0-0-exec = reboot
 menu-0-1 = " Poweroff "
-menu-0-1-exec = menu-open-2
-
-menu-1-0 = Cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
-
-menu-2-0 = Poweroff
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0
+menu-0-1-exec = poweroff
 
 [settings]
 screenchange-reload = true
