@@ -10,6 +10,7 @@ sudo chmod 760 /etc/rc.local
 cat ~/dotfiles/.fehbg > ~/.fehbg
 cat ~/dotfiles/.vimrc > ~/.vimrc
 cat ~/dotfiles/.Xresources > ~/.Xresources
+cp -r ~/dotfiles/.bashrc ~/
 cp -r ~/dotfiles/dunst ~/.config/
 cp -r ~/dotfiles/i3 ~/.config/
 cp -r ~/dotfiles/Scripts ~/
@@ -17,17 +18,22 @@ cp -r ~/dotfiles/terminator ~/.config/
 cp -r ~/dotfiles/polybar ~/.config/
 cp -r ~/dotfiles/.local ~/
 cp -r ~/dotfiles/ranger ~/.config/
+cp -r ~/dotfiles/.icons ~/
+cp -r ~/dotfiles/.themes ~/
+
 
 # Create note directory for notify scripts
 mkdir ~/Notes/
 touch ~/Notes/notes
+
+source ~/.bahrc
 
 echo Updating repo
 sudo apt-get update
 
 # Install standard dependencies
 echo Installing dependencies
-sudo apt -y install gtk2-engines-murrine gtk2-engines-pixbuf libnotify-bin xserver-xorg-input-libinput xinput exfat-fuse exfat-utils imagemagick-6.q16 graphicsmagick-imagemagick-compat imagemagick-6.q16hdri texlive-full unrar p7zip-full python-unidecode
+sudo apt -y install gtk2-engines-murrine gtk2-engines-pixbuf libnotify-bin xserver-xorg-input-libinput xinput exfat-fuse exfat-utils imagemagick-6.q16 graphicsmagick-imagemagick-compat imagemagick-6.q16hdri texlive-full unrar p7zip-full python-unidecode xdotool
 
 # Dunst dependencies
 sudo apt -y install libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev
@@ -114,5 +120,7 @@ sudo cat >> /etc/environment <<EOL
 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
 EOL
+
+git clone https://github.com/kvong/Homepage.git     ~/Webpage
 
 echo "Installation Completed"
