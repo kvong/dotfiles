@@ -58,24 +58,15 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left   focus left
-bindsym $mod+Down   focus down
-bindsym $mod+Up     focus up
-bindsym $mod+Right  focus right
-
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left     move left
-bindsym $mod+Shift+Down     move down
-bindsym $mod+Shift+Up       move up
-bindsym $mod+Shift+Right    move right
-
+# move left/right of current workspace
+bindsym $mod+p workspace prev
+bindsym $mod+n workspace next
 
 # split in horizontal orientation
 bindsym $mod+e split h
@@ -146,10 +137,6 @@ assign [class="URxvt"] $workspace1
 assign [class="Terminator"] $workspace1
 assign [class="Firefox"] $workspace2
 assign [class="NetBeans IDE 8.2"] $workspace3
-assign [class="okular"] $workspace4
-assign [class="Thunar"] $workspace5
-assign [class="libreoffice*"] $workspace4
-assign [class="discord"] $workspace3
 # align title
 #title_align center
 
@@ -252,10 +239,13 @@ bindsym XF86MonBrightnessDown exec ~/Scripts/light down # decrease screen bright
 exec firefox
 exec urxvt
 exec ~/.config/dunst/dunst
+exec_always ~/.screenlayout/SingleScreenLayout.sh
+
 
 # # Always execute
 # exec_always
-exec_always /home/blank/Scripts/my_fehbg
+# exec_always /home/blank/Scripts/my_fehbg
+exec dwall -s tokyostreet &
 exec_always compton -f
 
 # No window title bar
@@ -291,6 +281,7 @@ exec urxvt -name Scratchpad -fn xft:Monospace:size=13
 for_window [instance="Scratchpad"] move scratchpad
 bindsym $mod+u move scratchpad
 bindsym $mod+i scratchpad show; resize set 900px 300px; move position 1025px 790px;
+bindsym $mod+Shift+i exec "urxvt -name Scratchpad -fn xft:Monospace:size=13"
 
 # Move floating windows
  mode "move" {
@@ -306,4 +297,5 @@ bindsym $mod+i scratchpad show; resize set 900px 300px; move position 1025px 790
  }
  bindsym $mod+m focus floating; mode "move"
 
-bindsym $mod+n exec "/home/blank/Scripts/notify-note"
+# Create new empty workspace
+bindsym $mod+t exec --no-startup-id ~/Scripts/new-workspace.sh

@@ -35,6 +35,26 @@ URxvt.color14: #7bc2c6
 ! white
 URxvt.color15: #EEEEEE
 
+! !TABS
+!URxvt.perl-ext-common : default,tabbed
+URxvt.perl-ext-common : tabbedex
+URxvt.tabbed.tabbar-fg: 9
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg: 14
+URxvt.tabbed.tab-bg: 0
+URxvt.tabbed.autohide: true
+URxvt.tabbed.title: false
+URxvt.tabbed.new-button: false
+
+! Default tabe movemments
+URxvt.keysym.Shift-Down:    tabbedex:new_tab
+URxvt.keysym.Shift-Right:   tabbedex:next_tab
+URxvt.keysym.Shift-Left:    tabbedex:prev_tab
+URxvt.keysym.Shift-Up:      tabbedex:rename_tab
+URxvt.keysym.Control-Left:  tabbedex:move_tab_left
+URxvt.keysym.Control-Right: tabbedex:move_tab_right
+
 
 ! TO SOURCE
 ! xrdb .Xresources
+!

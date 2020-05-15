@@ -55,6 +55,8 @@ sudo apt update
 echo Installing base apps
 sudo apt-get -y install rofi compton i3 lxappearance vim thunar terminator rxvt-unicode dunst feh neofetch python-pip autoconf vifm ranger conky zathura okular
 
+curl https://raw.githubusercontent.com/mina86/urxvt-tabbedex/master/install | sh
+
 # Install i3-gap dependencies
 echo Installing i3-gap dependencies
 sudo apt-get -y install libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev libxcb-icccm4-dev libyajl-dev libstartup-notification0-dev libxcb-randr0-dev libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev autoconf libxcb-xrm0 libxcb-xrm-dev automake libxcb-shape0-dev
@@ -122,5 +124,11 @@ JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
 EOL
 
 git clone https://github.com/kvong/Homepage.git     ~/Webpage
+
+mkdir ~/Apps
+
+git clone https://github.com/adi1090x/dynamic-wallpaper.git ~/Apps/dwal
+chmod +x ~/Apps/install.sh
+~/Apps/install.sh
 
 echo "Installation Completed"

@@ -124,7 +124,6 @@ alias scripts='cd ~/Scripts'
 alias cd.='cd ..'
 alias cdd='dirtree'
 alias py='python3'
-alias ssh='myssh'
 alias delmar='myssh ksv3b4@delmar.umsl.edu'
 alias vis='vim -O'
 alias vi='vim -p'
@@ -136,7 +135,7 @@ alias note='notify-note'
 alias tnote='nf ~/Notes/notes'
 alias enote='vi ~/Notes/notes'
 alias pm='pomodoro > /dev/null 2>&1 &'
-alias osmc='ssh osmc@192.168.1.9'
+alias osmc='myssh osmc@192.168.1.14'
 alias install='notify-install'
 alias ranger='urxvt -depth 24 -e "ranger" > /dev/null 2>&1 &'
 alias vpn='sudo openvpn /etc/openvpn/ovpn_tcp/ca916.nordvpn.com.tcp.ovpn'
@@ -148,6 +147,12 @@ alias nb='jupyter notebook && conda deactivate && conda deactivate'
 alias fs='~/Scripts/xps_audiofixer'
 alias rd='okular'
 alias tex='vi *.tex'
+alias vrc='vi ~/.vimrc'
+alias netbeans='~/Desktop/netbeans-8.2.desktop &'
+alias ssh-desktop='ssh blank@192.168.1.9'
+alias graph='git log --all --decorate --oneline --graph'
+
+export PC='blank@192.168.1.9'
 
 cd(){
     builtin cd "$@" && ls;
@@ -209,3 +214,29 @@ export PATH="${PATH}:${HOME}/.local/bin/"
 ## <<< conda initialize <<<
 
 set -o vi
+
+
+# Fast directory nagivation commands
+export MARKPATH=$HOME/.marks
+function jump {
+	cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
+}
+function mark {
+    mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
+}
+function unmark {
+	rm -i "$MARKPATH/$1"
+}
+function marks {
+    ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
+}
+
+# Fast navigation autocomplete
+_completemarks() {
+  local curw=${COMP_WORDS[COMP_CWORD]}
+  local wordlist=$(find $MARKPATH -type l -printf "%f\n")
+  COMPREPLY=($(compgen -W '${wordlist[@]}' -- "$curw"))
+  return 0
+}
+
+complete -F _completemarks jump unmark
