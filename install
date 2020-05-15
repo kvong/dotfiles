@@ -17,7 +17,6 @@ cp -r ~/dotfiles/Scripts ~/
 cp -r ~/dotfiles/terminator ~/.config/
 cp -r ~/dotfiles/polybar ~/.config/
 cp -r ~/dotfiles/.local ~/
-cp -r ~/dotfiles/ranger ~/.config/
 cp -r ~/dotfiles/.icons ~/
 cp -r ~/dotfiles/.themes ~/
 
@@ -53,7 +52,7 @@ sudo apt update
 
 # Install base apps
 echo Installing base apps
-sudo apt-get -y install rofi compton i3 lxappearance vim thunar terminator rxvt-unicode dunst feh neofetch python-pip autoconf vifm ranger conky zathura okular
+sudo apt-get -y install rofi compton i3 lxappearance vim thunar terminator rxvt-unicode dunst feh neofetch python-pip autoconf vifm conky zathura okular
 
 curl https://raw.githubusercontent.com/mina86/urxvt-tabbedex/master/install | sh
 
