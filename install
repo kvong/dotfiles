@@ -125,10 +125,11 @@ JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
 EOL
 
-git clone https://github.com/kvong/Homepage.git     ~/Webpage
+
 
 mkdir ~/Apps
 
+# Install dwal
 git clone https://github.com/adi1090x/dynamic-wallpaper.git ~/Apps/dwal
 chmod +x ~/Apps/install.sh
 ~/Apps/install.sh
