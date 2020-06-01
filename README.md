@@ -1,4 +1,6 @@
 # Things To Install For Ubuntu 18.10 
+## Screenshot
+![](./screenshots/sample.png)
 ## Core packages
 ```
 sudo apt-get install rofi
