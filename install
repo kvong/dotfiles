@@ -124,13 +124,15 @@ JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
 EOL
 
-
-
 mkdir ~/Apps
 
 # Install dwal
 git clone https://github.com/adi1090x/dynamic-wallpaper.git ~/Apps/dwal
 chmod +x ~/Apps/install.sh
 ~/Apps/install.sh
+
+# Install calibre
+sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+xdg-mime default okularApplication_pdf.desktop application/pdf
 
 echo "Installation Completed"
