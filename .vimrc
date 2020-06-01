@@ -11,6 +11,7 @@ set mouse=a
 
 set guifont=Monaco:h20
 
+
 filetype plugin on
 
 set nocompatible              " be iMproved, required
@@ -34,10 +35,31 @@ Plugin 'lervag/vimtex'
 Plugin 'vimwiki/vimwiki'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
+Plugin 'dhruvasagar/vim-table-mode'
+Plugin 'easymotion/vim-easymotion'
+
+" vim table
+"function! s:isAtStartOfLine(mapping)
+"  let text_before_cursor = getline('.')[0 : col('.')-1]
+"  let mapping_pattern = '\V' . escape(a:mapping, '\')
+"  let comment_pattern = '\V' . escape(substitute(&l:commentstring, '%s.*$', '', ''), '\')
+"  return (text_before_cursor =~? '^' . ('\v(' . comment_pattern . '\v)?') . '\s*\v' . mapping_pattern . '\v$')
+"endfunction
+"
+"inoreabbrev <expr> <bar><bar>
+"          \ <SID>isAtStartOfLine('\|\|') ?
+"          \ '<c-o>:TableModeEnable<cr><bar><space><bar><left><left>' : '<bar><bar>'
+"inoreabbrev <expr> __
+"          \ <SID>isAtStartOfLine('__') ?
+"          \ '<c-o>:silent! TableModeDisable<cr>' : '__'
+
+" vim markdown preview to use grip
+"let vim_markdown_preview_github=1
+"let vim_markdown_preview_toggle=3
+"let vim_markdown_preview_browser='Mozilla Firefox'
 
 " Config for vimwiki
-"let g:vimwiki_list = [{'path': '~/vimwiki',
-                        \ 'syntax': 'markdown', 'ext': '.md'}]
+"let g:vimwiki_list = [{'path': '~/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
 
 " Config for LaTex
 let g:tex_flavor='latex'
@@ -118,6 +140,10 @@ noremap <leader>7 7gt
 noremap <leader>8 8gt
 noremap <leader>9 9gt
 
+" Fold settings
 set foldmethod=marker
 set foldmarker=[START],[END]
+nnoremap zn /\[START]<CR>
+
+
 " TO RELOAD ':so %'
