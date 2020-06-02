@@ -37,6 +37,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'dhruvasagar/vim-table-mode'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'JamshedVesuna/vim-markdown-preview'
 
 " vim table
 "function! s:isAtStartOfLine(mapping)
@@ -54,9 +55,9 @@ Plugin 'easymotion/vim-easymotion'
 "          \ '<c-o>:silent! TableModeDisable<cr>' : '__'
 
 " vim markdown preview to use grip
-"let vim_markdown_preview_github=1
-"let vim_markdown_preview_toggle=3
-"let vim_markdown_preview_browser='Mozilla Firefox'
+let vim_markdown_preview_github=1
+let vim_markdown_preview_toggle=3
+let vim_markdown_preview_browser='Mozilla Firefox'
 
 " Config for vimwiki
 "let g:vimwiki_list = [{'path': '~/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]

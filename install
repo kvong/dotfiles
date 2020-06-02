@@ -111,6 +111,7 @@ git clone https://github.com/dhruvasagar/vim-table-mode.git ~/.vim/bundle/vim-ta
 git clone git://github.com/godlygeek/tabular.git ~/.vim/bundle/tabular
 git clone https://github.com/vimwiki/vimwiki.git ~/.vim/bundle/vimwiki
 git clone https://github.com/plasticboy/vim-markdown.git ~/.vim/bundle/vim-markdown
+git clone https://github.com/JamshedVesuna/vim-markdown-preview.git ~/.vim/bundle/vim-markdown-preview
 
 vim +PluginInstall +qall
 
