@@ -1,0 +1,84 @@
+#!/bin/bash
+
+#===  TITLE  ===================================================================
+#         NAME:  myRSA
+#       Author:  Khanh Vong
+#  DESCRIPTION:  A script for generating rsa id, and perform passwordless login 
+#                via ssh.
+#===============================================================================
+
+
+# Function to display help message
+function usage ()
+{
+    echo "Usage :  $0 [Options]
+
+    Options:
+
+    -a|add <server@address>     Add key to remote server
+    -d|disable                  Disable passphrase query
+    -h|help                     Display this message
+    -g|generate                 Generate rsa key
+    "
+}
+
+#-----------------------------------------------------------------------
+#  Handle command line arguments
+#-----------------------------------------------------------------------
+
+# Go through all options
+while getopts ":dgha:" opt
+do
+  case $opt in
+    # Add key to a remote server
+    a|add      )  
+        # Prompt user for rsa public id location
+        echo "Adding public key to remote server";
+        echo "Enter the location of your public key (~/.ssh/id_rsa.pub):"
+        read rsa_location
+
+        # No argument means use default location '~/.ssh/id_rsa.pub'
+        if [ "$rsa_location" = "" ]; then
+            cat ~/.ssh/id_rsa.pub | ssh $OPTARG "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys";
+        else
+            cat $rsa_location | ssh $OPTARG "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys";
+        fi
+
+        # Display message on successful/unsuccessful operation
+        if [ $? == 0 ]; then
+            echo "RSA key successfully added to $OPTARG"
+        else
+            echo "Error file adding RSA key to $OPTARG"
+        fi
+        exit 0 ;;
+
+    # Disable passphrase query if passphrase was set
+    d|disable  )  
+        exec ssh-agent bash;
+        ssh-add;
+        exit 0;;
+
+    # Generate rsa key if we don't have one
+    g|generate )
+        ssh-keygen -t rsa;
+        exit 0 ;;
+
+    # Display help message
+    h|help     )
+        usage;
+        exit 0   ;;
+    
+    # If an option argument does not exist
+    \? )  
+        echo -e "\n  Option does not exist : $OPTARG\n";
+        exit 1;;
+
+    # If an option argument is not given to option that requires an argument
+    : ) 
+        echo -e "\n  Invalid Option: -$OPTARG requires an argument\n";
+        usage; 
+        exit 1   ;;
+
+  esac    # --- end of case ---
+done
+shift $(($OPTIND-1))

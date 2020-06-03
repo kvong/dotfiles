@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# One liner for fixing fuzzing noise when headphone is plugged in.
-
-amixer -c 0 set 'Headphone Mic Boost',0 1
