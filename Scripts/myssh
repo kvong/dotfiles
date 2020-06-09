@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -ne 1 ]; then
-    echo Require an argument
+    echo myssh: Require an argument
 else
     until ssh $1; do
         sleep 5
