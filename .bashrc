@@ -2,6 +2,8 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+export VISUAL=vim
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -87,10 +89,6 @@ fi
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -131,31 +129,42 @@ alias so='source'
 alias sob='source ~/.bashrc && notify-send "Updated" ".bashrc updated!" -i terminal'
 alias start='WorkSpace'
 alias sus='/home/blank/Scripts/i3lock-fancy -gp && systemctl suspend && pactl set-sink-mute 0 toggle'
-alias note='notify-note'
-alias tnote='nf ~/Notes/notes'
+alias note='notify-note ~/Notes/notes'
+alias dnote='nf ~/Notes/notes'
 alias enote='vi ~/Notes/notes'
 alias pm='pomodoro > /dev/null 2>&1 &'
-alias osmc='myssh osmc@192.168.1.14'
+alias osmc='myssh osmc@192.168.1.210'
 alias install='notify-install'
 alias ranger='urxvt -depth 24 -e "ranger" > /dev/null 2>&1 &'
 alias vpn='sudo openvpn /etc/openvpn/ovpn_tcp/ca916.nordvpn.com.tcp.ovpn'
 alias proc='ps -aux'
 alias brc='vi ~/.bashrc'
 alias clonedot='git clone https://github.com/kvong/dotfiles.git'
-alias tf='conda activate PythonCPU'
-alias nb='jupyter notebook && conda deactivate && conda deactivate'
 alias fs='~/Scripts/xps_audiofixer'
 alias rd='okular'
 alias tex='vi *.tex'
 alias vrc='vi ~/.vimrc'
 alias netbeans='~/Desktop/netbeans-8.2.desktop &'
-alias ssh-desktop='ssh blank@192.168.1.9'
+alias ssh-desktop='ssh blank@192.168.1.200'
 alias graph='git log --all --decorate --oneline --graph'
+alias eplan='vi ~/Notes/planner'
+alias dplan='cat ~/Notes/planner'
+alias clib='echo "Opening calibre" && calibre &'
+alias lv='ls -v'
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias serverpi='myssh serverpi@192.168.1.110'
 
-export PC='blank@192.168.1.9'
+CURDIR="$(cat ~/.latest-dir)"
+
+export DESKTOP='blank@192.168.1.200'
+export SERVERPI='serverpi@192.168.1.110'
 
 cd(){
     builtin cd "$@" && ls;
+    pwd > ~/.latest-dir
 }
 
 mkcd(){
@@ -185,33 +194,10 @@ ex (){
 }
 
 printf "\033[01;36m┐\n"
-export PS1="\[\033[01;36m\]├─[\[\033[01;36m\]\[\033[01;37m\]blank\[\033[01;36m\]]──\[\033[01;36m\][\[\033[01;37m\]$(date +'%I:%M%p')\[\033[01;36m\]]──\[\033[01;37m\]\[\033[01;36m\][\[\033[01;37m\]\w/\[\033[01;36m\]]\[\033[01;32m\]:$\n\[\033[01;36m\]├────➤ \[\033[01;37m\]"
+export PS1="\[\033[01;36m\]├─[\[\033[01;36m\]\[\033[01;37m\]blank\[\033[01;36m\]]──\[\033[01;37m\]\[\033[01;36m\][\[\033[01;37m\]\w/\[\033[01;36m\]]\[\033[01;32m\]:$\n\[\033[01;36m\]├────➤ \[\033[01;37m\]"
 export PATH="$PATH:/home/blank/Scripts"
 
 export PATH="${PATH}:${HOME}/.local/bin/"
-
-#export PATH=$PATH:$HOME/Library/Python/2.7/bin
-#powerline-daemon -q
-#POWERLINE_BASH_CONTINUATION=1
-#POWERLINE_BASH_SELECT=1
-#. /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh
-
-#note
-
-## >>> conda initialize >>>
-## !! Contents within this block are managed by 'conda init' !!
-#__conda_setup="$('/home/blank/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-#if [ $? -eq 0 ]; then
-#    eval "$__conda_setup"
-#else
-#    if [ -f "/home/blank/anaconda3/etc/profile.d/conda.sh" ]; then
-#        . "/home/blank/anaconda3/etc/profile.d/conda.sh"
-#    else
-#        export PATH="/home/blank/anaconda3/bin:$PATH"
-#    fi
-#fi
-#unset __conda_setup
-## <<< conda initialize <<<
 
 set -o vi
 
@@ -240,3 +226,8 @@ _completemarks() {
 }
 
 complete -F _completemarks jump unmark
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+cd $CURDIR
