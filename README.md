@@ -76,4 +76,6 @@ echo chmod o+rw /sys/class/backlight/brightness >> rc.local
 Add { Option "NaturalScrolling" "true" } to /usr/share/X11/xorg.conf.d/40-libinput.conf in the correct InputClass touchpad section
 ```
 
+### Setting a static IP
+[Guide on how to configure static IP address.](https://linuxize.com/post/how-to-configure-static-ip-address-on-ubuntu-18-04/)
 
