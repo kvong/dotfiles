@@ -119,9 +119,12 @@ cp -r ~/dotfiles/UltiSnips/ ~/.vim/bundle/vim-snippets/
 
 # Install Polybar
 echo Installing Polybar
-sudo apt-get -y install cmake cmake-data libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-composite0-dev xcb libxcb-ewmh2
+sudo apt-get -y install cmake cmake-data libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-composite0-dev xcb libxcb-ewmh2 libjsoncpp-dev
 git clone https://github.com/jaagr/polybar.git ~/.config/i3/polybar
 cd ~/.config/i3/polybar && ./build.sh
+sudo apt install python3-pip
+sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib pathlib
+git clone https://github.com/kvong/polybar-gmail.git gmail
 
 # Install java 8
 echo Installing Java-8
@@ -141,5 +144,14 @@ chmod +x ~/Apps/install.sh
 # Install calibre
 sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
 xdg-mime default okularApplication_pdf.desktop application/pdf
+
+# Install webkit2-greeter
+echo 'deb http://download.opensuse.org/repositories/home:/antergos/Debian_9.0/ /' | sudo tee /etc/apt/sources.list.d/home:antergos.list
+curl -fsSL https://download.opensuse.org/repositories/home:antergos/Debian_9.0/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home:antergos.gpg > /dev/null
+sudo apt update
+sudo apt install lightdm-webkit2-greeter
+
+git clone https://github.com/jelenis/login-manager.git ~/lightdm-theme
+cp -r ~/lightdm-theme /usr/share/lightdm-webkit/themes/
 
 echo "Installation Completed"
