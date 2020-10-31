@@ -14,7 +14,10 @@
 # Let custom script control brightness
 chmod o+rw /sys/class/backlight/intel_backlight/brightness
 
+# Start apache
+/home/blank/apache-tomcat-8.0.27/bin/startup.sh
+
 # Start XAMPP
-/opt/lampp/lampp start
+#/opt/lampp/lampp start
 
 exit 0
