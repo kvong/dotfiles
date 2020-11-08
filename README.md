@@ -74,6 +74,7 @@ echo chmod o+rw /sys/class/backlight/brightness >> rc.local
 ## Natural scroll
 ```
 sudo apt install xinput
+- Configuration file located: /usr/share/X11/xorg.conf.d/
 - Libinput approach:
     Add { Option "NaturalScrolling" "true" } to /usr/share/X11/xorg.conf.d/40-libinput.conf in the correct InputClass touchpad section
 - Synaptics approach:
