@@ -74,7 +74,14 @@ echo chmod o+rw /sys/class/backlight/brightness >> rc.local
 ## Natural scroll
 ```
 sudo apt install xinput
-Add { Option "NaturalScrolling" "true" } to /usr/share/X11/xorg.conf.d/40-libinput.conf in the correct InputClass touchpad section
+- Libinput approach:
+    Add { Option "NaturalScrolling" "true" } to /usr/share/X11/xorg.conf.d/40-libinput.conf in the correct InputClass touchpad section
+- Synaptics approach:
+    Add {Option "VertScrollDelta" "-26"}, and {Option "HorizScrollDelta" "-26"} to {Identifier "touchpad catchall"}.
+    - Number represent scroll speed. Lower=faster, Higher=slower.
+    - Positive = Inverted Scrolling.
+    - Negative = Natural Scrolling.
+
 ```
 
 ### Setting a static IP
