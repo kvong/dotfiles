@@ -58,15 +58,24 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left   focus left
+bindsym $mod+Down   focus down
+bindsym $mod+Up     focus up
+bindsym $mod+Right  focus right
+
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-# move left/right of current workspace
-bindsym $mod+p workspace prev
-bindsym $mod+n workspace next
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left     move left
+bindsym $mod+Shift+Down     move down
+bindsym $mod+Shift+Up       move up
+bindsym $mod+Shift+Right    move right
+
 
 # split in horizontal orientation
 bindsym $mod+e split h
@@ -106,6 +115,17 @@ set $workspace8     "8"
 set $workspace9     "9" 
 set $workspace10    "10"
 
+workspace $workspace1     output HDMI-1
+workspace $workspace2     output DVI-D-0
+workspace $workspace3     output HDMI-1
+workspace $workspace4     output DVI-D-0
+workspace $workspace5     output HDMI-1
+workspace $workspace6     output DVI-D-0
+workspace $workspace7     output HDMI-1
+workspace $workspace8     output DVI-D-0
+workspace $workspace9     output HDMI-1
+workspace $workspace10    output DVI-D-0
+
 workspace $workspace1 gaps inner 10
 
 # switch to workspace
@@ -136,7 +156,12 @@ bindsym $mod+Shift+0 move container to workspace $workspace10
 assign [class="URxvt"] $workspace1
 assign [class="Terminator"] $workspace1
 assign [class="Firefox"] $workspace2
-assign [class="NetBeans IDE 8.2"] $workspace3
+assign [class="okular"] $workspace3
+assign [class="Thunar"] $workspace3
+assign [class="Anaconda-Navigator"] $workspace3
+assign [class="libreoffice*"] $workspace4
+assign [class="discord"] $workspace4
+assign [class="calibre"] $workspace4
 # align title
 #title_align center
 
@@ -239,22 +264,20 @@ bindsym XF86MonBrightnessDown exec ~/Scripts/light down # decrease screen bright
 exec firefox
 exec urxvt
 exec ~/.config/dunst/dunst
-exec_always ~/.screenlayout/SingleScreenLayout.sh
-
+exec ~/Scripts/screenLayout.sh
 
 # # Always execute
 # exec_always
-# exec_always /home/blank/Scripts/my_fehbg
-exec dwall -s tokyostreet &
+exec_always /home/blank/Scripts/my_fehbg
 exec_always compton -f
 
 # No window title bar
-for_window [class="Terminator"] border pixel 1
 for_window [class="Firefox"] border pixel 1
 for_window [class="Chromium-browser"] border pixel 1
 for_window [class="URxvt"] border pixel 1
 for_window [class="okular"] border pixel 1
 for_window [class="zathura"] border pixel 1
+
 
 # Focus on newly opened window
 # focus_on_window_activation focus
@@ -277,11 +300,12 @@ mode "gaps" {
 }
 
 # scratchpad
-exec urxvt -name Scratchpad -fn xft:Monospace:size=13
+exec urxvt -name Scratchpad -fn xft:Monospace:size=12
 for_window [instance="Scratchpad"] move scratchpad
 bindsym $mod+u move scratchpad
-bindsym $mod+i scratchpad show; resize set 900px 300px; move position 1025px 790px;
-bindsym $mod+Shift+i exec "urxvt -name Scratchpad -fn xft:Monospace:size=13"
+bindsym $mod+i scratchpad show; resize set 900px 300px; move position 2104px 975px;
+
+bindsym $mod+Shift+i exec "urxvt -name Scratchpad -fn xft:Monospace:size=12"
 
 # Move floating windows
  mode "move" {
@@ -297,5 +321,4 @@ bindsym $mod+Shift+i exec "urxvt -name Scratchpad -fn xft:Monospace:size=13"
  }
  bindsym $mod+m focus floating; mode "move"
 
-# Create new empty workspace
-bindsym $mod+t exec --no-startup-id ~/Scripts/new-workspace.sh
+bindsym $mod+n exec "/home/blank/Scripts/notify-note"

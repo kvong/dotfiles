@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#===  TITLE  ===================================================================
+#===============================================================================
 #         NAME:  myRSA
 #       Author:  Khanh Vong
 #  DESCRIPTION:  A script for generating rsa id, and perform passwordless login 

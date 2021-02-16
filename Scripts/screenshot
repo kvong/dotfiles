@@ -1,0 +1,17 @@
+#!/bin/bash
+
+output=$(date | awk '{print $2$3"_"$4".png"}' | sed 's/://g')
+if [[ $# -gt 0 ]]; then
+    output=$1
+fi
+
+directory="$(echo $HOME/Pictures/screenshots)"
+
+if [[ -d $directory ]]; then
+    echo Output image will be in $directory.
+else
+    echo Directory does not exist. Creating $directory...
+    mkdir $directory
+fi
+
+import "$directory/$output"

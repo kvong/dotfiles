@@ -7,12 +7,8 @@ set si
 set rnu nu
 set noshowmode
 syn on
-set mouse=a
 
 set guifont=Monaco:h20
-
-
-filetype plugin on
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -32,37 +28,8 @@ Plugin 'sirver/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'lervag/vimtex'
-Plugin 'vimwiki/vimwiki'
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'dhruvasagar/vim-table-mode'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'JamshedVesuna/vim-markdown-preview'
 
-" vim table
-"function! s:isAtStartOfLine(mapping)
-"  let text_before_cursor = getline('.')[0 : col('.')-1]
-"  let mapping_pattern = '\V' . escape(a:mapping, '\')
-"  let comment_pattern = '\V' . escape(substitute(&l:commentstring, '%s.*$', '', ''), '\')
-"  return (text_before_cursor =~? '^' . ('\v(' . comment_pattern . '\v)?') . '\s*\v' . mapping_pattern . '\v$')
-"endfunction
-"
-"inoreabbrev <expr> <bar><bar>
-"          \ <SID>isAtStartOfLine('\|\|') ?
-"          \ '<c-o>:TableModeEnable<cr><bar><space><bar><left><left>' : '<bar><bar>'
-"inoreabbrev <expr> __
-"          \ <SID>isAtStartOfLine('__') ?
-"          \ '<c-o>:silent! TableModeDisable<cr>' : '__'
 
-" vim markdown preview to use grip
-let vim_markdown_preview_github=1
-let vim_markdown_preview_toggle=3
-let vim_markdown_preview_browser='Mozilla Firefox'
-
-" Config for vimwiki
-"let g:vimwiki_list = [{'path': '~/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
-
-" Config for LaTex
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
@@ -90,42 +57,38 @@ set bg=dark
 " make background invisible
 hi Normal guibg=NONE ctermbg=NONE
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" VIM shortcuts
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" VIM powerline
+" set  rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
+" set laststatus=2
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" VIM shortcuts
+ 
+" Moving through files in buffer
+"nnoremap NN :bnext<CR> 
+"nnoremap PP :bprev<CR>
+
 " Scrolling
-""""""""""""""""""""""""""""""""""""""""""""""""""
+"nnoremap J <C-E>
+"nnoremap K <C-Y>
 nnoremap MM zz
 nnoremap mm MM
- 
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" NertTRee
-""""""""""""""""""""""""""""""""""""""""""""""""""
+
 "Opening NerdTRee
 nmap <C-n> :NERDTreeToggle<CR>
 " Close NerdTree after opening selected file
 let NERDTreeQuitOnOpen=1
 
 " Close all and save
-noremap ZZ :wqa<CR>
+ noremap ZZ :wqa<CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" VIM Splitting
-""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Moving through Vim splitscreen
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
+nnoremap <C-J> <C-W>j<C-W><CR>
+nnoremap <C-K> <C-W>k<C-W><CR>
+nnoremap <C-H> <C-W>h<C-W><CR>
+nnoremap <C-L> <C-W>l<C-W><CR>
 
-" Make new split below or to the right
-set splitbelow splitright
-
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" VIM Tabbing
-""""""""""""""""""""""""""""""""""""""""""""""""""
 " Moving through Vim tabs
 nnoremap PP :tabp<CR>
 nnoremap NN :tabn<CR>
@@ -140,11 +103,4 @@ noremap <leader>6 6gt
 noremap <leader>7 7gt
 noremap <leader>8 8gt
 noremap <leader>9 9gt
-
-" Fold settings
-set foldmethod=marker
-set foldmarker=[START],[END]
-nnoremap zn /\[START]<CR>
-
-
 " TO RELOAD ':so %'

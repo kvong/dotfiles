@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# A dmenu script for quick access apps
+
+option=$(echo -e "Screenshot" | dmenu -fn "System San Francisco Display Regular-13" -nb "#1F1F1F" -nf "#FFFFFF" -sb "#515151" -sf "#F1F1F1" -i -p "Quick-Access: ")
+
+case "$option" in
+    Screenshot) # Take screenshot
+        ~/Scripts/screenshot
+        ;;
+    *)
+        exit 1
+esac

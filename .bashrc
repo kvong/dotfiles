@@ -122,7 +122,7 @@ alias desk='cd ~/Desktop'
 alias down='cd ~/Downloads'
 alias scripts='cd ~/Scripts'
 alias cd.='cd ..'
-alias cdd='dirtree'
+alias cdd='dt'
 alias py='python3'
 alias delmar='myssh ksv3b4@delmar.umsl.edu'
 alias vis='vim -O'
@@ -130,12 +130,12 @@ alias vi='vim -p'
 alias so='source'
 alias sob='source ~/.bashrc && notify-send "Updated" ".bashrc updated!" -i terminal'
 alias start='WorkSpace'
-alias sus='/home/blank/Scripts/i3lock-fancy -gp && systemctl suspend && pactl set-sink-mute 0 toggle'
+alias sus='systemctl suspend'
 alias note='notify-note'
 alias tnote='nf ~/Notes/notes'
 alias enote='vi ~/Notes/notes'
 alias pm='pomodoro > /dev/null 2>&1 &'
-alias osmc='myssh osmc@192.168.1.14'
+alias osmc='myssh osmc@192.168.0.109'
 alias install='notify-install'
 alias ranger='urxvt -depth 24 -e "ranger" > /dev/null 2>&1 &'
 alias vpn='sudo openvpn /etc/openvpn/ovpn_tcp/ca916.nordvpn.com.tcp.ovpn'
@@ -147,15 +147,27 @@ alias nb='jupyter notebook && conda deactivate && conda deactivate'
 alias fs='~/Scripts/xps_audiofixer'
 alias rd='okular'
 alias tex='vi *.tex'
-alias vrc='vi ~/.vimrc'
+alias vifm.='vifm .'
+alias start-conda='eval "$(/home/blank/anaconda3/bin/conda shell.bash hook)"'
+alias uninstall-conda='rm -rfi ~/anaconda3'
+alias anav='anaconda-navigator &'
+alias rebootw='sudo grub-reboot 2 && reboot'
+alias venv='source ~/venv/bin/activate'
+alias mount-wd='sudo mount /dev/sdb2 ~/USB'
+alias umount-wd='sudo umount /dev/sdb2'
 alias netbeans='~/Desktop/netbeans-8.2.desktop &'
-alias ssh-desktop='ssh blank@192.168.1.9'
-alias graph='git log --all --decorate --oneline --graph'
+alias clib='echo "Starting calibre" && calibre &'
+alias lv='ls -v'
+alias wordpress='cd /var/www/wordpress'
+alias serverpi='myssh serverpi@192.168.0.201'
+alias kpg='sftp -P 22 -i ~/Work/moistNgritty.pem khanh@3.16.220.195'
 
-export PC='blank@192.168.1.9'
+CURDIR="$(cat ~/.latest-dir)"
+SERVERPI="serverpi@192.168.0.100"
 
 cd(){
     builtin cd "$@" && ls;
+    pwd > ~/.latest-dir
 }
 
 mkcd(){
@@ -184,59 +196,18 @@ ex (){
   fi
 }
 
-printf "\033[01;36m┐\n"
-export PS1="\[\033[01;36m\]├─[\[\033[01;36m\]\[\033[01;37m\]blank\[\033[01;36m\]]──\[\033[01;36m\][\[\033[01;37m\]$(date +'%I:%M%p')\[\033[01;36m\]]──\[\033[01;37m\]\[\033[01;36m\][\[\033[01;37m\]\w/\[\033[01;36m\]]\[\033[01;32m\]:$\n\[\033[01;36m\]├────➤ \[\033[01;37m\]"
+printf "\033[01;35m┐\n"
+export PS1="\[\033[01;35m\]├─[\[\033[01;35m\]\[\033[01;37m\]blank\[\033[01;35m\]]──\[\033[01;35m\][\[\033[01;37m\]$(date +'%I:%M%p')\[\033[01;35m\]]──\[\033[01;37m\]\[\033[01;35m\][\[\033[01;37m\]\w/\[\033[01;35m\]]\[\033[01;31m\]:$\n\[\033[01;35m\]├────➤ \[\033[01;37m\]"
 export PATH="$PATH:/home/blank/Scripts"
-
 export PATH="${PATH}:${HOME}/.local/bin/"
-
-#export PATH=$PATH:$HOME/Library/Python/2.7/bin
-#powerline-daemon -q
-#POWERLINE_BASH_CONTINUATION=1
-#POWERLINE_BASH_SELECT=1
-#. /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh
-
-#note
-
-## >>> conda initialize >>>
-## !! Contents within this block are managed by 'conda init' !!
-#__conda_setup="$('/home/blank/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-#if [ $? -eq 0 ]; then
-#    eval "$__conda_setup"
-#else
-#    if [ -f "/home/blank/anaconda3/etc/profile.d/conda.sh" ]; then
-#        . "/home/blank/anaconda3/etc/profile.d/conda.sh"
-#    else
-#        export PATH="/home/blank/anaconda3/bin:$PATH"
-#    fi
-#fi
-#unset __conda_setup
-## <<< conda initialize <<<
+export PATH="${PATH}:/snap/bin"
 
 set -o vi
 
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/
 
-# Fast directory nagivation commands
-export MARKPATH=$HOME/.marks
-function jump {
-	cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
-}
-function mark {
-    mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
-}
-function unmark {
-	rm -i "$MARKPATH/$1"
-}
-function marks {
-    ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
-}
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
 
-# Fast navigation autocomplete
-_completemarks() {
-  local curw=${COMP_WORDS[COMP_CWORD]}
-  local wordlist=$(find $MARKPATH -type l -printf "%f\n")
-  COMPREPLY=($(compgen -W '${wordlist[@]}' -- "$curw"))
-  return 0
-}
-
-complete -F _completemarks jump unmark
+cd $CURDIR
+alias config='/usr/bin/git --git-dir=/home/blank/.cfg/ --work-tree=/home/blank'
