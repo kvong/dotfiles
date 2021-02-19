@@ -71,13 +71,12 @@ mkdir ~/Apps
 # Install dwal
 echo "Installing pywal"
 path="/home/blank/"
-Install dwal
 echo "Installing pywal"
 sudo apt-get install x11-xserver-utils feh cron
-mkdir "${path}/Apps/"
-git clone https://github.com/adi1090x/dynamic-wallpaper.git "${path}/Apps/"
-chmod +x "${path}/Apps/dwal/install.sh"
-eval "${path}/Apps/dwal/install.sh"
+mkdir "${path}Apps/"
+git clone https://github.com/adi1090x/dynamic-wallpaper.git "${path}Apps/"
+chmod +x "${path}Apps/dwal/install.sh"
+eval "${path}Apps/dwal/install.sh"
 
 # Install calibre
 sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
