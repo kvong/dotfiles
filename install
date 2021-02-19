@@ -1,5 +1,16 @@
 #!/bin/bash
 
+echo -n "Enter username: "
+read username
+
+path="/home/blank/"
+if [[ id "$username" &> /dev/null ]]; then
+    path="/home/${username}/"
+else
+    echo "This is not a user. Exitting."
+    exit
+fi
+
 # Set root password
 sudo passwd root
 
@@ -14,7 +25,7 @@ sudo apt-get update
 
 # Install standard dependencies
 echo Installing dependencies
-sudo apt -y install gtk2-engines-murrine gtk2-engines-pixbuf libnotify-bin xserver-xorg-input-libinput xinput exfat-fuse exfat-utils imagemagick-6.q16 graphicsmagick-imagemagick-compat imagemagick-6.q16hdri texlive-full unrar p7zip-full python-unidecode xdotool
+sudo apt -y install curl gtk2-engines-murrine gtk2-engines-pixbuf libnotify-bin xserver-xorg-input-libinput xinput exfat-fuse exfat-utils imagemagick-6.q16 graphicsmagick-imagemagick-compat imagemagick-6.q16hdri texlive-full unrar p7zip-full python-unidecode xdotool
 
 # Ensure stable release on i3 (Note: this contrains dmenu and i3lock)
 /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2021.02.02_all.deb keyring.deb SHA256:cccfb1dd7d6b1b6a137bb96ea5b5eef18a0a4a6df1d6c0c37832025d2edaa710
@@ -65,15 +76,16 @@ sudo apt install pywal
 sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
 xdg-mime default okularApplication_pdf.desktop application/pdf
 
-ln -fs ~/dotfiles/.fehbg > ~/.fehbg
-ln -fs ~/dotfiles/.vimrc > ~/.vimrc
-ln -fs ~/dotfiles/.Xresources > ~/.Xresources
-ln -fs ~/dotfiles/.bashrc ~/.bashrc
-ln -fs ~/dotfiles/i3/config ~/.config/i3/config
-ln -fs ~/dotfiles/Scripts ~/Scripts
-ln -fs ~/dotfiles/terminator ~/.config/terminator
-ln -fs ~/dotfiles/polybar ~/.config/polybar
-ln -fs ~/dotfiles/.local ~/.local
-ln -fs ~/dotfiles/.icons ~/.icons
-ln -fs ~/dotfiles/.themes ~/.themes
+ln -fs "${path}dotfiles/.fehbg" > "${path}/.fehbg"
+ln -fs "${path}dotfiles/.vimrc" > "${path}/.vimrc"
+ln -fs "${path}dotfiles/.Xresources" > "${path}/.Xresources"
+ln -fs "${path}dotfiles/.bashrc" "${path}/.bashrc"
+ln -fs "${path}dotfiles/i3/config" "${path}/.config/i3/"
+ln -fs "${path}dotfiles/Scripts" "${path}/Scripts"
+ln -fs "${path}dotfiles/terminator" "${path}/.config/"
+ln -fs "${path}dotfiles/polybar" "${path}/.config/"
+ln -fs "${path}dotfiles/.local" "${path}/"
+ln -fs "${path}dotfiles/.icons" "${path}/"
+ln -fs "${path}dotfiles/.themes" "${path}/"
+xrdb ~/.Xresources
 echo "Installation Completed"
