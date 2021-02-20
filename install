@@ -14,11 +14,6 @@ fi
 # Set root password
 sudo passwd root
 
-echo Copying files over
-sudo bash -c "cat ~/dotfiles/rc.local > /etc/rc.local"
-sudo chmod 760 /etc/rc.local
-
-source ~/.bashrc
 
 echo Updating repo
 sudo apt-get update
@@ -32,7 +27,6 @@ sudo apt -y install curl gtk2-engines-murrine gtk2-engines-pixbuf libnotify-bin 
 sudo dpkg -i ./keyring.deb
 sudo echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" >> /etc/apt/sources.list.d/sur5r-i3.list
 sudo apt update
-sudo apt install i3
 
 # Install base apps
 echo Installing base apps
@@ -44,7 +38,10 @@ curl https://raw.githubusercontent.com/mina86/urxvt-tabbedex/master/install | sh
 echo Installing i3-gaps
 sudo add-apt-repository ppa:kgilmer/speed-ricer
 sudo apt-get update
+sudo apt install i3-gaps-wm
+sudo apt install i3-wm
 sudo apt install i3-gaps
+sudo apt install i3
 
 # Install Vim plugins
 echo Installing Vim plugins
@@ -81,16 +78,19 @@ eval "${path}Apps/dwal/install.sh"
 sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
 xdg-mime default okularApplication_pdf.desktop application/pdf
 
+mkdir "${path}.config/i3"
+
 ln -fs "${path}dotfiles/.fehbg" "${path}.fehbg"
 ln -fs "${path}dotfiles/.vimrc" "${path}.vimrc"
 ln -fs "${path}dotfiles/.Xresources" "${path}.Xresources"
 ln -fs "${path}dotfiles/.bashrc" "${path}.bashrc"
-ln -fs "${path}dotfiles/i3/config" "${path}.config/i3/"
+ln -fs "${path}dotfiles/i3/config" "${path}.config/i3/config"
 ln -fs "${path}dotfiles/Scripts" "${path}Scripts"
-ln -fs "${path}dotfiles/terminator" "${path}.config/"
 ln -fs "${path}dotfiles/polybar" "${path}.config/"
 ln -fs "${path}dotfiles/.local" "${path}/"
 ln -fs "${path}dotfiles/.icons" "${path}/"
 ln -fs "${path}dotfiles/.themes" "${path}/"
+
 xrdb ~/.Xresources
+source ~/.bashrc
 echo "Installation Completed"
