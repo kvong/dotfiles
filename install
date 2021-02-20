@@ -87,9 +87,9 @@ ln -fs "${path}dotfiles/.bashrc" "${path}.bashrc"
 ln -fs "${path}dotfiles/i3/config" "${path}.config/i3/"
 ln -fs "${path}dotfiles/Scripts" "${path}"
 ln -fs "${path}dotfiles/polybar" "${path}.config/"
-ln -fs "${path}dotfiles/.local" "${path}/"
-ln -fs "${path}dotfiles/.icons" "${path}/"
-ln -fs "${path}dotfiles/.themes" "${path}/"
+ln -fs "${path}dotfiles/.local" "${path}"
+ln -fs "${path}dotfiles/.icons" "${path}"
+ln -fs "${path}dotfiles/.themes" "${path}"
 
 xrdb ~/.Xresources
 source ~/.bashrc
