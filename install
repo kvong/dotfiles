@@ -80,12 +80,12 @@ xdg-mime default okularApplication_pdf.desktop application/pdf
 
 mkdir "${path}.config/i3"
 
-ln -fs "${path}dotfiles/.fehbg" "${path}.fehbg"
-ln -fs "${path}dotfiles/.vimrc" "${path}.vimrc"
-ln -fs "${path}dotfiles/.Xresources" "${path}.Xresources"
+ln -fs "${path}dotfiles/.fehbg" "${path}"
+ln -fs "${path}dotfiles/.vimrc" "${path}"
+ln -fs "${path}dotfiles/.Xresources" "${path}"
 ln -fs "${path}dotfiles/.bashrc" "${path}.bashrc"
-ln -fs "${path}dotfiles/i3/config" "${path}.config/i3/config"
-ln -fs "${path}dotfiles/Scripts" "${path}Scripts"
+ln -fs "${path}dotfiles/i3/config" "${path}.config/i3/"
+ln -fs "${path}dotfiles/Scripts" "${path}"
 ln -fs "${path}dotfiles/polybar" "${path}.config/"
 ln -fs "${path}dotfiles/.local" "${path}/"
 ln -fs "${path}dotfiles/.icons" "${path}/"
