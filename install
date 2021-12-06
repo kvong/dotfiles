@@ -124,6 +124,7 @@ git clone https://github.com/jaagr/polybar.git ~/.config/i3/polybar
 cd ~/.config/i3/polybar && ./build.sh
 sudo apt install python3-pip
 sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib pathlib
+sudo pip3 install --user i3-layouts
 git clone https://github.com/kvong/polybar-gmail.git gmail
 
 # Install java 8

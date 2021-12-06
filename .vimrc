@@ -30,14 +30,14 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdtree'
 Plugin 'sirver/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'xuhdev/vim-latex-live-preview'
-Plugin 'lervag/vimtex'
+" Plugin 'xuhdev/vim-latex-live-preview'
+" Plugin 'lervag/vimtex'
 Plugin 'vimwiki/vimwiki'
 Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
+" Plugin 'plasticboy/vim-markdown'
 Plugin 'dhruvasagar/vim-table-mode'
 Plugin 'easymotion/vim-easymotion'
-Plugin 'JamshedVesuna/vim-markdown-preview'
+" Plugin 'JamshedVesuna/vim-markdown-preview'
 
 " vim table
 "function! s:isAtStartOfLine(mapping)
@@ -55,19 +55,19 @@ Plugin 'JamshedVesuna/vim-markdown-preview'
 "          \ '<c-o>:silent! TableModeDisable<cr>' : '__'
 
 " vim markdown preview to use grip
-let vim_markdown_preview_github=1
-let vim_markdown_preview_toggle=3
-let vim_markdown_preview_browser='Mozilla Firefox'
+" let vim_markdown_preview_github=1
+" let vim_markdown_preview_toggle=3
+" let vim_markdown_preview_browser='Mozilla Firefox'
 
 " Config for vimwiki
 "let g:vimwiki_list = [{'path': '~/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
 
 " Config for LaTex
-let g:tex_flavor='latex'
-let g:vimtex_view_method='zathura'
-let g:vimtex_quickfix_mode=0
-set conceallevel=1
-let g:tex_conceal='abdmg'
+" let g:tex_flavor='latex'
+" let g:vimtex_view_method='zathura'
+" let g:vimtex_quickfix_mode=0
+" set conceallevel=1
+" let g:tex_conceal='abdmg'
 
 " Add plugins before the following line
 call vundle#end()            " required
