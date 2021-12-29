@@ -22,8 +22,12 @@ else
 	do
 		mkdir ./"$arg" && mkdir ./"$arg"/include ./"$arg"/src ./"$arg"/src/.obj && touch ./"$arg"/README ./"$arg"/src/main.c
 		cat ~/Scripts/SampleMakefile > ./"$arg"/src/Makefile 
-		mkdir ~/.repo/"$arg".git && git init --bare ~/.repo/"$arg".git
-		cd "$arg" && git init && git remote add origin ~/.repo/"$arg".git && cd ..
+		# UNCOMMENT TO INITIALIZE GIT
+        # if [[ ! -d ~/.repo ]]; then
+        #     mkdir ~/.repo
+        # fi
+		# mkdir ~/.repo/"$arg".git && git init --bare ~/.repo/"$arg".git
+        # cd "$arg" && git init && git remote add origin ~/.repo/"$arg".git && cd ..
 	done
 	exit 0;	
 fi
