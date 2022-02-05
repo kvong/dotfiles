@@ -1,5 +1,5 @@
 # Things To Install For Ubuntu 20.04
-## I3 Screenshot
+## QTile Screenshot
 ![](./screenshots/sample-qtile.png)
 
 ## Installing QTile
