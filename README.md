@@ -4,7 +4,11 @@
 
 ## Installing QTile
 - Run qtile-install script
-- Use Hack Nerd Font: [guide](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/Hack)
+- Download NerdFront [here](https://www.nerdfonts.com/font-downloads).
+  1 Unzip the font
+  2 move to ~/.local/share/fonts/
+  3 Clear font cache fc-cache -f -v
+  4 Check font fc-match "<font-name>"
 - Move config files to .config/qtile/
 ```
 cp ~/dotfiles/.config/qtile/ ~/.config/qtile/

@@ -177,7 +177,7 @@ colors = {
 
 
 widget_defaults = dict(
-    font="Hack",
+    font="Hack Nerd Font",
     fontsize=16,
     background=colors['background']
 )
