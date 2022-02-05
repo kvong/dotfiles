@@ -12,14 +12,10 @@ cat ~/dotfiles/.vimrc > ~/.vimrc
 cat ~/dotfiles/.Xresources > ~/.Xresources
 cp -r ~/dotfiles/.bashrc ~/
 cp -r ~/dotfiles/dunst ~/.config/
-cp -r ~/dotfiles/i3 ~/.config/
 cp -r ~/dotfiles/Scripts ~/
-cp -r ~/dotfiles/terminator ~/.config/
-cp -r ~/dotfiles/polybar ~/.config/
 cp -r ~/dotfiles/.local ~/
 cp -r ~/dotfiles/.icons ~/
 cp -r ~/dotfiles/.themes ~/
-
 
 # Create note directory for notify scripts
 mkdir ~/Notes/
@@ -43,59 +39,11 @@ make
 sudo make install
 cat ~/dotfiles/dunst/dunstrc > ~/.config/dunst/dunstrc
 
-
-# Ensure stable release on i3 (Note: this contrains dmenu and i3lock)
-sudo /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2019.02.01_all.deb keyring.deb SHA256:176af52de1a976f103f9809920d80d02411ac5e763f695327de9fa6aff23f416
-sudo dpkg -i ./keyring.deb
-sudo bash -c "echo "deb https://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" >> /etc/apt/sources.list.d/sur5r-i3.list"
-sudo apt update
-
 # Install base apps
 echo Installing base apps
-sudo apt-get -y install rofi compton i3 lxappearance vim thunar terminator rxvt-unicode dunst feh neofetch python-pip autoconf vifm conky zathura okular
+sudo apt-get -y install rofi compton lxappearance vim thunar terminator rxvt-unicode dunst feh neofetch python-pip autoconf vifm conky zathura okular
 
 curl https://raw.githubusercontent.com/mina86/urxvt-tabbedex/master/install | sh
-
-# Install i3-gap dependencies
-echo Installing i3-gap dependencies
-sudo apt-get -y install libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev libxcb-icccm4-dev libyajl-dev libstartup-notification0-dev libxcb-randr0-dev libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev autoconf libxcb-xrm0 libxcb-xrm-dev automake libxcb-shape0-dev
-
-# Install i3lock-color (i3lock comes with i3wm)
-echo Installing i3lock-color
-sudo apt -y install libev-dev libxcb-composite0 libxcb-composite0-dev libxcb-xinerama0 libxcb-randr0 libxcb-xinerama0-dev libxcb-xkb-dev libxcb-image0-dev libxcb-util-dev libxkbcommon-x11-dev libjpeg-turbo8-dev libpam0g-dev
-
-# Install i3-gaps
-echo Installing i3-gaps
-git clone https://www.github.com/Airblader/i3 ~/.config/i3/i3-gaps
-cd ~/.config/i3/i3-gaps/
-autoreconf --force --install
-rm -rf build/
-mkdir -p build && cd build/
-../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
-make 
-sudo make install
-
-# Install i3lock-color
-echo Installing i3lock-color
-git clone https://github.com/PandorasFox/i3lock-color.git ~/.config/i3/i3lock-color
-cd ~/.config/i3/i3lock-color
-autoreconf --force --install
-rm -rf build/
-mkdir -p build && cd build/
-
-../configure \
-  --prefix=/usr \
-  --sysconfdir=/etc \
-  --disable-sanitizers
-make
-cat ~/dotfiles/i3/lock.sh > ~/.config/i3/i3lock-color/lock.sh
-
-# Install i3lock-fancy
-echo Installing i3lock-fancy
-git clone https://github.com/meskarune/i3lock-fancy.git ~/.config/i3/i3lock-fancy
-cd ~/.config/i3/i3lock-fancy
-sudo make install
-cat ~/dotfiles/scripts/i3lock-fancy > ~/.config/i3/i3lock-fancy/i3lock-fancy
 
 # Install Vim plugins
 echo Installing Vim plugins
@@ -117,42 +65,8 @@ vim +PluginInstall +qall
 
 cp -r ~/dotfiles/UltiSnips/ ~/.vim/bundle/vim-snippets/
 
-# Install Polybar
-echo Installing Polybar
-sudo apt-get -y install cmake cmake-data libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-composite0-dev xcb libxcb-ewmh2 libjsoncpp-dev
-git clone https://github.com/jaagr/polybar.git ~/.config/i3/polybar
-cd ~/.config/i3/polybar && ./build.sh
-sudo apt install python3-pip
-sudo pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib pathlib
-sudo pip3 install --user i3-layouts
-git clone https://github.com/kvong/polybar-gmail.git gmail
-
-# Install java 8
-echo Installing Java-8
-sudo apt install openjdk-8-jdk openjdk-8-jre
-sudo cat >> /etc/environment <<EOL
-JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
-EOL
-
-mkdir ~/Apps
-
-# Install dwal
-git clone https://github.com/adi1090x/dynamic-wallpaper.git ~/Apps/dwal
-chmod +x ~/Apps/install.sh
-~/Apps/install.sh
-
 # Install calibre
 sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
 xdg-mime default okularApplication_pdf.desktop application/pdf
-
-# Install webkit2-greeter
-echo 'deb http://download.opensuse.org/repositories/home:/antergos/Debian_9.0/ /' | sudo tee /etc/apt/sources.list.d/home:antergos.list
-curl -fsSL https://download.opensuse.org/repositories/home:antergos/Debian_9.0/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home:antergos.gpg > /dev/null
-sudo apt update
-sudo apt install lightdm-webkit2-greeter
-
-git clone https://github.com/jelenis/login-manager.git ~/lightdm-theme
-cp -r ~/lightdm-theme /usr/share/lightdm-webkit/themes/
 
 echo "Installation Completed"

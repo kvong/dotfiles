@@ -2,8 +2,6 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-export VISUAL=vim
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -89,6 +87,10 @@ fi
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -120,43 +122,50 @@ alias desk='cd ~/Desktop'
 alias down='cd ~/Downloads'
 alias scripts='cd ~/Scripts'
 alias cd.='cd ..'
-alias cdd='dirtree'
+alias cdd='dt'
 alias py='python3'
 alias delmar='myssh ksv3b4@delmar.umsl.edu'
 alias vis='vim -O'
 alias vi='vim -p'
 alias so='source'
-alias sob='source ~/.bashrc && echo ".bashrc updated!"'
+alias sob='source ~/.bashrc && notify-send "Updated" ".bashrc updated!" -i terminal'
 alias start='WorkSpace'
 alias sus='systemctl suspend'
+alias note='notify-note'
+alias tnote='nf ~/Notes/notes'
+alias enote='vi ~/Notes/notes'
 alias pm='pomodoro > /dev/null 2>&1 &'
-alias osmc='myssh osmc@192.168.1.210'
+alias osmc='myssh osmc@192.168.0.109'
+alias install='notify-install'
 alias ranger='urxvt -depth 24 -e "ranger" > /dev/null 2>&1 &'
 alias vpn='sudo openvpn /etc/openvpn/ovpn_tcp/ca916.nordvpn.com.tcp.ovpn'
 alias proc='ps -aux'
 alias brc='vi ~/.bashrc'
 alias clonedot='git clone https://github.com/kvong/dotfiles.git'
+alias tf='conda activate PythonCPU'
+alias nb='jupyter notebook && conda deactivate && conda deactivate'
 alias fs='~/Scripts/xps_audiofixer'
 alias rd='okular'
 alias tex='vi *.tex'
-alias vrc='vi ~/.vimrc'
+alias vifm.='vifm .'
+alias start-conda='eval "$(/home/blank/anaconda3/bin/conda shell.bash hook)"'
+alias uninstall-conda='rm -rfi ~/anaconda3'
+alias anav='anaconda-navigator &'
+alias rebootw='sudo grub-reboot 2 && reboot'
+alias venv='source ~/venv/bin/activate'
+alias mount-wd='sudo mount /dev/sdb2 ~/USB'
+alias umount-wd='sudo umount /dev/sdb2'
 alias netbeans='~/Desktop/netbeans-8.2.desktop &'
-alias ssh-desktop='ssh blank@192.168.1.200'
-alias graph='git log --all --decorate --oneline --graph'
-alias eplan='vi ~/Notes/planner'
-alias dplan='cat ~/Notes/planner'
-alias clib='echo "Opening calibre" && calibre &'
+alias clib='echo "Starting calibre" && calibre &'
 alias lv='ls -v'
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias serverpi='myssh serverpi@192.168.1.110'
+alias wordpress='cd /var/www/wordpress'
+alias serverpi='myssh serverpi@192.168.0.50'
+alias kpg='sftp -P 22 -i ~/Work/moistNgritty.pem khanh@3.16.220.195'
+alias restart_audio='pulseaudio -k && sudo alsa force-reload'
+alias xclip='xclip -se clipboard'
 
 CURDIR="$(cat ~/.latest-dir)"
-
-export DESKTOP='blank@192.168.1.200'
-export SERVERPI='serverpi@192.168.1.110'
+SERVERPI="serverpi@192.168.0.50"
 
 cd(){
     builtin cd "$@" && ls;
@@ -189,41 +198,28 @@ ex (){
   fi
 }
 
-printf "\033[01;36m┐\n"
-export PS1="\[\033[01;36m\]├─[\[\033[01;36m\]\[\033[01;37m\]blank\[\033[01;36m\]]──\[\033[01;37m\]\[\033[01;36m\][\[\033[01;37m\]\w/\[\033[01;36m\]]\[\033[01;32m\]:$\n\[\033[01;36m\]├────➤ \[\033[01;37m\]"
+printf "\033[01;35m┐\n"
+export PS1="\[\033[01;35m\]├─[\[\033[01;35m\]\[\033[01;37m\]\D{%A, %B %-d}\[\033[01;35m\]]──[\[\033[01;35m\]\[\033[01;37m\]\D{%-I:%M %p}\[\033[01;35m\]]──\[\033[01;37m\]\[\033[01;35m\][\[\033[01;37m\]\w/\[\033[01;35m\]]\[\033[01;31m\]:$\n\[\033[01;35m\]├────➤ \[\033[01;37m\]"
 export PATH="$PATH:/home/blank/Scripts"
-
 export PATH="${PATH}:${HOME}/.local/bin/"
+export PATH="${PATH}:/snap/bin"
+export PATH="${PATH}:/usr/bin/python3.7"
 
 set -o vi
 
-
-# Fast directory nagivation commands
-export MARKPATH=$HOME/.marks
-function jump {
-	cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
-}
-function mark {
-    mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
-}
-function unmark {
-	rm -i "$MARKPATH/$1"
-}
-function marks {
-    ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
-}
-
-# Fast navigation autocomplete
-_completemarks() {
-  local curw=${COMP_WORDS[COMP_CWORD]}
-  local wordlist=$(find $MARKPATH -type l -printf "%f\n")
-  COMPREPLY=($(compgen -W '${wordlist[@]}' -- "$curw"))
-  return 0
-}
-
-complete -F _completemarks jump unmark
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
 cd $CURDIR
+alias config='/usr/bin/git --git-dir=/home/blank/.cfg/ --work-tree=/home/blank'
+
+source $HOME/.keychain/$HOSTNAME-sh
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+alias bssh="~/Work/better-server-ssh/bssh.sh"
+
+alias update_bssh="~/Scripts/update_ac.sh < ~/Scripts/servers && echo '~/.ssh/acc.list updated!'"
+# eval "$(starship init bash)"
