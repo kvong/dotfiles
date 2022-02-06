@@ -35,6 +35,7 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, 
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
+# MOD1 = ALT
 mod = "mod1"
 
 keys = [
@@ -78,11 +79,14 @@ keys = [
     #Key([mod], "d", lazy.spawn('/home/blank/Scripts/dmenu-launcher'), desc="Spawn a command using a dmenu launcher"),
     Key([mod], "d", lazy.spawn('rofi -show run -config ~/.config/qtile/rofi/config'), desc="Spawn a command using a rofi launcher"),
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating and tilling"),
+
+    # Open Scratchpads
     Key([mod], 'g', lazy.group['scratchpad'].dropdown_toggle('gedit')),
     Key([mod], 'i', lazy.group['scratchpad'].dropdown_toggle('urxvt')),
 ]
 
 workspaces = [
+    # Main Workspaces
     {"name": "TERM", "key": "1", "matches": [Match(wm_class="urxvt")]},
     {"name": "WEB", "key": "2", "matches": [Match(wm_class="Firefox")]},
     {"name": "CODE", "key": "3", "matches": [
@@ -90,30 +94,13 @@ workspaces = [
         Match(wm_class="code"),
         ]
     },
+    # Temporary Workspaces
     {"name": "FILE", "key": "4", "matches": [Match(wm_class="Thunar")]},
     {"name": "TEMP-Q", "key": "q"},
     {"name": "TEMP-W", "key": "w"},
     {"name": "TEMP-E", "key": "e"},
     {"name": "TEMP-R", "key": "r"},
 ]
-
-
-# groups = [Group(i) for i in "123456789"]
-
-# for i in groups:
-#     keys.extend([
-#         # mod1 + letter of group = switch to group
-#         Key([mod], i.name, lazy.group[i.name].toscreen(),
-#             desc="Switch to group {}".format(i.name)),
-# 
-#         # mod1 + shift + letter of group = switch to & move focused window to group
-#         Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
-#             desc="Switch to & move focused window to group {}".format(i.name)),
-#         # Or, use below if you prefer not to switch to that group.
-#         # # mod1 + shift + letter of group = move focused window to group
-#         # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-#         #     desc="move focused window to group {}".format(i.name)),
-#     ])
 
 # ScratchPad
 groups = [ScratchPad("scratchpad", [
@@ -122,6 +109,7 @@ groups = [ScratchPad("scratchpad", [
 ])]
 
 
+# Add workspaces to groups
 for workspace in workspaces:
     matches = workspace["matches"] if "matches" in workspace else None
     groups.append(Group(workspace["name"], matches=matches))
@@ -145,8 +133,8 @@ for workspace in workspaces:
 
 
 layouts = [
-    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     # Try more layouts by unleashing below layouts.
+    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     # layout.Stack(num_stacks=2),
     # layout.Bsp(),
     # layout.Matrix(),
@@ -181,8 +169,10 @@ widget_defaults = dict(
     fontsize=16,
     background=colors['background']
 )
+
 extension_defaults = widget_defaults.copy()
 
+# Defautl group settings
 group_box_settings = {
     "padding" : 15,
     "borderwidth" : 3,
@@ -211,20 +201,9 @@ screens = [
         bottom=bar.Bar(
             [
                 widget.CurrentLayout(),
+                # Use multiple GroupBox to categorize primary and secondary goups
                 widget.GroupBox(
-                    visible_groups=["TERM"],
-                    **group_box_settings,
-                ),
-                widget.GroupBox(
-                    visible_groups=["WEB"],
-                    **group_box_settings,
-                ),
-                widget.GroupBox(
-                    visible_groups=["CODE"],
-                    **group_box_settings,
-                ),
-                widget.GroupBox(
-                    visible_groups=["FILE"],
+                    visible_groups=["TERM", "WEB", "CODE", "FILES"],
                     **group_box_settings,
                 ),
                 widget.GroupBox(
@@ -232,23 +211,34 @@ screens = [
                     hide_unused=True,
                     **group_box_settings,
                 ),
-                widget.Prompt(),
                 widget.Spacer(),
+
+                # STOCK TICKER
                 widget.TextBox(text="", foreground=colors['yellow'], background=colors['background'], padding=0, fontsize=35),
                 widget.StockTicker(apikey="3W00AQFI6A694UHQ", symbol="ETH", interval="5min", function="CRYPTO_INTRADAY", market="USD", background=colors['yellow'], foreground=colors['background'] ),
                 widget.TextBox(text="", foreground=colors['background'], background=colors['yellow'], padding=0, fontsize=28),
+
+                # CPU
                 widget.TextBox(text="", foreground=colors['green'], background=colors['background'], padding=0, fontsize=35),
                 widget.CPU( background=colors['green'], foreground=colors['background'] ),
                 widget.TextBox(text="", foreground=colors['background'], background=colors['green'], padding=0, fontsize=28),
+
+                # MEMORY
                 widget.TextBox(text="", foreground=colors['teal'], background=colors['background'], padding=0, fontsize=35),
                 widget.Memory( format="RAM: {MemUsed: .0f}/{MemTotal: .0f}{mm}", measure_mem="G", background=colors['teal'], foreground=colors['background'] ),
                 widget.TextBox(text="", foreground=colors['background'], background=colors['teal'], padding=0, fontsize=28),
+
+                # NETWORK
                 widget.TextBox(text="", foreground=colors['blue'], background=colors['background'], padding=0, fontsize=35),
                 widget.Net(interface="enp0s31f6", background=colors['blue'], foreground=colors['background'], format="{down} ↓↑ {up}" ),
                 widget.TextBox(text="", foreground=colors['background'], background=colors['blue'], padding=0, fontsize=28),
+
+                # DATE
                 widget.TextBox(text="", foreground=colors['violet'], background=colors['background'], padding=0, fontsize=35),
                 widget.Clock(format="%a %I:%M %p", background=colors['violet'], foreground=colors['background'] ),
                 widget.TextBox(text="", foreground=colors['background'], background=colors['violet'], padding=0, fontsize=28),
+
+                # LOGOUT
                 widget.TextBox(text="", foreground=colors['red'], background=colors['background'], padding=0, fontsize=35),
                 widget.QuickExit( default_text="Logout ", background=colors['red'], foreground=colors['background'] ),
                 widget.TextBox(text="", foreground=colors['background'], background=colors['red'], padding=0, fontsize=28),
