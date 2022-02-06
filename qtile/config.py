@@ -28,12 +28,19 @@ import os
 import subprocess
 import time
 
-from typing import List  # noqa: F401
+from typing import List, Dict  # noqa: F401
 
 from libqtile import bar, layout, widget, hook, qtile
 from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown, Match
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+from libqtile.widget.generic_poll_text import GenPollUrl
+from libqtile.widget import base
+from urllib.parse import urlencode
+from datetime import datetime
+import locale
+import finnhub
+import json
 
 # MOD1 = ALT
 mod = "mod1"
@@ -130,8 +137,6 @@ for workspace in workspaces:
         )
     )
 
-
-
 layouts = [
     # Try more layouts by unleashing below layouts.
     # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
@@ -155,6 +160,7 @@ colors = {
     'teal' : ['#8abeb7','#8abeb7'],
     'green' : ['#b5bd68','#b5bd68'],
     'yellow' : ['#f0c674','#f0c674'],
+    'orange' : ['#FF9966','#FF9966'],
     'white' : ['#ffffff','#ffffff'],
     'black' : ['#000000','#000000'],
     'active': ["#ecf0c1", "#ecf0c1"],  # ACTIVE WORKSPACES
@@ -192,67 +198,6 @@ group_box_settings = {
     "foreground" : colors['white'],
     "background" : colors['background'],
 }
-
-
-screens = [
-    Screen(
-        wallpaper="~/Pictures/bg.jpg",
-        wallpaper_mode="stretch",
-        bottom=bar.Bar(
-            [
-                widget.CurrentLayout(),
-                # Use multiple GroupBox to categorize primary and secondary goups
-                widget.GroupBox(
-                    visible_groups=["TERM", "WEB", "CODE", "FILES"],
-                    **group_box_settings,
-                ),
-                widget.GroupBox(
-                    visible_groups=["TEMP-Q","TEMP-W","TEMP-E","TEMP-R"],
-                    hide_unused=True,
-                    **group_box_settings,
-                ),
-                widget.Spacer(),
-
-                # STOCK TICKER
-                widget.TextBox(text="", foreground=colors['yellow'], background=colors['background'], padding=0, fontsize=35),
-                widget.StockTicker(apikey="3W00AQFI6A694UHQ", symbol="ETH", interval="5min", function="CRYPTO_INTRADAY", market="USD", background=colors['yellow'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['yellow'], padding=0, fontsize=28),
-
-                # CPU
-                widget.TextBox(text="", foreground=colors['green'], background=colors['background'], padding=0, fontsize=35),
-                widget.CPU( background=colors['green'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['green'], padding=0, fontsize=28),
-
-                # MEMORY
-                widget.TextBox(text="", foreground=colors['teal'], background=colors['background'], padding=0, fontsize=35),
-                widget.Memory( format="RAM: {MemUsed: .0f}/{MemTotal: .0f}{mm}", measure_mem="G", background=colors['teal'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['teal'], padding=0, fontsize=28),
-
-                # NETWORK
-                widget.TextBox(text="", foreground=colors['blue'], background=colors['background'], padding=0, fontsize=35),
-                widget.Net(interface="enp0s31f6", background=colors['blue'], foreground=colors['background'], format="{down} ↓↑ {up}" ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['blue'], padding=0, fontsize=28),
-
-                # DATE
-                widget.TextBox(text="", foreground=colors['violet'], background=colors['background'], padding=0, fontsize=35),
-                widget.Clock(format="%a %I:%M %p", background=colors['violet'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['violet'], padding=0, fontsize=28),
-
-                # LOGOUT
-                widget.TextBox(text="", foreground=colors['red'], background=colors['background'], padding=0, fontsize=35),
-                widget.QuickExit( default_text="Logout ", background=colors['red'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['red'], padding=0, fontsize=28),
-            ],
-            26,
-            border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            border_color=colors['background'][0],  # Borders are magenta
-            margin=[5,10,10,10],
-        ),
-        left=bar.Gap(10),
-        right=bar.Gap(10),
-        top=bar.Gap(10),
-    ),
-]
 
 # Drag floating layouts.
 mouse = [
@@ -302,3 +247,117 @@ def autostart():
     home = os.path.expanduser('~')
     subprocess.call([home + '/.config/qtile/autostart.sh'])
 
+# Widget to cycle through a list of ticker symbols
+class StockTickerNew(base.ThreadPoolText):
+    ticker_length = 0
+    ticker_counter = -1
+
+    # Save some API calls in afterhours and weekend by adding caching
+    ticker_table: Dict[str, str] = {}
+
+    defaults = [
+        ("symbols", ["AAPL"], "Symbols for quote lookup"),
+        ("token", "", "API key for Finnhub"),
+        ("update_interval", 10.0, "Update interval for ticker refresh"),
+        ("format", "{symbol}: {sign}{price}", "Update interval for ticker refresh"),
+    ]
+    def __init__( self, **config):
+        super().__init__("", **config)
+        self.sign = locale.localeconv()["currency_symbol"]
+        self.add_defaults(StockTickerNew.defaults)
+        StockTickerNew.ticker_length = len(self.symbols)
+
+    # Cycle throught list of tickers
+    @staticmethod
+    def cycle_tickers():
+        StockTickerNew.ticker_counter = ( StockTickerNew.ticker_counter + 1 ) % StockTickerNew.ticker_length
+        
+    def poll(self):
+        StockTickerNew.cycle_tickers()
+
+        day_int = datetime.today().isoweekday()
+        current_hour = int(datetime.now().strftime("%H"))
+        ticker=self.symbols[StockTickerNew.ticker_counter]
+
+        # Disable api calls on afterhour or weekends, only make api call if cache is empty
+        if day_int < 5 or (current_hour < 15 and current_hour > 8) or len(StockTickerNew.ticker_table) < StockTickerNew.ticker_length:
+            finnhub_client = finnhub.Client(api_key=self.token)
+            response = finnhub_client.quote(self.symbols[StockTickerNew.ticker_counter])
+            str_response = str(response).replace("'", '"')
+            data = json.loads(str_response)
+            price = str(data['c'])
+            StockTickerNew.ticker_table[ticker] = price # Add ticker:price to cache table
+            return self.format.format(symbol=ticker, sign=self.sign, price=price)
+        price = StockTickerNew.ticker_table[ticker] 
+        return "望 " + self.format.format(symbol=ticker, sign=self.sign, price=price)
+
+# For security purposes put api key in local .env file
+f_env = open(str(os.path.expanduser("~")) + "/.config/qtile/.env", "r")
+finnhub_api_key = f_env.readline().strip()
+alphavan_api_key = f_env.readline().strip()
+f_env.close()
+
+screens = [
+    Screen(
+        wallpaper="~/Pictures/bg.jpg",
+        wallpaper_mode="stretch",
+        bottom=bar.Bar(
+            [
+                widget.CurrentLayout(),
+                # Use multiple GroupBox to categorize primary and secondary goups
+                widget.GroupBox(
+                    visible_groups=["TERM", "WEB", "CODE", "FILES"],
+                    **group_box_settings,
+                ),
+                widget.GroupBox(
+                    visible_groups=["TEMP-Q","TEMP-W","TEMP-E","TEMP-R"],
+                    hide_unused=True,
+                    **group_box_settings,
+                ),
+                widget.Spacer(),
+
+                # STOCK TICKER NEW
+                widget.TextBox(text="", foreground=colors['orange'], background=colors['background'], padding=0, fontsize=35),
+                StockTickerNew(token=api_key, symbols=["AMZN", "FB", "AAPL"], background=colors['orange'], foreground=colors['background'] ),
+                widget.TextBox(text="", foreground=colors['background'], background=colors['orange'], padding=0, fontsize=28),
+                
+                # STOCK TICKER
+                widget.TextBox(text="", foreground=colors['yellow'], background=colors['background'], padding=0, fontsize=35),
+                widget.StockTicker(apikey=alphavan_api_key, symbol="ETH", interval="5min", function="CRYPTO_INTRADAY", market="USD", background=colors['yellow'], foreground=colors['background'] ),
+                widget.TextBox(text="", foreground=colors['background'], background=colors['yellow'], padding=0, fontsize=28),
+
+                # CPU
+                widget.TextBox(text="", foreground=colors['green'], background=colors['background'], padding=0, fontsize=35),
+                widget.CPU( background=colors['green'], foreground=colors['background'] ),
+                widget.TextBox(text="", foreground=colors['background'], background=colors['green'], padding=0, fontsize=28),
+
+                # MEMORY
+                widget.TextBox(text="", foreground=colors['teal'], background=colors['background'], padding=0, fontsize=35),
+                widget.Memory( format="RAM: {MemUsed: .0f}/{MemTotal: .0f}{mm}", measure_mem="G", background=colors['teal'], foreground=colors['background'] ),
+                widget.TextBox(text="", foreground=colors['background'], background=colors['teal'], padding=0, fontsize=28),
+
+                # NETWORK
+                widget.TextBox(text="", foreground=colors['blue'], background=colors['background'], padding=0, fontsize=35),
+                widget.Net(interface="enp0s31f6", background=colors['blue'], foreground=colors['background'], format="{down} ↓↑ {up}" ),
+                widget.TextBox(text="", foreground=colors['background'], background=colors['blue'], padding=0, fontsize=28),
+
+                # DATE
+                widget.TextBox(text="", foreground=colors['violet'], background=colors['background'], padding=0, fontsize=35),
+                widget.Clock(format="%a %I:%M %p", background=colors['violet'], foreground=colors['background'] ),
+                widget.TextBox(text="", foreground=colors['background'], background=colors['violet'], padding=0, fontsize=28),
+
+                # LOGOUT
+                widget.TextBox(text="", foreground=colors['red'], background=colors['background'], padding=0, fontsize=35),
+                widget.QuickExit( default_text="Logout ", background=colors['red'], foreground=colors['background'] ),
+                widget.TextBox(text="", foreground=colors['background'], background=colors['red'], padding=0, fontsize=28),
+            ],
+            26,
+            border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            border_color=colors['background'][0],  # Borders are magenta
+            margin=[5,10,10,10],
+        ),
+        left=bar.Gap(10),
+        right=bar.Gap(10),
+        top=bar.Gap(10),
+    ),
+]
