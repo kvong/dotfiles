@@ -248,7 +248,7 @@ def autostart():
     subprocess.call([home + '/.config/qtile/autostart.sh'])
 
 # Widget to cycle through a list of ticker symbols
-class StockTickerNew(base.ThreadPoolText):
+class StockTickerNew(base.InLoopPollText):
     ticker_length = 0
     ticker_counter = -1
 
@@ -318,7 +318,7 @@ screens = [
 
                 # STOCK TICKER NEW
                 widget.TextBox(text="", foreground=colors['orange'], background=colors['background'], padding=0, fontsize=35),
-                StockTickerNew(token=finnhub_api_key, symbols=["AMZN", "FB", "AAPL"], background=colors['orange'], foreground=colors['background'] ),
+                StockTickerNew(token=finnhub_api_key, symbols=["NVDA", "AMZN", "FB", "AAPL"], background=colors['orange'], foreground=colors['background'] ),
                 widget.TextBox(text="", foreground=colors['background'], background=colors['orange'], padding=0, fontsize=28),
                 
                 # STOCK TICKER
