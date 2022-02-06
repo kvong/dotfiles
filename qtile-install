@@ -17,7 +17,7 @@ python3.7 -m venv ~/local/qtile/qtile-env/
 source ~/local/qtile/qtile-env/bin/activate
 
 # Install dependencies
-python3.7 -m pip install xcffib psutil
+python3.7 -m pip install xcffib psutil finnhub-python
 python3.7 -m pip install --no-cache-dir cairocffi
 
 cat > /home/$USER/local/qtile/qtile-venv-entry <<EOF
