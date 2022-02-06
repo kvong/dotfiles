@@ -318,7 +318,7 @@ screens = [
 
                 # STOCK TICKER NEW
                 widget.TextBox(text="", foreground=colors['orange'], background=colors['background'], padding=0, fontsize=35),
-                StockTickerNew(token=api_key, symbols=["AMZN", "FB", "AAPL"], background=colors['orange'], foreground=colors['background'] ),
+                StockTickerNew(token=finnhub_api_key, symbols=["AMZN", "FB", "AAPL"], background=colors['orange'], foreground=colors['background'] ),
                 widget.TextBox(text="", foreground=colors['background'], background=colors['orange'], padding=0, fontsize=28),
                 
                 # STOCK TICKER
