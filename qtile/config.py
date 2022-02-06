@@ -280,7 +280,7 @@ class StockTickerNew(base.ThreadPoolText):
         ticker=self.symbols[StockTickerNew.ticker_counter]
 
         # Disable api calls on afterhour or weekends, only make api call if cache is empty
-        if day_int < 5 or (current_hour < 15 and current_hour > 8) or len(StockTickerNew.ticker_table) < StockTickerNew.ticker_length:
+        if (day_int < 5 and current_hour < 15 and current_hour > 8) or len(StockTickerNew.ticker_table) < StockTickerNew.ticker_length:
             finnhub_client = finnhub.Client(api_key=self.token)
             response = finnhub_client.quote(self.symbols[StockTickerNew.ticker_counter])
             str_response = str(response).replace("'", '"')
