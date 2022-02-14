@@ -102,7 +102,7 @@ workspaces = [
         ]
     },
     # Temporary Workspaces
-    {"name": "FILE", "key": "4", "matches": [Match(wm_class="Thunar")]},
+    {"name": "FILES", "key": "4", "matches": [Match(wm_class="Thunar"),Match(wm_class="Filezilla")]},
     {"name": "TEMP-Q", "key": "q"},
     {"name": "TEMP-W", "key": "w"},
     {"name": "TEMP-E", "key": "e"},
@@ -280,7 +280,7 @@ class StockTickerNew(base.InLoopPollText):
         ticker=self.symbols[StockTickerNew.ticker_counter]
 
         # Disable api calls on afterhour or weekends, only make api call if cache is empty
-        if (day_int < 5 and current_hour < 15 and current_hour > 8) or len(StockTickerNew.ticker_table) < StockTickerNew.ticker_length:
+        if (day_int <= 5 and current_hour < 15 and current_hour > 8) or len(StockTickerNew.ticker_table) < StockTickerNew.ticker_length:
             finnhub_client = finnhub.Client(api_key=self.token)
             response = finnhub_client.quote(self.symbols[StockTickerNew.ticker_counter])
             str_response = str(response).replace("'", '"')
