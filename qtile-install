@@ -6,19 +6,19 @@
 USER=$(whoami)
 
 # Install Python
-sudo apt-get install python3.7 python3.7-dev pyhon3.7-venv
+sudo apt-get install python3.8 python3.8-dev pyhon3.8-venv
 
 # Get qtile
 mkdir -p ~/local/
 git clone https://github.com/qtile/qtile.git
 
-# Create and enter python3.7 environment
-python3.7 -m venv ~/local/qtile/qtile-env/
+# Create and enter python3.8 environment
+python3.8 -m venv ~/local/qtile/qtile-env/
 source ~/local/qtile/qtile-env/bin/activate
 
 # Install dependencies
-python3.7 -m pip install xcffib psutil finnhub-python
-python3.7 -m pip install --no-cache-dir cairocffi
+python3.8 -m pip install xcffib psutil finnhub-python
+python3.8 -m pip install --no-cache-dir cairocffi
 
 cat > /home/$USER/local/qtile/qtile-venv-entry <<EOF
 #!/bin/bash

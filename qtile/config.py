@@ -42,6 +42,93 @@ import locale
 import finnhub
 import json
 
+#### CLASSES ####
+# Widget to display percentage left of set time
+class WorkCountDown(base.InLoopPollText):
+
+    defaults = [
+        ("end_time", 5, ""),
+        ("update_interval", 10.0, "Update interval for ticker refresh"),
+        ("active_icon", "+", ""),
+        ("inactive_icon", "-", ""),
+    ]
+    def __init__( self, **config):
+        super().__init__("", **config)
+
+    def poll(self):
+        now = datetime.now()
+        hour_remaining = 16 - now.hour
+        minutes_remaining = 60 - now.minute
+        milisec_remaining = (hour_remaining * 60 * 3600) + (minutes_remaining * 3600 )
+        milisec_total = 8 * 60 * 3600
+        percentage_remaining_tenth = ( milisec_remaining / milisec_total ) * 10
+        percentage_remaining_hundreth = ( milisec_remaining / milisec_total ) * 100
+        output = ''
+        if ( percentage_remaining_tenth < 0 ):
+            return 'DONE'
+        for i in range( 10 ):
+            if i < percentage_remaining_tenth -1:
+                output = output + ' '
+            elif i < percentage_remaining_tenth:
+                output = output + ' '
+            else:
+                output = output + ' '
+        output = output + ' %d%%' % ( percentage_remaining_hundreth )
+        return output
+
+
+# Widget to cycle through a list of ticker symbols
+class StockTickerNew(base.InLoopPollText):
+    ticker_length = 0
+    ticker_counter = -1
+
+    # Save some API calls in afterhours and weekend by adding caching
+    ticker_table: Dict[str, str] = {}
+
+    defaults = [
+        ("symbols", ["AAPL"], "Symbols for quote lookup"),
+        ("token", "", "API key for Finnhub"),
+        ("update_interval", 10.0, "Update interval for ticker refresh"),
+        ("format", "{symbol}: {sign}{price}", "Update interval for ticker refresh"),
+    ]
+    def __init__( self, **config):
+        super().__init__("", **config)
+        self.sign = locale.localeconv()["currency_symbol"]
+        self.add_defaults(StockTickerNew.defaults)
+        StockTickerNew.ticker_length = len(self.symbols)
+
+    # Cycle throught list of tickers
+    @staticmethod
+    def cycle_tickers():
+        StockTickerNew.ticker_counter = ( StockTickerNew.ticker_counter + 1 ) % StockTickerNew.ticker_length
+        
+    def poll(self):
+        StockTickerNew.cycle_tickers()
+
+        day_int = datetime.today().isoweekday()
+        current_hour = int(datetime.now().strftime("%H"))
+        ticker=self.symbols[StockTickerNew.ticker_counter]
+
+        # Disable api calls on afterhour or weekends, only make api call if cache is empty
+        if (day_int <= 5 and current_hour < 15 and current_hour > 8) or len(StockTickerNew.ticker_table) < StockTickerNew.ticker_length:
+            finnhub_client = finnhub.Client(api_key=self.token)
+            response = finnhub_client.quote(self.symbols[StockTickerNew.ticker_counter])
+            str_response = str(response).replace("'", '"')
+            data = json.loads(str_response)
+            price = str(data['c'])
+            StockTickerNew.ticker_table[ticker] = price # Add ticker:price to cache table
+            return self.format.format(symbol=ticker, sign=self.sign, price=price)
+        price = StockTickerNew.ticker_table[ticker] 
+        return "望 " + self.format.format(symbol=ticker, sign=self.sign, price=price)
+
+#### FUNCTIONS ####
+@hook.subscribe.startup_once
+def autostart():
+    """Start the applications at Qtile startup."""
+    home = os.path.expanduser('~')
+    subprocess.call([home + '/.config/qtile/autostart.sh'])
+    bottom.show(True)
+
 # MOD1 = ALT
 mod = "mod1"
 
@@ -67,6 +154,8 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.shrink(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    # Hide bar for emersive experience
+    Key([mod], "f", lazy.hide_show_bar("bottom"), desc="Hides the bar"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -84,7 +173,7 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     #Key([mod], "d", lazy.spawn('/home/blank/Scripts/dmenu-launcher'), desc="Spawn a command using a dmenu launcher"),
-    Key([mod], "d", lazy.spawn('rofi -show run -config ~/.config/qtile/rofi/config'), desc="Spawn a command using a rofi launcher"),
+    Key([mod], "d", lazy.spawn('rofi -show run -theme ~/.config/qtile/rofi/sidetab-adapta.rasi'), desc="Spawn a command using a rofi launcher"),
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating and tilling"),
 
     # Open Scratchpads
@@ -172,7 +261,7 @@ colors = {
 
 widget_defaults = dict(
     font="Hack Nerd Font",
-    fontsize=16,
+    fontsize=12,
     background=colors['background']
 )
 
@@ -180,7 +269,7 @@ extension_defaults = widget_defaults.copy()
 
 # Defautl group settings
 group_box_settings = {
-    "padding" : 15,
+    "padding" : 10,
     "borderwidth" : 3,
     "active" : colors['active'],
     "inactive" : colors['inactive'],
@@ -188,8 +277,8 @@ group_box_settings = {
     "rounded" : True,
     "margin_y" : 3,
     "margin_x" : 2,
-    "padding_y" : 5,
-    "padding_x" : 8,
+    "padding_y" : 2,
+    "padding_x" : 4,
     #"hide_unused" :True,
     "highlight_color" : colors['background-active'],
     "highlight_method" : "block",
@@ -241,56 +330,8 @@ auto_minimize = True
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
 
-@hook.subscribe.startup_once
-def autostart():
-    """Start the applications at Qtile startup."""
-    home = os.path.expanduser('~')
-    subprocess.call([home + '/.config/qtile/autostart.sh'])
-
-# Widget to cycle through a list of ticker symbols
-class StockTickerNew(base.InLoopPollText):
-    ticker_length = 0
-    ticker_counter = -1
-
-    # Save some API calls in afterhours and weekend by adding caching
-    ticker_table: Dict[str, str] = {}
-
-    defaults = [
-        ("symbols", ["AAPL"], "Symbols for quote lookup"),
-        ("token", "", "API key for Finnhub"),
-        ("update_interval", 10.0, "Update interval for ticker refresh"),
-        ("format", "{symbol}: {sign}{price}", "Update interval for ticker refresh"),
-    ]
-    def __init__( self, **config):
-        super().__init__("", **config)
-        self.sign = locale.localeconv()["currency_symbol"]
-        self.add_defaults(StockTickerNew.defaults)
-        StockTickerNew.ticker_length = len(self.symbols)
-
-    # Cycle throught list of tickers
-    @staticmethod
-    def cycle_tickers():
-        StockTickerNew.ticker_counter = ( StockTickerNew.ticker_counter + 1 ) % StockTickerNew.ticker_length
-        
-    def poll(self):
-        StockTickerNew.cycle_tickers()
-
-        day_int = datetime.today().isoweekday()
-        current_hour = int(datetime.now().strftime("%H"))
-        ticker=self.symbols[StockTickerNew.ticker_counter]
-
-        # Disable api calls on afterhour or weekends, only make api call if cache is empty
-        if (day_int <= 5 and current_hour < 15 and current_hour > 8) or len(StockTickerNew.ticker_table) < StockTickerNew.ticker_length:
-            finnhub_client = finnhub.Client(api_key=self.token)
-            response = finnhub_client.quote(self.symbols[StockTickerNew.ticker_counter])
-            str_response = str(response).replace("'", '"')
-            data = json.loads(str_response)
-            price = str(data['c'])
-            StockTickerNew.ticker_table[ticker] = price # Add ticker:price to cache table
-            return self.format.format(symbol=ticker, sign=self.sign, price=price)
-        price = StockTickerNew.ticker_table[ticker] 
-        return "望 " + self.format.format(symbol=ticker, sign=self.sign, price=price)
-
+finnhub_api_key = ""
+alphavan_api_key = ""
 # For security purposes put api key in local .env file
 f_env = open(str(os.path.expanduser("~")) + "/.config/qtile/.env", "r")
 finnhub_api_key = f_env.readline().strip()
@@ -317,47 +358,44 @@ screens = [
                 widget.Spacer(),
 
                 # STOCK TICKER NEW
-                widget.TextBox(text="", foreground=colors['orange'], background=colors['background'], padding=0, fontsize=35),
-                StockTickerNew(token=finnhub_api_key, symbols=["NVDA", "AMZN", "FB", "AAPL"], background=colors['orange'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['orange'], padding=0, fontsize=28),
-                
+                # widget.TextBox(text="", foreground=colors['orange'], background=colors['background'], padding=0, fontsize=30),
+                # StockTickerNew(token=finnhub_api_key, symbols=["SPY","TSLA","CCL", "NIO", "EVGO"], background=colors['orange'], foreground=colors['background'] ),
+                # widget.TextBox(text="", foreground=colors['background'], background=colors['orange'], padding=0, fontsize=24),
+
                 # STOCK TICKER
-                widget.TextBox(text="", foreground=colors['yellow'], background=colors['background'], padding=0, fontsize=35),
-                widget.StockTicker(apikey=alphavan_api_key, symbol="ETH", interval="5min", function="CRYPTO_INTRADAY", market="USD", background=colors['yellow'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['yellow'], padding=0, fontsize=28),
+                # widget.TextBox(text="", foreground=colors['yellow'], background=colors['background'], padding=0, fontsize=30),
+                # widget.StockTicker(apikey=alphavan_api_key, symbol="ETH", interval="5min", function="CRYPTO_INTRADAY", market="USD", background=colors['yellow'], foreground=colors['background'] ),
+                # widget.TextBox(text="", foreground=colors['background'], background=colors['yellow'], padding=0, fontsize=24),
 
                 # CPU
-                widget.TextBox(text="", foreground=colors['green'], background=colors['background'], padding=0, fontsize=35),
+                widget.TextBox(text="", foreground=colors['green'], background=colors['background'], padding=0, fontsize=30),
                 widget.CPU( background=colors['green'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['green'], padding=0, fontsize=28),
+                widget.TextBox(text="", foreground=colors['background'], background=colors['green'], padding=0, fontsize=24),
 
                 # MEMORY
-                widget.TextBox(text="", foreground=colors['teal'], background=colors['background'], padding=0, fontsize=35),
+                widget.TextBox(text="", foreground=colors['teal'], background=colors['background'], padding=0, fontsize=30),
                 widget.Memory( format="RAM: {MemUsed: .0f}/{MemTotal: .0f}{mm}", measure_mem="G", background=colors['teal'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['teal'], padding=0, fontsize=28),
-
-                # NETWORK
-                widget.TextBox(text="", foreground=colors['blue'], background=colors['background'], padding=0, fontsize=35),
-                widget.Net(interface="enp0s31f6", background=colors['blue'], foreground=colors['background'], format="{down} ↓↑ {up}" ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['blue'], padding=0, fontsize=28),
+                widget.TextBox(text="", foreground=colors['background'], background=colors['teal'], padding=0, fontsize=24),
 
                 # DATE
-                widget.TextBox(text="", foreground=colors['violet'], background=colors['background'], padding=0, fontsize=35),
+                widget.TextBox(text="", foreground=colors['violet'], background=colors['background'], padding=0, fontsize=30),
+                WorkCountDown( background=colors['violet'], foreground=colors['background'] ),
                 widget.Clock(format="%a %I:%M %p", background=colors['violet'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['violet'], padding=0, fontsize=28),
+                widget.TextBox(text="", foreground=colors['background'], background=colors['violet'], padding=0, fontsize=24),
 
                 # LOGOUT
-                widget.TextBox(text="", foreground=colors['red'], background=colors['background'], padding=0, fontsize=35),
+                widget.TextBox(text="", foreground=colors['red'], background=colors['background'], padding=0, fontsize=30),
                 widget.QuickExit( default_text="Logout ", background=colors['red'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['red'], padding=0, fontsize=28),
+                widget.TextBox(text="", foreground=colors['background'], background=colors['red'], padding=0, fontsize=24),
             ],
             26,
             border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             border_color=colors['background'][0],  # Borders are magenta
             margin=[5,10,10,10],
         ),
-        left=bar.Gap(10),
-        right=bar.Gap(10),
-        top=bar.Gap(10),
+        left=bar.Gap(8),
+        right=bar.Gap(8),
+        top=bar.Gap(8),
     ),
 ]
+
