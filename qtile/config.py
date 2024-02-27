@@ -86,7 +86,7 @@ class StockTickerNew(base.InLoopPollText):
     ticker_table: Dict[str, str] = {}
 
     defaults = [
-        ("symbols", ["AAPL"], "Symbols for quote lookup"),
+        ("symbols", ["SPY"], "Symbols for quote lookup"),
         ("token", "", "API key for Finnhub"),
         ("update_interval", 10.0, "Update interval for ticker refresh"),
         ("format", "{symbol}: {sign}{price}", "Update interval for ticker refresh"),
@@ -121,14 +121,6 @@ class StockTickerNew(base.InLoopPollText):
         price = StockTickerNew.ticker_table[ticker] 
         return "望 " + self.format.format(symbol=ticker, sign=self.sign, price=price)
 
-#### FUNCTIONS ####
-@hook.subscribe.startup_once
-def autostart():
-    """Start the applications at Qtile startup."""
-    home = os.path.expanduser('~')
-    subprocess.call([home + '/.config/qtile/autostart.sh'])
-    bottom.show(True)
-
 # MOD1 = ALT
 mod = "mod1"
 
@@ -155,7 +147,7 @@ keys = [
     Key([mod, "control"], "k", lazy.layout.grow(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     # Hide bar for emersive experience
-    Key([mod], "f", lazy.hide_show_bar("bottom"), desc="Hides the bar"),
+    Key([mod], "f", lazy.hide_show_bar("bottom"), desc="Toggle hide bar"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -261,7 +253,7 @@ colors = {
 
 widget_defaults = dict(
     font="Hack Nerd Font",
-    fontsize=12,
+    fontsize=16,
     background=colors['background']
 )
 
@@ -269,7 +261,7 @@ extension_defaults = widget_defaults.copy()
 
 # Defautl group settings
 group_box_settings = {
-    "padding" : 10,
+    "padding" : 15,
     "borderwidth" : 3,
     "active" : colors['active'],
     "inactive" : colors['inactive'],
@@ -358,9 +350,9 @@ screens = [
                 widget.Spacer(),
 
                 # STOCK TICKER NEW
-                # widget.TextBox(text="", foreground=colors['orange'], background=colors['background'], padding=0, fontsize=30),
-                # StockTickerNew(token=finnhub_api_key, symbols=["SPY","TSLA","CCL", "NIO", "EVGO"], background=colors['orange'], foreground=colors['background'] ),
-                # widget.TextBox(text="", foreground=colors['background'], background=colors['orange'], padding=0, fontsize=24),
+                widget.TextBox(text="", foreground=colors['orange'], background=colors['background'], padding=0, fontsize=30),
+                StockTickerNew(token=finnhub_api_key, symbols=["SPY"], background=colors['orange'], foreground=colors['background'] ),
+                widget.TextBox(text="", foreground=colors['background'], background=colors['orange'], padding=0, fontsize=24),
 
                 # STOCK TICKER
                 # widget.TextBox(text="", foreground=colors['yellow'], background=colors['background'], padding=0, fontsize=30),
@@ -379,7 +371,7 @@ screens = [
 
                 # DATE
                 widget.TextBox(text="", foreground=colors['violet'], background=colors['background'], padding=0, fontsize=30),
-                WorkCountDown( background=colors['violet'], foreground=colors['background'] ),
+                # WorkCountDown( background=colors['violet'], foreground=colors['background'] ),
                 widget.Clock(format="%a %I:%M %p", background=colors['violet'], foreground=colors['background'] ),
                 widget.TextBox(text="", foreground=colors['background'], background=colors['violet'], padding=0, fontsize=24),
 
@@ -399,3 +391,13 @@ screens = [
     ),
 ]
 
+#### FUNCTIONS ####
+@hook.subscribe.startup_once
+def autostart():
+    """Start the applications at Qtile startup."""
+    home = os.path.expanduser('~')
+    subprocess.call([home + '/.config/qtile/autostart.sh'])
+
+@hook.subscribe.startup
+def startup():
+    qtile.cmd_hide_show_bar('bottom')
