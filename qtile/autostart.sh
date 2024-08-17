@@ -1,6 +1,6 @@
 #!/bin/bash
 
-compton -f &
+dunst &
 keychain &
-urxvt &
 firefox &
+~/scripts/wallpaper.sh init
