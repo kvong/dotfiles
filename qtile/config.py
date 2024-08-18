@@ -1,201 +1,141 @@
-# Copyright (c) 2010 Aldo Cortesi
-# Copyright (c) 2010, 2014 dequis
-# Copyright (c) 2012 Randall Ma
-# Copyright (c) 2012-2014 Tycho Andersen
-# Copyright (c) 2012 Craig Barnes
-# Copyright (c) 2013 horsik
-# Copyright (c) 2013 Tao Sauvage
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
+#   ___ _____ ___ _     _____    ____             __ _       
+#  / _ \_   _|_ _| |   | ____|  / ___|___  _ __  / _(_) __ _ 
+# | | | || |  | || |   |  _|   | |   / _ \| '_ \| |_| |/ _` |
+# | |_| || |  | || |___| |___  | |__| (_) | | | |  _| | (_| |
+#  \__\_\|_| |___|_____|_____|  \____\___/|_| |_|_| |_|\__, |
+#                                                      |___/ 
+
+# Icons: https://fontawesome.com/search?o=r&m=free
 
 import os
+import re
+import socket
 import subprocess
-import time
-
-from typing import List, Dict  # noqa: F401
-
-from libqtile import bar, layout, widget, hook, qtile
-from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown, Match
+import psutil
+import json
+from libqtile import hook
+from libqtile import qtile
+from typing import List  
+from libqtile import bar, layout, widget
+from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown, KeyChord
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from libqtile.widget.generic_poll_text import GenPollUrl
-from libqtile.widget import base
-from urllib.parse import urlencode
-from datetime import datetime
-import locale
-import finnhub
-import json
+from libqtile.widget import Spacer, Backlight
+from libqtile.widget.image import Image
+from libqtile.dgroups import simple_key_binder
+from pathlib import Path
+from libqtile.log_utils import logger
 
-#### CLASSES ####
-# Widget to display percentage left of set time
-class WorkCountDown(base.InLoopPollText):
+from qtile_extras import widget
+from qtile_extras.widget.decorations import RectDecoration
+from qtile_extras.widget.decorations import PowerLineDecoration
 
-    defaults = [
-        ("end_time", 5, ""),
-        ("update_interval", 10.0, "Update interval for ticker refresh"),
-        ("active_icon", "+", ""),
-        ("inactive_icon", "-", ""),
-    ]
-    def __init__( self, **config):
-        super().__init__("", **config)
+# --------------------------------------------------------
+# Your configuration
+# --------------------------------------------------------
 
-    def poll(self):
-        now = datetime.now()
-        hour_remaining = 16 - now.hour
-        minutes_remaining = 60 - now.minute
-        milisec_remaining = (hour_remaining * 60 * 3600) + (minutes_remaining * 3600 )
-        milisec_total = 8 * 60 * 3600
-        percentage_remaining_tenth = ( milisec_remaining / milisec_total ) * 10
-        percentage_remaining_hundreth = ( milisec_remaining / milisec_total ) * 100
-        output = ''
-        if ( percentage_remaining_tenth < 0 ):
-            return 'DONE'
-        for i in range( 10 ):
-            if i < percentage_remaining_tenth -1:
-                output = output + ' '
-            elif i < percentage_remaining_tenth:
-                output = output + ' '
-            else:
-                output = output + ' '
-        output = output + ' %d%%' % ( percentage_remaining_hundreth )
-        return output
+# Keyboard layout in autostart.sh
 
+# Show wlan status bar widget (set to False if wired network)
+# show_wlan = True
+show_wlan = False
 
-# Widget to cycle through a list of ticker symbols
-class StockTickerNew(base.InLoopPollText):
-    ticker_length = 0
-    ticker_counter = -1
+# Show bluetooth status bar widget
+# show_bluetooth = True
+show_bluetooth = False
 
-    # Save some API calls in afterhours and weekend by adding caching
-    ticker_table: Dict[str, str] = {}
+# --------------------------------------------------------
+# General Variables
+# --------------------------------------------------------
 
-    defaults = [
-        ("symbols", ["SPY"], "Symbols for quote lookup"),
-        ("token", "", "API key for Finnhub"),
-        ("update_interval", 10.0, "Update interval for ticker refresh"),
-        ("format", "{symbol}: {sign}{price}", "Update interval for ticker refresh"),
-    ]
-    def __init__( self, **config):
-        super().__init__("", **config)
-        self.sign = locale.localeconv()["currency_symbol"]
-        self.add_defaults(StockTickerNew.defaults)
-        StockTickerNew.ticker_length = len(self.symbols)
+# Get home path
+home = str(Path.home())
 
-    # Cycle throught list of tickers
-    @staticmethod
-    def cycle_tickers():
-        StockTickerNew.ticker_counter = ( StockTickerNew.ticker_counter + 1 ) % StockTickerNew.ticker_length
-        
-    def poll(self):
-        StockTickerNew.cycle_tickers()
+# --------------------------------------------------------
+# Check for Desktop/Laptop
+# --------------------------------------------------------
 
-        day_int = datetime.today().isoweekday()
-        current_hour = int(datetime.now().strftime("%H"))
-        ticker=self.symbols[StockTickerNew.ticker_counter]
+# 3 = Desktop
+platform = int(os.popen("cat /sys/class/dmi/id/chassis_type").read())
 
-        # Disable api calls on afterhour or weekends, only make api call if cache is empty
-        if (day_int <= 5 and current_hour < 15 and current_hour > 8) or len(StockTickerNew.ticker_table) < StockTickerNew.ticker_length:
-            finnhub_client = finnhub.Client(api_key=self.token)
-            response = finnhub_client.quote(self.symbols[StockTickerNew.ticker_counter])
-            str_response = str(response).replace("'", '"')
-            data = json.loads(str_response)
-            price = str(data['c'])
-            StockTickerNew.ticker_table[ticker] = price # Add ticker:price to cache table
-            return self.format.format(symbol=ticker, sign=self.sign, price=price)
-        price = StockTickerNew.ticker_table[ticker] 
-        return "望 " + self.format.format(symbol=ticker, sign=self.sign, price=price)
+# --------------------------------------------------------
+# Set default apps
+# --------------------------------------------------------
 
-# MOD1 = ALT
-mod = "mod1"
+terminal = "terminator"        
+
+# --------------------------------------------------------
+# Keybindings
+# --------------------------------------------------------
+
+mod = "mod4" # SUPER KEY
 
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
-    # Switch between windows
+
+    # Navigate
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-    # Move windows between left/right columns or move up/down in current stack.
-    # Moving out of range in Columns layout will create new column.
+    
+    # Arrange
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-    # Grow windows. If current window is on the edge of screen and direction
-    # will be to screen edge - window would shrink.
+    
+    # Size
     Key([mod, "control"], "h", lazy.layout.shrink(), desc="Grow window to the left"),
     Key([mod, "control"], "l", lazy.layout.grow(), desc="Grow window to the right"),
     Key([mod, "control"], "j", lazy.layout.shrink(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+
     # Hide bar for emersive experience
     Key([mod], "f", lazy.hide_show_bar("bottom"), desc="Toggle hide bar"),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key(
-        [mod, "shift"],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
-    Key([mod], "Return", lazy.spawn("urxvt"), desc="Launch terminal"),
+
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+
+    #System
     Key([mod], "Escape", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    #Key([mod], "d", lazy.spawn('/home/blank/Scripts/dmenu-launcher'), desc="Spawn a command using a dmenu launcher"),
+    #Key([mod, "control"], "q", lazy.spawn(home + "/dotfiles/qtile/scripts/powermenu.sh"), desc="Open Powermenu"),
     Key([mod], "d", lazy.spawn('rofi -show run -theme ~/.config/qtile/rofi/sidetab-adapta.rasi'), desc="Spawn a command using a rofi launcher"),
+
+    # Float
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating and tilling"),
 
-    # Open Scratchpads
-    Key([mod], 'g', lazy.group['scratchpad'].dropdown_toggle('gedit')),
-    Key([mod], 'i', lazy.group['scratchpad'].dropdown_toggle('urxvt')),
+    # Apps
+    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod], "b", lazy.spawn("sh " + home + "/dotfiles/.settings/browser.sh"), desc="Launch Browser"),
+    #Key([mod, "shift"], "w", lazy.spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh"), desc="Update Theme and Wallpaper"),
+    #Key([mod, "control"], "w", lazy.spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh select"), desc="Select Theme and Wallpaper"),
 ]
 
+# --------------------------------------------------------
+# Workspaces
+# --------------------------------------------------------
 workspaces = [
     # Main Workspaces
-    {"name": "TERM", "key": "1", "matches": [Match(wm_class="urxvt")]},
-    {"name": "WEB", "key": "2", "matches": [Match(wm_class="Firefox")]},
-    {"name": "CODE", "key": "3", "matches": [
-        Match(wm_class="jetbrains-phpstorm"),
-        Match(wm_class="code"),
-        ]
-    },
-    # Temporary Workspaces
+    {"name": "TERM", "key": "1"},
+    {"name": "WEB", "key": "2"},
+    {"name": "CODE", "key": "3"},
     {"name": "FILES", "key": "4", "matches": [Match(wm_class="Thunar"),Match(wm_class="Filezilla")]},
+    # Temporary Workspaces
     {"name": "TEMP-Q", "key": "q"},
     {"name": "TEMP-W", "key": "w"},
     {"name": "TEMP-E", "key": "e"},
-    {"name": "TEMP-R", "key": "r"},
 ]
 
-# ScratchPad
-groups = [ScratchPad("scratchpad", [
-    DropDown("gedit", "gedit", height=0.5, width=.5, y=0.25, x=.25, opacity=1),
-    DropDown("urxvt", "urxvt -name Scratchpad", height=0.5, width=.5, y=0.25, x=.25, opacity=1),
-])]
+# --------------------------------------------------------
+# Groups
+# --------------------------------------------------------
 
+groups = []
 
 # Add workspaces to groups
 for workspace in workspaces:
@@ -218,81 +158,265 @@ for workspace in workspaces:
         )
     )
 
+# --------------------------------------------------------
+# Scratchpads
+# --------------------------------------------------------
+
+groups.append(ScratchPad("6", [
+    DropDown("chatgpt", "chromium --app=https://chat.openai.com", x=0.3, y=0.1, width=0.40, height=0.4, on_focus_lost_hide=False ),
+    DropDown("mousepad", "mousepad", x=0.3, y=0.1, width=0.40, height=0.4, on_focus_lost_hide=False ),
+    DropDown("terminal", "terminator", x=0.3, y=0.1, width=0.40, height=0.4, on_focus_lost_hide=False ),
+    DropDown("scrcpy", "scrcpy -d", x=0.8, y=0.05, width=0.15, height=0.6, on_focus_lost_hide=False )
+]))
+
+keys.extend([
+    Key([mod], 'F10', lazy.group["6"].dropdown_toggle("chatgpt")),
+    Key([mod], 'F11', lazy.group["6"].dropdown_toggle("mousepad")),
+    Key([mod], 'F12', lazy.group["6"].dropdown_toggle("terminal")),
+    Key([mod], 'F9', lazy.group["6"].dropdown_toggle("scrcpy"))
+])
+
+# --------------------------------------------------------
+# Pywal Colors
+# --------------------------------------------------------
+
+colors = os.path.expanduser('~/.cache/wal/colors.json')
+colordict = json.load(open(colors))
+Color0=(colordict['colors']['color0'])
+Color1=(colordict['colors']['color1'])
+Color2=(colordict['colors']['color2'])
+Color3=(colordict['colors']['color3'])
+Color4=(colordict['colors']['color4'])
+Color5=(colordict['colors']['color5'])
+Color6=(colordict['colors']['color6'])
+Color7=(colordict['colors']['color7'])
+Color8=(colordict['colors']['color8'])
+Color9=(colordict['colors']['color9'])
+Color10=(colordict['colors']['color10'])
+Color11=(colordict['colors']['color11'])
+Color12=(colordict['colors']['color12'])
+Color13=(colordict['colors']['color13'])
+Color14=(colordict['colors']['color14'])
+Color15=(colordict['colors']['color15'])
+
+# --------------------------------------------------------
+# Setup Layout Theme
+# --------------------------------------------------------
+
+layout_theme = { 
+    "border_width": 3,
+    "margin": 15,
+    "border_focus": Color2,
+    "border_normal": "FFFFFF",
+    "single_border_width": 3
+}
+
+# --------------------------------------------------------
+# Layouts
+# --------------------------------------------------------
+
 layouts = [
-    # Try more layouts by unleashing below layouts.
-    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-     layout.MonadTall( ratio=.60, margin=5),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-     layout.TreeTab(),
-     layout.Max(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
+    layout.Max(**layout_theme),
+    layout.Columns(**layout_theme),
 ]
 
-colors = {
-    'red' : ['#cc6666','#cc6666'],
-    'violet' : ['#b294bb','#b294bb'],
-    'blue' : ['#81a2be','#81a2be'],
-    'teal' : ['#8abeb7','#8abeb7'],
-    'green' : ['#b5bd68','#b5bd68'],
-    'yellow' : ['#f0c674','#f0c674'],
-    'orange' : ['#FF9966','#FF9966'],
-    'white' : ['#ffffff','#ffffff'],
-    'black' : ['#000000','#000000'],
-    'active': ["#ecf0c1", "#ecf0c1"],  # ACTIVE WORKSPACES
-    'inactive' : ["#686f9a", "#686f9a"],  # INACTIVE WORKSPACES
-    'background': ["#0e131a", "#0e131a"],  # BAR BACKGROUND
-    'background-active': ["#808088", "#808088"],  # ACTIVE WORKSPACE BACKGROUND 
-}
-
+# --------------------------------------------------------
+# Setup Widget Defaults
+# --------------------------------------------------------
 
 widget_defaults = dict(
-    font="Hack Nerd Font",
-    fontsize=16,
-    background=colors['background']
+    font="Fira Sans SemiBold",
+    fontsize=14,
+    padding=3
 )
-
 extension_defaults = widget_defaults.copy()
 
-# Defautl group settings
-group_box_settings = {
-    "padding" : 15,
-    "borderwidth" : 3,
-    "active" : colors['active'],
-    "inactive" : colors['inactive'],
-    "disable_drag" : True,
-    "rounded" : True,
-    "margin_y" : 3,
-    "margin_x" : 2,
-    "padding_y" : 2,
-    "padding_x" : 4,
-    #"hide_unused" :True,
-    "highlight_color" : colors['background-active'],
-    "highlight_method" : "block",
-    "this_current_screen_border" : colors['background-active'],
-    "this_screen_border" : colors['background-active'],
-    "foreground" : colors['white'],
-    "background" : colors['background'],
+# --------------------------------------------------------
+# Decorations
+# https://qtile-extras.readthedocs.io/en/stable/manual/how_to/decorations.html
+# --------------------------------------------------------
+
+decor_left = {
+    "decorations": [
+        PowerLineDecoration(
+            path="arrow_left"
+            # path="rounded_left"
+            # path="forward_slash"
+            # path="back_slash"
+        )
+    ],
 }
 
-# Drag floating layouts.
+decor_right = {
+    "decorations": [
+        PowerLineDecoration(
+            path="arrow_right"
+            # path="rounded_right"
+            # path="forward_slash"
+            # path="back_slash"
+        )
+    ],
+}
+
+# --------------------------------------------------------
+# Widgets
+# --------------------------------------------------------
+
+widget_list = [
+    widget.TextBox(
+        **decor_left,
+        background=Color1+".4",
+        text='Apps',
+        foreground='ffffff',
+        desc='',
+        padding=10,
+        mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("rofi -show drun")},
+    ),
+    #widget.TextBox(
+    #    **decor_left,
+    #    background="#ffffff.4",
+    #    text="  ",
+    #    foreground="000000.6",
+    #    fontsize=18,
+    #    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh select")},
+    #),
+    widget.GroupBox(
+        **decor_left,
+        background="#ffffff.7",
+        highlight_method='block',
+        highlight='ffffff',
+        block_border='ffffff',
+        highlight_color=['ffffff','ffffff'],
+        block_highlight_text_color='000000',
+        foreground='ffffff',
+        rounded=False,
+        this_current_screen_border='ffffff',
+        active='ffffff'
+    ),
+    widget.TextBox(
+        **decor_left,
+        background="#ffffff.4",
+        text=" ",
+        foreground="000000.6",
+        fontsize=18,
+        mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("bash " + home + "/dotfiles/.settings/browser.sh")},
+    ),
+    widget.TextBox(
+        **decor_left,
+        background="#ffffff.4",
+        text=" ",
+        foreground="000000.6",
+        fontsize=18,
+        mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("bash " + home + "/dotfiles/.settings/filemanager.sh")}
+    ),
+    
+    widget.WindowName(
+        **decor_left,
+        max_chars=50,
+        background=Color2+".4",
+        width=400,
+        padding=10
+    ),
+    widget.Spacer(),
+    widget.Spacer(
+        length=30
+    ),
+    widget.TextBox(
+        **decor_right,
+        background="#000000.3"      
+    ),    
+    widget.Memory(
+        **decor_right,
+        background=Color10+".4",
+        padding=10,        
+        measure_mem='G',
+        format="{MemUsed:.0f}{mm} ({MemTotal:.0f}{mm})"
+    ),
+    widget.Volume(
+        **decor_right,
+        background=Color12+".4",
+        padding=10, 
+        fmt='Vol: {}',
+    ),
+    widget.DF(
+        **decor_right,
+        padding=10, 
+        background=Color8+".4",        
+        visible_on_warn=False,
+        format="{p} {uf}{m} ({r:.0f}%)"
+    ),
+    #widget.Bluetooth(
+    #    **decor_right,
+    #    background=Color2+".4",
+    #    padding=10,
+    #    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("blueman-manager")},
+    #),
+    #widget.Wlan(
+    #    **decor_right,
+    #    background=Color2+".4",
+    #    padding=10,
+    #    format='{essid} {percent:2.0%}',
+    #    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("alacritty -e nmtui")},
+    #),
+    widget.Clock(
+        **decor_right,
+        background=Color4+".4",   
+        padding=10,      
+        format="%Y-%m-%d / %I:%M %p",
+    ),
+    #widget.TextBox(
+    #    **decor_right,
+    #    background=Color2+".4",     
+    #    padding=5,    
+    #    text=" ",
+    #    fontsize=20,
+    #    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(home + "/dotfiles/qtile/scripts/powermenu.sh")},
+    #),
+]
+
+# Hide Modules if not on laptop
+if (show_wlan == False):
+    del widget_list[13:14]
+
+if (show_bluetooth == False):
+    del widget_list[12:13]
+
+# --------------------------------------------------------
+# Screens
+# --------------------------------------------------------
+
+screens = [
+    Screen(
+        top=bar.Bar(
+            widget_list,
+            30,
+            padding=20,
+            opacity=0.7,
+            border_width=[0, 0, 0, 0],
+            margin=[0,0,0,0],
+            background="#000000.3"
+        ),
+    ),
+]
+
+# --------------------------------------------------------
+# Drag floating layouts
+# --------------------------------------------------------
+
 mouse = [
     Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
-dgroups_key_binder = None
-dgroups_app_rules = []  # type: List
-follow_mouse_focus = True
-bring_front_click = False
-cursor_warp = False
+# --------------------------------------------------------
+# Define floating layouts
+# --------------------------------------------------------
+
 floating_layout = layout.Floating(
+    border_width=3,
+    border_focus=Color2,
+    border_normal="FFFFFF",
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
@@ -304,6 +428,15 @@ floating_layout = layout.Floating(
         Match(title="pinentry"),  # GPG key password entry
     ]
 )
+
+# --------------------------------------------------------
+# General Setup
+# --------------------------------------------------------
+
+dgroups_app_rules = []  # type: list
+follow_mouse_focus = True
+bring_front_click = False
+cursor_warp = False
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
@@ -320,84 +453,21 @@ auto_minimize = True
 #
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
-wmname = "LG3D"
 
-finnhub_api_key = ""
-alphavan_api_key = ""
-# For security purposes put api key in local .env file
-f_env = open(str(os.path.expanduser("~")) + "/.config/qtile/.env", "r")
-finnhub_api_key = f_env.readline().strip()
-alphavan_api_key = f_env.readline().strip()
-f_env.close()
+# --------------------------------------------------------
+# Windows Manager Name
+# --------------------------------------------------------
 
-screens = [
-    Screen(
-        wallpaper="~/Pictures/bg.jpg",
-        wallpaper_mode="stretch",
-        bottom=bar.Bar(
-            [
-                widget.CurrentLayout(),
-                # Use multiple GroupBox to categorize primary and secondary goups
-                widget.GroupBox(
-                    visible_groups=["TERM", "WEB", "CODE", "FILES"],
-                    **group_box_settings,
-                ),
-                widget.GroupBox(
-                    visible_groups=["TEMP-Q","TEMP-W","TEMP-E","TEMP-R"],
-                    hide_unused=True,
-                    **group_box_settings,
-                ),
-                widget.Spacer(),
+wmname = "QTILE"
 
-                # STOCK TICKER NEW
-                widget.TextBox(text="", foreground=colors['orange'], background=colors['background'], padding=0, fontsize=30),
-                StockTickerNew(token=finnhub_api_key, symbols=["SPY"], background=colors['orange'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['orange'], padding=0, fontsize=24),
+# --------------------------------------------------------
+# Hooks
+# --------------------------------------------------------
 
-                # STOCK TICKER
-                # widget.TextBox(text="", foreground=colors['yellow'], background=colors['background'], padding=0, fontsize=30),
-                # widget.StockTicker(apikey=alphavan_api_key, symbol="ETH", interval="5min", function="CRYPTO_INTRADAY", market="USD", background=colors['yellow'], foreground=colors['background'] ),
-                # widget.TextBox(text="", foreground=colors['background'], background=colors['yellow'], padding=0, fontsize=24),
-
-                # CPU
-                widget.TextBox(text="", foreground=colors['green'], background=colors['background'], padding=0, fontsize=30),
-                widget.CPU( background=colors['green'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['green'], padding=0, fontsize=24),
-
-                # MEMORY
-                widget.TextBox(text="", foreground=colors['teal'], background=colors['background'], padding=0, fontsize=30),
-                widget.Memory( format="RAM: {MemUsed: .0f}/{MemTotal: .0f}{mm}", measure_mem="G", background=colors['teal'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['teal'], padding=0, fontsize=24),
-
-                # DATE
-                widget.TextBox(text="", foreground=colors['violet'], background=colors['background'], padding=0, fontsize=30),
-                # WorkCountDown( background=colors['violet'], foreground=colors['background'] ),
-                widget.Clock(format="%a %I:%M %p", background=colors['violet'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['violet'], padding=0, fontsize=24),
-
-                # LOGOUT
-                widget.TextBox(text="", foreground=colors['red'], background=colors['background'], padding=0, fontsize=30),
-                widget.QuickExit( default_text="Logout ", background=colors['red'], foreground=colors['background'] ),
-                widget.TextBox(text="", foreground=colors['background'], background=colors['red'], padding=0, fontsize=24),
-            ],
-            26,
-            border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            border_color=colors['background'][0],  # Borders are magenta
-            margin=[5,10,10,10],
-        ),
-        left=bar.Gap(8),
-        right=bar.Gap(8),
-        top=bar.Gap(8),
-    ),
-]
-
-#### FUNCTIONS ####
+# HOOK startup
 @hook.subscribe.startup_once
 def autostart():
-    """Start the applications at Qtile startup."""
-    home = os.path.expanduser('~')
-    subprocess.call([home + '/.config/qtile/autostart.sh'])
+    autostartscript = "~/.config/qtile/autostart.sh"
+    home = os.path.expanduser(autostartscript)
+    subprocess.Popen([home])
 
-@hook.subscribe.startup
-def startup():
-    qtile.cmd_hide_show_bar('bottom')

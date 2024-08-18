@@ -6,13 +6,19 @@ rm -rf ~/.vimrc
 rm -rf ~/.bashrc
 rm -rf ~/.config/dunst
 rm -rf ~/scripts
+rm -rf ~/.config/qtile
+rm -rf ~/.config/rofi
 
 dir=$(pwd)
 
-ln -s "${dir}/general/.vimrc" ~/.vimrc
-ln -s "${dir}/general/.bashrc" ~/.bashrc
-ln -s "${dir}/dunst" ~/.config/dunst
-ln -s "${dir}/scripts" ~/scripts
+cp -r ${dir} ~/
+
+ln -s "${HOME}/dotfiles/general/.vimrc" ~/.vimrc
+ln -s "${HOME}/dotfiles/general/.bashrc" ~/.bashrc
+ln -s "${HOME}/dotfiles/dunst" ~/.config/dunst
+ln -s "${HOME}/dotfiles/scripts" ~/scripts
+ln -s "${HOME}/dotfiles/qtile" ~/.config/qtile
+ln -s "${HOME}/dotfiles/rofi" ~/.config/rofi
 
 source ~/.bashrc
 
