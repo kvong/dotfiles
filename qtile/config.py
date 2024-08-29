@@ -62,7 +62,7 @@ platform = int(os.popen("cat /sys/class/dmi/id/chassis_type").read())
 # Set default apps
 # --------------------------------------------------------
 
-terminal = "terminator"        
+terminal = "alacritty"        
 
 # --------------------------------------------------------
 # Keybindings
@@ -95,7 +95,7 @@ keys = [
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
 
     # Hide bar for emersive experience
-    Key([mod], "f", lazy.hide_show_bar("bottom"), desc="Toggle hide bar"),
+    Key([mod], "f", lazy.layout.toggle_auto_maximize(), desc="Toggle hide bar"),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -121,8 +121,8 @@ keys = [
 # --------------------------------------------------------
 workspaces = [
     # Main Workspaces
-    {"name": "TERM", "key": "1"},
-    {"name": "WEB", "key": "2"},
+    {"name": "TERM", "key": "1", "matches": [Match(wm_class="Terminator")]},
+    {"name": "WEB", "key": "2", "matches": [Match(wm_class="firefox")]},
     {"name": "CODE", "key": "3"},
     {"name": "FILES", "key": "4", "matches": [Match(wm_class="Thunar"),Match(wm_class="Filezilla")]},
     # Temporary Workspaces
@@ -130,6 +130,7 @@ workspaces = [
     {"name": "TEMP-W", "key": "w"},
     {"name": "TEMP-E", "key": "e"},
 ]
+
 
 # --------------------------------------------------------
 # Groups
@@ -216,8 +217,8 @@ layout_theme = {
 # --------------------------------------------------------
 
 layouts = [
+    layout.MonadThreeCol(**layout_theme, new_client_position="bottom"),
     layout.Max(**layout_theme),
-    layout.Columns(**layout_theme),
 ]
 
 # --------------------------------------------------------
