@@ -4,4 +4,4 @@ dunst &
 keychain &
 firefox &
 picom &
-~/scripts/wallpaper.sh init
+~/dotfiles/qtile/scripts/wallpaper.sh init 

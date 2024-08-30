@@ -60,11 +60,6 @@ case $1 in
 esac
 
 # ----------------------------------------------------- 
-# Reload qtile to color bar
-# ----------------------------------------------------- 
-qtile cmd-obj -o cmd -f reload_config
-
-# ----------------------------------------------------- 
 # Get new theme
 # ----------------------------------------------------- 
 source "$HOME/.cache/wal/colors.sh"
@@ -78,6 +73,7 @@ convert $wallpaper -resize 50% $blurred
 echo ":: Resized to 50%"
 convert $blurred -blur 50x30 $blurred
 echo ":: Blurred"
+
 # ----------------------------------------------------- 
 # Write selected wallpaper into .cache files
 # ----------------------------------------------------- 
@@ -91,3 +87,9 @@ sleep 1
 # ----------------------------------------------------- 
 #notify-send "Colors and Wallpaper updated" "with image $newwall"
 echo "Done."
+
+# ----------------------------------------------------- 
+# Reload qtile to color bar
+# ----------------------------------------------------- 
+qtile cmd-obj -o cmd -f reload_config
+

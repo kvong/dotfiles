@@ -89,7 +89,7 @@ fi
 
 # some more ls aliases
 alias ls='eza -F -H --group-directories-first --git -1'
-alias ll='ls -alF'
+alias ll='ls -alF --long --smart-group'
 alias la='ls -A'
 alias l='ls -CF'
 

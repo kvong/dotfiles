@@ -181,24 +181,34 @@ keys.extend([
 # Pywal Colors
 # --------------------------------------------------------
 
-colors = os.path.expanduser('~/.cache/wal/colors.json')
-colordict = json.load(open(colors))
-Color0=(colordict['colors']['color0'])
-Color1=(colordict['colors']['color1'])
-Color2=(colordict['colors']['color2'])
-Color3=(colordict['colors']['color3'])
-Color4=(colordict['colors']['color4'])
-Color5=(colordict['colors']['color5'])
-Color6=(colordict['colors']['color6'])
-Color7=(colordict['colors']['color7'])
-Color8=(colordict['colors']['color8'])
-Color9=(colordict['colors']['color9'])
-Color10=(colordict['colors']['color10'])
-Color11=(colordict['colors']['color11'])
-Color12=(colordict['colors']['color12'])
-Color13=(colordict['colors']['color13'])
-Color14=(colordict['colors']['color14'])
-Color15=(colordict['colors']['color15'])
+colors = []
+
+cache = os.path.expanduser('~/.cache/wal/colors')
+def load_colors(cache):
+    with open(cache, 'r') as file:
+        for i in range(16):
+            colors.append(file.readline().strip())
+    colors.append('#ffffff')
+    lazy.reload()
+load_colors(cache)
+
+
+Color0=colors[0]
+Color1=colors[1]
+Color2=colors[2]
+Color3=colors[3]
+Color4=colors[4]
+Color5=colors[5]
+Color6=colors[6]
+Color7=colors[7]
+Color8=colors[8]
+Color9=colors[9]
+Color10=colors[10]
+Color11=colors[11]
+Color12=colors[12]
+Color13=colors[13]
+Color14=colors[14]
+Color15=colors[15]
 
 # --------------------------------------------------------
 # Setup Layout Theme
@@ -386,6 +396,10 @@ if (show_bluetooth == False):
 # Screens
 # --------------------------------------------------------
 
+current_wallpaper_f = open(os.path.expanduser('~/.cache/current_wallpaper'))
+current_wallpaper = current_wallpaper_f.read().strip()
+current_wallpaper_f.close()
+
 screens = [
     Screen(
         bottom=bar.Bar(
@@ -397,10 +411,11 @@ screens = [
             margin=[0,0,0,0],
             background="#000000.3"
         ),
-        wallpaper='~/wallpaper/minimal-rocket.png',
+        wallpaper=current_wallpaper,
         wallpaper_mode='stretch',
     ),
 ]
+print( current_wallpaper )
 
 # --------------------------------------------------------
 # Drag floating layouts

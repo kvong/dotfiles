@@ -26,12 +26,18 @@ configuration {
 @import "~/dotfiles/.settings/rofi-font.rasi"
 
 /* ---- Load pywal colors (custom wal template) ---- */
+/*
+may not be useful
+*/
 @import "~/.cache/wal/colors-rofi-pywal.rasi"
 
 /* ---- Load wallpaper ---- */
 @import "~/.cache/current_wallpaper.rasi"
 
 /* ---- Load border width ---- */
+/*
+may not be useful
+*/
 @import "~/dotfiles/.settings/rofi-border.rasi"
 
 /* ---- Window ---- */
