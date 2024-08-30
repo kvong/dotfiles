@@ -62,7 +62,7 @@ platform = int(os.popen("cat /sys/class/dmi/id/chassis_type").read())
 # Set default apps
 # --------------------------------------------------------
 
-terminal = "alacritty"        
+terminal = "terminator"        
 
 # --------------------------------------------------------
 # Keybindings
@@ -95,7 +95,7 @@ keys = [
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
 
     # Hide bar for emersive experience
-    Key([mod], "f", lazy.layout.toggle_auto_maximize(), desc="Toggle hide bar"),
+    Key([mod], "f", lazy.hide_show_bar("bottom"), desc="Toggle hide bar"),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -388,7 +388,7 @@ if (show_bluetooth == False):
 
 screens = [
     Screen(
-        top=bar.Bar(
+        bottom=bar.Bar(
             widget_list,
             30,
             padding=20,
@@ -397,6 +397,8 @@ screens = [
             margin=[0,0,0,0],
             background="#000000.3"
         ),
+        wallpaper='~/wallpaper/minimal-rocket.png',
+        wallpaper_mode='stretch',
     ),
 ]
 
@@ -471,4 +473,5 @@ def autostart():
     autostartscript = "~/.config/qtile/autostart.sh"
     home = os.path.expanduser(autostartscript)
     subprocess.Popen([home])
+    bottom.show(False)
 
