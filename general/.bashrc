@@ -88,6 +88,7 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
+alias ls='eza -F -H --group-directories-first --git -1'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -131,8 +132,8 @@ alias rebootw='sudo grub-reboot 2 && reboot'
 alias lv='ls -v'
 alias restart_audio='pulseaudio -k && sudo alsa force-reload'
 alias xclip='xclip -se clipboard'
-alias mkdir='mkcd'
 alias Qtile='source ~/Apps/qtile/qtile-venv/bin/activate; startx'
+alias bssh='~/Work/better-server-ssh/bssh.sh'
 
 ## REMEMBER LAST VISITED DIRECTORY  ##
 CURDIR="$(cat ~/.latest-dir)"
@@ -181,3 +182,6 @@ source $HOME/.keychain/$HOSTNAME-sh
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 set -o vi
+. "$HOME/.cargo/env"
+
+eval "$(starship init bash)"

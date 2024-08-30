@@ -30,7 +30,11 @@ sudo apt-get upgrade -y
 
 # Install base apps
 echo Installing base apps
-sudo apt-get -y install neovim htop keychain fzf vim rofi picom lxappearance vim thunar terminator dunst neofetch vifm conky-all rsync xclip fd-find ripgrep 
+sudo apt-get -y install neovim htop keychain fzf vim rofi picom lxappearance vim thunar terminator dunst neofetch vifm conky-all rsync xclip fd-find ripgrep eza
+
+# Install starship
+curl -sS https://starship.rs/install.sh | sh
+
 
 echo "Installation Completed"
 
