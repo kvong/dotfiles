@@ -9,6 +9,7 @@ rm -rf ~/scripts
 rm -rf ~/.config/qtile
 rm -rf ~/.config/rofi
 rm -rf ~/.config/nvim
+rm -rf ~/.config/terminator
 
 dir=$(pwd)
 
@@ -21,6 +22,7 @@ ln -s "${HOME}/dotfiles/scripts" ~/scripts
 ln -s "${HOME}/dotfiles/qtile" ~/.config/qtile
 ln -s "${HOME}/dotfiles/rofi" ~/.config/rofi
 ln -s "${HOME}/dotfiles/nvim" ~/.config/nvim
+ln -s "${HOME}/dotfiles/terminator" ~/.config/terminator
 
 source ~/.bashrc
 
