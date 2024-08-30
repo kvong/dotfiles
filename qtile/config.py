@@ -217,7 +217,7 @@ layout_theme = {
 # --------------------------------------------------------
 
 layouts = [
-    layout.MonadThreeCol(**layout_theme, new_client_position="bottom"),
+    layout.MonadThreeCol(**layout_theme),
     layout.Max(**layout_theme),
 ]
 
