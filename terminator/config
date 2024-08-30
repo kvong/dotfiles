@@ -1,0 +1,46 @@
+[global_config]
+  enabled_plugins = LaunchpadBugURLHandler, LaunchpadCodeURLHandler, APTURLHandler, TerminalShot, TerminatorThemes
+  always_split_with_profile = True
+[keybindings]
+[profiles]
+  [[default]]
+    background_color = "#1e1e2e"
+    background_darkness = 0.7
+    background_type = transparent
+    background_image = None
+    font = FiraCode Nerd Font Mono Medium 16
+    foreground_color = "#cdd6f4"
+    scrollbar_position = hidden
+    scrollback_lines = 2000
+    palette = "#45475a:#f38ba8:#a6e3a1:#f9e2af:#89b4fa:#f5c2e7:#94e2d5:#bac2de:#585b70:#f38ba8:#a6e3a1:#f9e2af:#89b4fa:#f5c2e7:#94e2d5:#a6adc8"
+    use_system_font = False
+    bold_is_bright = True
+    title_hide_sizetext = True
+    title_transmit_fg_color = "#282828"
+    title_transmit_bg_color = "#282828"
+    title_receive_fg_color = "#282828"
+    title_receive_bg_color = "#282828"
+    title_inactive_fg_color = "#282828"
+    title_inactive_bg_color = "#282828"
+    title_use_system_font = False
+    title_font = Hack Nerd Font Mono 9
+[layouts]
+  [[default]]
+    [[[child0]]]
+      type = Window
+      parent = ""
+      order = 0
+      position = 15:45
+      maximised = False
+      fullscreen = False
+      size = 1699, 1374
+      title = /bin/bash
+      last_active_term = e4f2f4a9-8afe-4ffd-9199-9259b1002c1d
+      last_active_window = True
+    [[[terminal1]]]
+      type = Terminal
+      parent = child0
+      order = 0
+      profile = default
+      uuid = e4f2f4a9-8afe-4ffd-9199-9259b1002c1d
+[plugins]
