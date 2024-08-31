@@ -31,15 +31,15 @@ rasi_file="$HOME/.cache/current_wallpaper.rasi"
 # Create cache file if not exists
 if [ ! -f $cache_file ] ;then
     touch $cache_file
-    echo "$HOME/wallpaper/default.jpg" > "$cache_file"
+    echo "$HOME/wallpapers/default.jpg" > "$cache_file"
 fi
 
 # Create rasi file if not exists
 if [ ! -f $rasi_file ] ;then
     touch $rasi_file
-    echo "* { current-image: url(\"$HOME/wallpaper/default.jpg\", height); }" > "$rasi_file"
+    echo "* { current-image: url(\"$HOME/wallpapers/default.jpg\", height); }" > "$rasi_file"
 fi
 
 rm -rf ~/.config/wal
 ln -s "${HOME}/dotfiles/wal/" ~/.config/wal
-wal -i ~/wallpaper/default.jpg
+wal -i ~/wallpapers/default.jpg
