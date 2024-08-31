@@ -9,8 +9,7 @@ sudo apt-get install xserver-xorg xinit libpangocairo-1.0-0 python3 python3-pip 
 
 git clone https://github.com/dylanaraps/pywal
 cd pywal
-pip3 install --user .
-
+pip3 install .
 
 # Get qtile
 mkdir -p ~/Apps/
