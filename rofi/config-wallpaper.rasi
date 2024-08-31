@@ -26,10 +26,7 @@ configuration {
 @import "~/dotfiles/.settings/rofi-font.rasi"
 
 /* ---- Load pywal colors (custom wal template) ---- */
-/*
-may not be useful
-*/
-@import "~/.cache/wal/colors-rofi-pywal.rasi"
+@import "~/dotfiles/wal/templates/colors-rofi-pywal.rasi"
 
 /* ---- Load wallpaper ---- */
 @import "~/.cache/current_wallpaper.rasi"

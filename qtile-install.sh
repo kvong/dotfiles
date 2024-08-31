@@ -40,4 +40,6 @@ if [ ! -f $rasi_file ] ;then
     echo "* { current-image: url(\"$HOME/wallpaper/default.jpg\", height); }" > "$rasi_file"
 fi
 
-
+rm -rf ~/.config/wal
+ln -s "${HOME}/dotfiles/wal/" ~/.config/wal
+wal -i ~/wallpaper/default.jpg
