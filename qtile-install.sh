@@ -5,7 +5,12 @@
 # Source: https://whatacold.io/blog/2019-09-29-how-to-run-the-bleeding-edge-code-of-qtile/
 
 # Install Python
-sudo apt-get install xserver-xorg xinit libpangocairo python3 python3-pip python3-venv python3-xcffib python3-cairocffi
+sudo apt-get install xserver-xorg xinit libpangocairo-1.0-0 python3 python3-pip python3-venv python3-xcffib python3-cairocffi
+
+git clone https://github.com/dylanaraps/pywal
+cd pywal
+pip3 install --user .
+
 
 # Get qtile
 mkdir -p ~/Apps/
@@ -19,10 +24,6 @@ source ~/Apps/qtile/qtile-env/bin/activate
 # Install dependencies
 python3 -m pip install xcffib psutil finnhub-python
 python3 -m pip install --no-cache-dir cairocffi qtile qtile-extras
-
-git clone https://github.com/dylanaraps/pywal
-cd pywal
-pip3 install --user .
 
 # Cache file for holding the current wallpaper
 cache_file="$HOME/.cache/current_wallpaper"
