@@ -38,6 +38,9 @@ sudo apt-get upgrade -y
 echo Installing base apps
 sudo apt-get -y install neovim htop keychain fzf vim rofi picom lxappearance vim thunar terminator dunst neofetch vifm conky-all rsync xclip fd-find ripgrep eza
 
+# Insrtall Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 # Install starship
 curl -sS https://starship.rs/install.sh | sh
 
