@@ -32,9 +32,7 @@ configuration {
 @import "~/dotfiles/.settings/rofi-font.rasi"
 
 /* ---- Load pywal colors (custom wal template) ---- */
-/*
 @import "~/dotfiles/wal/templates/colors-rofi-pywal.rasi"
-*/
 
 /* ---- Load wallpaper ---- */
 @import "~/.cache/current_wallpaper.rasi"

@@ -113,7 +113,7 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "b", lazy.spawn("sh " + home + "/dotfiles/.settings/browser.sh"), desc="Launch Browser"),
     #Key([mod, "shift"], "w", lazy.spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh"), desc="Update Theme and Wallpaper"),
-    #Key([mod, "control"], "w", lazy.spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh select"), desc="Select Theme and Wallpaper"),
+    Key([mod, "control"], "w", lazy.spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh select"), desc="Select Theme and Wallpaper"),
 ]
 
 # --------------------------------------------------------
@@ -343,18 +343,12 @@ widget_list = [
         measure_mem='G',
         format="{MemUsed:.0f}{mm} ({MemTotal:.0f}{mm})"
     ),
-    widget.Volume(
-        **decor_right,
-        background=Color12+".4",
-        padding=10, 
-        fmt='Vol: {}',
-    ),
     widget.DF(
         **decor_right,
         padding=10, 
         background=Color8+".4",        
         visible_on_warn=False,
-        format="{p} {uf}{m} ({r:.0f}%)"
+        format="Free: {uf}{m} | Used: ({r:.0f}%)"
     ),
     #widget.Bluetooth(
     #    **decor_right,
