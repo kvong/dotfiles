@@ -9,7 +9,13 @@
 # by Stephan Raabe (2023) 
 # ----------------------------------------------------- 
 
-DIR="$HOME/Pictures/screenshots/"
+DIR="$HOME/Downloads/screenshots/"
+
+if [ ! -d $DIR ]; then
+  mkdir -p $DIR;
+fi
+
+
 NAME="screenshot_$(date +%d%m%Y_%H%M%S).png"
 
 option1="Selected window (delay 3 sec)"
