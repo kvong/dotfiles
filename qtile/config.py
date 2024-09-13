@@ -104,7 +104,7 @@ keys = [
     Key([mod], "Escape", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     #Key([mod, "control"], "q", lazy.spawn(home + "/dotfiles/qtile/scripts/powermenu.sh"), desc="Open Powermenu"),
-    Key([mod], "d", lazy.spawn('rofi -show run -theme ~/.config/qtile/rofi/sidetab-adapta.rasi'), desc="Spawn a command using a rofi launcher"),
+    Key([mod], "d", lazy.spawn('rofi -show run'), desc="Spawn a command using a rofi launcher"),
 
     # Float
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating and tilling"),
@@ -136,28 +136,28 @@ workspaces = [
 # Groups
 # --------------------------------------------------------
 
-groups = []
+group_keys = ['1','2','3','4','q','w','e','a']
+groups = [Group(f"{group_keys[i]}", label="") for i in range(len(group_keys))]
 
-# Add workspaces to groups
-for workspace in workspaces:
-    matches = workspace["matches"] if "matches" in workspace else None
-    groups.append(Group(workspace["name"], matches=matches))
-    keys.append(
-        Key(
-            [mod],
-            workspace["key"],
-            lazy.group[workspace["name"]].toscreen(),
-            desc="Focus this desktop",
-        )
-    )
-    keys.append(
-        Key(
-            [mod, "shift"],
-            workspace["key"],
-            lazy.window.togroup(workspace["name"]),
-            desc="Move focused window to another group",
-        )
-    )
+
+for i, g in enumerate(groups):
+    keys.extend(
+            [
+                Key(
+                    [mod],
+                    g.name,
+                    lazy.group[g.name].toscreen(),
+                    desc="Switch to group {}".format(g.name),
+                    ),
+                Key(
+                    [mod, "shift"],
+                    g.name,
+                    lazy.window.togroup(g.name, switch_group=True),
+                    desc="Switch to & move focused window to group {}".format(g.name),
+                    ),
+                ]
+            )
+
 
 # --------------------------------------------------------
 # Scratchpads
@@ -236,8 +236,8 @@ layouts = [
 # --------------------------------------------------------
 
 widget_defaults = dict(
-    font="Fira Sans SemiBold",
-    fontsize=14,
+    font="FuraCode Nerd Font",
+    fontsize=18,
     padding=3
 )
 extension_defaults = widget_defaults.copy()
@@ -250,8 +250,8 @@ extension_defaults = widget_defaults.copy()
 decor_left = {
     "decorations": [
         PowerLineDecoration(
-            path="arrow_left"
-            # path="rounded_left"
+            # path="arrow_left"
+            path="rounded_left"
             # path="forward_slash"
             # path="back_slash"
         )
@@ -261,8 +261,8 @@ decor_left = {
 decor_right = {
     "decorations": [
         PowerLineDecoration(
-            path="arrow_right"
-            # path="rounded_right"
+            # path="arrow_right"
+            path="rounded_right"
             # path="forward_slash"
             # path="back_slash"
         )
@@ -275,22 +275,35 @@ decor_right = {
 
 widget_list = [
     widget.TextBox(
-        **decor_left,
-        background=Color1+".4",
-        text='Apps',
+        **decor_right,
+        background=Color1+".0",
+        text=' ',
         foreground='ffffff',
-        desc='',
-        padding=10,
-        mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("rofi -show drun")},
     ),
     #widget.TextBox(
     #    **decor_left,
-    #    background="#ffffff.4",
-    #    text="  ",
-    #    foreground="000000.6",
-    #    fontsize=18,
-    #    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh select")},
+    #    background=Color1+".4",
+    #    text='',
+    #    foreground='ffffff',
+    #    desc='',
+    #    padding=10,
+    #    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("rofi -show drun")},
     #),
+    widget.TextBox(
+        **decor_left,
+        background=Color1+".4",
+        text="",
+        fontsize=18,
+        mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh select")},
+    ),
+    widget.TextBox(
+        **decor_right,
+        background="#ffffff.0",
+        text=' ',
+        foreground='ffffff',
+        desc='',
+        padding=0,
+    ),
     widget.GroupBox(
         **decor_left,
         background="#ffffff.7",
@@ -305,78 +318,106 @@ widget_list = [
         active='ffffff'
     ),
     widget.TextBox(
+        **decor_right,
+        background="#ffffff.0",
+        text=' ',
+        foreground='ffffff',
+        desc='',
+        padding=0,
+    ),
+    widget.TextBox(
         **decor_left,
-        background="#ffffff.4",
-        text=" ",
-        foreground="000000.6",
+        background=Color3+".4",
+        text="",
         fontsize=18,
         mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("bash " + home + "/dotfiles/.settings/browser.sh")},
     ),
     widget.TextBox(
         **decor_left,
-        background="#ffffff.4",
-        text=" ",
-        foreground="000000.6",
+        background=Color3+".4",
+        text="",
         fontsize=18,
         mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("bash " + home + "/dotfiles/.settings/filemanager.sh")}
     ),
-    
-    widget.WindowName(
-        **decor_left,
-        max_chars=50,
-        background=Color2+".4",
-        width=400,
-        padding=10
+    widget.TextBox(
+        **decor_right,
+        background="#ffffff.0",
+        text=' ',
+        foreground='ffffff',
+        desc='',
+        padding=0,
     ),
-    widget.Spacer(),
     widget.Spacer(
-        length=30
+        background="#ffffff.0"
+    ),
+    widget.Spacer(
+        background="#ffffff.0"
     ),
     widget.TextBox(
         **decor_right,
-        background="#000000.3"      
+        background="#ffffff.0",
+        text=' ',
+        foreground='ffffff',
+        desc='',
+        padding=0,
     ),    
     widget.Memory(
-        **decor_right,
+        **decor_left,
         background=Color10+".4",
         padding=10,        
         measure_mem='G',
-        format="{MemUsed:.0f}{mm} ({MemTotal:.0f}{mm})"
+        format=" {MemUsed:.0f}{mm} ({MemTotal:.0f}{mm})"
     ),
-    widget.DF(
+    widget.TextBox(
         **decor_right,
+        background="#ffffff.0",
+        text=' ',
+        foreground='ffffff',
+        desc='',
+        padding=0,
+    ),    
+    # Not sure why this needs to be here but had to add this otherwize TextBox for decor_right after it wouldnt show up
+    widget.TextBox(
+        text='',
+    ),    
+    widget.TextBox(
+        **decor_right,
+        background="#ffffff.0",
+        text=' ',
+        foreground='ffffff',
+        desc='',
+        padding=0,
+    ),    
+    widget.DF(
+        **decor_left,
         padding=10, 
         background=Color8+".4",        
         visible_on_warn=False,
-        format="Free: {uf}{m} | Used: ({r:.0f}%)"
+        max_char=100,
+        format=" {uf}{m} ({r:.0f}%)"
     ),
-    #widget.Bluetooth(
-    #    **decor_right,
-    #    background=Color2+".4",
-    #    padding=10,
-    #    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("blueman-manager")},
-    #),
-    #widget.Wlan(
-    #    **decor_right,
-    #    background=Color2+".4",
-    #    padding=10,
-    #    format='{essid} {percent:2.0%}',
-    #    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("alacritty -e nmtui")},
-    #),
-    widget.Clock(
+    widget.TextBox(
         **decor_right,
+        background="#ffffff.0",
+        text=' ',
+        foreground='ffffff',
+        desc='',
+        padding=0,
+    ),    
+    widget.Clock(
+        **decor_left,
         background=Color4+".4",   
         padding=10,      
-        format="%Y-%m-%d / %I:%M %p",
+        format=" %Y-%m-%d /  %I:%M %p",
     ),
-    #widget.TextBox(
-    #    **decor_right,
-    #    background=Color2+".4",     
-    #    padding=5,    
-    #    text=" ",
-    #    fontsize=20,
-    #    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(home + "/dotfiles/qtile/scripts/powermenu.sh")},
-    #),
+    widget.TextBox(
+        **decor_right,
+        background="#ffffff.0",
+        text=' ',
+        foreground='ffffff',
+        desc='',
+        padding=0,
+    ),    
 ]
 
 # Hide Modules if not on laptop
@@ -402,14 +443,13 @@ screens = [
             padding=20,
             opacity=0.7,
             border_width=[0, 0, 0, 0],
-            margin=[0,0,0,0],
-            background="#000000.3"
+            margin=[0,0,5,0],
+            background="#000000.0"
         ),
         wallpaper=current_wallpaper,
         wallpaper_mode='stretch',
     ),
 ]
-print( current_wallpaper )
 
 # --------------------------------------------------------
 # Drag floating layouts
