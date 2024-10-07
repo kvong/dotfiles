@@ -1,6 +1,7 @@
 #!/bin/bash
 
-compton -f &
+dunst &
 keychain &
-urxvt &
 firefox &
+picom &
+~/dotfiles/qtile/scripts/wallpaper.sh init 

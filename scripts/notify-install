@@ -1,0 +1,9 @@
+#~/bin/bash
+
+for i; do
+    if sudo apt install -y $i; then
+        notify-send "Install Successful!" "$i installed successfully" -u normal -i sign-check 
+    else
+        notify-send "Install Failed" "$i failed to install" -u critical -i sign-error
+    fi
+done
