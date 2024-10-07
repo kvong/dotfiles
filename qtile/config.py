@@ -121,14 +121,14 @@ keys = [
 # --------------------------------------------------------
 workspaces = [
     # Main Workspaces
-    {"name": "TERM", "key": "1", "matches": [Match(wm_class="Terminator")]},
-    {"name": "WEB", "key": "2", "matches": [Match(wm_class="firefox")]},
-    {"name": "CODE", "key": "3"},
-    {"name": "FILES", "key": "4", "matches": [Match(wm_class="Thunar"),Match(wm_class="Filezilla")]},
+    {"name": "TERM", "key": "q", "matches": [Match(wm_class="Terminator")]},
+    {"name": "WEB", "key": "w", "matches": [Match(wm_class="firefox")]},
+    {"name": "CODE", "key": "e"},
+    {"name": "FILES", "key": "r", "matches": [Match(wm_class="Thunar"),Match(wm_class="Filezilla")]},
     # Temporary Workspaces
-    {"name": "TEMP-Q", "key": "q"},
-    {"name": "TEMP-W", "key": "w"},
-    {"name": "TEMP-E", "key": "e"},
+    {"name": "TEMP-Q", "key": "a"},
+    {"name": "TEMP-W", "key": "s"},
+    {"name": "TEMP-E", "key": "z"},
 ]
 
 
@@ -136,7 +136,7 @@ workspaces = [
 # Groups
 # --------------------------------------------------------
 
-group_keys = ['1','2','3','4','q','w','e','a']
+group_keys = ['q','w','e','r','a','s','z']
 groups = [Group(f"{group_keys[i]}", label="") for i in range(len(group_keys))]
 
 

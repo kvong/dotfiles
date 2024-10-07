@@ -69,7 +69,12 @@ require("lazy").setup({
           "MunifTanjim/nui.nvim",
           -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
         }
-    }
+    },
+    {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" }
+    },
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
@@ -85,6 +90,7 @@ vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+vim.keymap.set('n', '<leader>fm', builtin.marks, {})
 
 local config = require("nvim-treesitter.configs")
 config.setup({
@@ -94,5 +100,38 @@ config.setup({
     indent = { enable = true }, 
 })
 
-vim.keymap.set('n', '<C-n>', ':Neotree filesystem toggle left<CR>', {})
+vim.keymap.set('n', '<c-n>', ':Neotree filesystem toggle left<CR>', {})
 vim.keymap.set("n", "<leader>bf", ":Neotree buffers toggle float<CR>", {})
+
+local harpoon = require("harpoon")
+
+-- REQUIRED
+harpoon:setup()
+-- REQUIRED
+
+vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
+-- vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+-- basic telescope configuration
+local conf = require("telescope.config").values
+local function toggle_telescope(harpoon_files)
+    local file_paths = {}
+    for _, item in ipairs(harpoon_files.items) do
+        table.insert(file_paths, item.value)
+    end
+
+    require("telescope.pickers").new({}, {
+        prompt_title = "Harpoon",
+        finder = require("telescope.finders").new_table({
+            results = file_paths,
+        }),
+        previewer = conf.file_previewer({}),
+        sorter = conf.generic_sorter({}),
+    }):find()
+end
+
+vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
+    { desc = "Open harpoon window" })
+
+-- Toggle previous & next buffers stored within Harpoon list
+vim.keymap.set("n", "<c-k>", function() harpoon:list():prev() end)
+vim.keymap.set("n", "<c-j>", function() harpoon:list():next() end)
