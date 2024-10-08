@@ -185,3 +185,6 @@ set -o vi
 . "$HOME/.cargo/env"
 
 eval "$(starship init bash)"
+
+# Look for .env file and export all environment variables
+set -a && source ~/.env && set +a
