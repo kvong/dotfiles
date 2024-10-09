@@ -16,7 +16,7 @@ return {
                     chat = true,
                     command = false,
                     -- string with model name or table with model name and parameters
-                    model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
+                    model = { model = "gpt-4o", temperature = 1.1, top_p = 1 , max_completion_tokens = 400},
                     -- system prompt (use this to specify the persona/role of the AI)
                     system_prompt = require("gp.defaults").chat_system_prompt,
                 },
@@ -26,7 +26,7 @@ return {
                     chat = true,
                     command = false,
                     -- string with model name or table with model name and parameters
-                    model = { model = "gpt-4o-mini", temperature = 1.1, top_p = 1 },
+                    model = { model = "gpt-4o-mini", temperature = 1.1, top_p = 1, max_completion_tokens = 400},
                     -- system prompt (use this to specify the persona/role of the AI)
                     system_prompt = require("gp.defaults").chat_system_prompt,
                 },
@@ -47,9 +47,12 @@ return {
         require("gp").setup(conf)
 
         -- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
-        vim.keymap.set({"n",}, "<leader>fi", "<cmd>GpChatNew popup<cr>", {})
-        vim.keymap.set("v", "<C-g>i", ":<C-u>'<,'>GpImplement<cr>", {})
-        vim.keymap.set({"n", "i"}, "<C-g>t", "<cmd>GpChatToggle<cr>", {})
+        vim.keymap.set({"n"}, "<leader>gn", "<cmd>GpChatNew vsplit<cr>", {})
+        vim.keymap.set("v", "<leader>gi", ":<C-u>'<,'>GpImplement<cr>", {})
+        vim.keymap.set({"n"}, "<leader>gr", "<cmd>GpChatRespond<cr>", {})
+        vim.keymap.set({"n"}, "<leader>gt", "<cmd>GpChatToggle<cr>", {})
+        vim.keymap.set({"n"}, "<leader>gf", "<cmd>GpChatFinder<cr>", {})
+        vim.keymap.set({"n"}, "<leader>gd", "<cmd>GpChatDelete<cr>", {})
         --local function keymapOptions(desc)
         --    return {
         --        noremap = true,
