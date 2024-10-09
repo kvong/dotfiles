@@ -186,5 +186,4 @@ set -o vi
 
 eval "$(starship init bash)"
 
-# Look for .env file and export all environment variables
-set -a && source ~/.env && set +a
+source $HOME/.bash_profile
