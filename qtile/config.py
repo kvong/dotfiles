@@ -62,7 +62,7 @@ platform = int(os.popen("cat /sys/class/dmi/id/chassis_type").read())
 # Set default apps
 # --------------------------------------------------------
 
-terminal = "terminator"        
+terminal = "alacritty"        
 
 # --------------------------------------------------------
 # Keybindings
