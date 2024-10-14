@@ -21,9 +21,6 @@ mkdir -p "${HOME}/.config/tmux"
 git clone https://github.com/gpakosz/.tmux.git "${HOME}/.config/tmux/oh-my-tmux"
 ln -s "${HOME}/.config/tmux/oh-my-tmux/.tmux.conf" ~/.config/tmux/tmux.conf
 
-mkdir -p ~/.config/tmux/plugins/catppuccin
-git clone https://github.com/catppuccin/tmux.git ~/.config/tmux/plugins/catppuccin/tmux
-
 echo "Creating Symlinks"
 
 rm -rf ~/.vimrc
