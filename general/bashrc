@@ -134,7 +134,7 @@ alias restart_audio='pulseaudio -k && sudo alsa force-reload'
 alias xclip='xclip -se clipboard'
 alias Qtile='source ~/Apps/qtile/qtile-venv/bin/activate; startx'
 alias bssh='~/Work/better-server-ssh/bssh.sh'
-alias dot='vi ~/dotfiles'
+alias dot='cd ~/dotfiles'
 alias tm='tmux'
 
 ## REMEMBER LAST VISITED DIRECTORY  ##
