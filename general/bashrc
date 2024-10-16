@@ -123,6 +123,7 @@ fi
 alias cddown='cd ~/Downloads'
 alias scripts='cd ~/Scripts'
 alias cd.='cd ..'
+alias vim='nvim'
 alias vi='nvim'
 alias sob='source ~/.bashrc && notify-send "Updated" ".bashrc updated!" -i terminal'
 alias sus='systemctl suspend'
@@ -136,6 +137,10 @@ alias Qtile='source ~/Apps/qtile/qtile-venv/bin/activate; startx'
 alias bssh='~/Work/better-server-ssh/bssh.sh'
 alias dot='cd ~/dotfiles'
 alias tm='tmux'
+alias o='cd ~/vault'
+alias of='vi ~/vault'
+alias vif='find . -type f ! -name "*.log" ! -path "./node_modules/*" ! -path "./.git/*" | fzf --preview "bat --style=numbers --color=always --line-range=:500 {}" --preview-window=right:60% | xargs -o nvim '
+alias vig='grep -rIn --exclude-dir={node_modules,.git,composer} "" . | fzf --preview "bat --style=numbers --color=always --line-range=:500 $(cut -d: -f1 <<< {})" --preview-window=right:60% | cut -d: -f1 | xargs -o nvim '
 
 ## REMEMBER LAST VISITED DIRECTORY  ##
 CURDIR="$(cat ~/.latest-dir)"
