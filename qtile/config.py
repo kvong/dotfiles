@@ -122,7 +122,7 @@ keys = [
 workspaces = [
     # Main Workspaces
     {"name": "TERM", "key": "q", "matches": [Match(wm_class="Terminator")]},
-    {"name": "WEB", "key": "w", "matches": [Match(wm_class="firefox")]},
+    {"name": "WEB", "key": "w", "matches": [Match(wm_class="brave-browser")]},
     {"name": "CODE", "key": "e"},
     {"name": "FILES", "key": "r", "matches": [Match(wm_class="Thunar"),Match(wm_class="Filezilla")]},
     # Temporary Workspaces

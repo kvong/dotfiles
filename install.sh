@@ -55,8 +55,12 @@ ln -s "${HOME}/dotfiles/terminator" ~/.config/terminator
 ln -s "${HOME}/dotfiles/alacritty" ~/.config/alacritty
 ln -s "${HOME}/dotfiles/wallpapers" ~/wallpapers
 
+# Install Fabric directly from the repo
+go install github.com/danielmiessler/fabric@latest
+
 source ~/.bashrc
 
 
 echo "Installation Completed"
+echo "Don't forget to run 'fabric --setup' to setup fabric."
 

@@ -2,6 +2,6 @@
 
 dunst &
 keychain &
-firefox &
+brave-browser &
 picom &
 ~/dotfiles/qtile/scripts/wallpaper.sh init 
