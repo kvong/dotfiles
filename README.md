@@ -1,61 +1,36 @@
-# Things To Install For Ubuntu 20.04
+# Dotfiles for qtile on Ubuntu 24.04
+My ever-growing frankenstine linux rice. I also mapped the keys to work directly with my ergo split keyboard and is meant for an ultrawide screen so these shortcuts and layout may not be optimal for everyone. The style as well as some of the script are from [Stephan Raabe's mylinuxforwork dotfiles](https://github.com/mylinuxforwork/dotfiles) though he uses Arch and I'm no where as cool nor have the time to pull that off.
+
 ## QTile Screenshot
+![](./screenshots/sample-qtile-simple.png)
 ![](./screenshots/sample-qtile.png)
 
-## Installing QTile
-- Run qtile-install script
-- Download NerdFront [here](https://www.nerdfonts.com/font-downloads).
-  - Unzip the font
-  - Move to `~/.local/share/fonts/`
-  - Clear font cache `fc-cache -f -v`
-  - Check font `fc-match "<font-name>"`
-- Move config files to .config/qtile/
+## Installation
+- Install dependencies and symlink config files.
 ```
-cp ~/dotfiles/.config/qtile/ ~/.config/qtile/
+./install.sh
 ```
-
-## I3 Screenshot
-![](./screenshots/sample-i3.png)
-
-## Installing I3
-- Run i3-install script
-
+- Install Qtile
+```
+./qtile-install.sh
+```
+- Install Theme
+```
+./qtile-install.sh
+```
+- Install fonts
+```
+./qtile-install.sh
+```
 
 # TIPS and TRICKS
-## Change ubuntu theme
-```
-/usr/share/gnome-shell/theme/ubuntu.css
-```
-## Install powerline ( tecmint's instructions )
-```
-sudo apt-get install python-pip
-sudo pip install git+git://github.com/Lokaltog/powerline
-wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
-wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
-mv PowerlineSymbols.otf /usr/share/fonts/
-fc-cache -vf /usr/share/fonts/
-mv 10-powerline-symbols.conf /etc/fonts/conf.d/
-pip show powerline-status
-```
-## Change login screen background  (NOTE: Seems to break the system; Advised against trying)
-```
-sudo vi /usr/share/gnome-shell/theme/ubuntu.css
-\#lockDialogGroup {
-background: #2c001e url(file:///home/blankstr13/Pictures/background/background.jpg);
-background-position: center;
-background-repeat: no-repeat;
-background-size: cover; }
-```
-## Set root password
-```
-sudo passwd root
-```
 ## Control brightness for Dell XPS-13
-I3 Example
+Overriding file containing brightness level.
 ```
 # Change file permission to use a script to modify brightness
 sudo echo chmod o+rw /sys/class/backlight/brightness >> rc.local
 
+# Keymap for I3wm but can easily be adapted. 'XF86MonBrightnessUp' and 'XF86MonBrightnessDown' are the buttons.
 bindsym XF86MonBrightnessUp exec ~/Scripts/light up # increase screen brightness
 bindsym XF86MonBrightnessDown exec ~/Scripts/light down # decrease screen brightness
 
@@ -76,4 +51,3 @@ sudo apt install xinput
 
 ### Setting a static IP
 [Guide on how to configure static IP address.](https://linuxize.com/post/how-to-configure-static-ip-address-on-ubuntu-18-04/)
-
