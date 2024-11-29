@@ -142,14 +142,6 @@ alias of='vi ~/vault'
 alias vif='find . -type f ! -name "*.log" ! -path "./node_modules/*" ! -path "./.git/*" | fzf --preview "bat --style=numbers --color=always --line-range=:500 {}" --preview-window=right:60% | xargs -o nvim '
 alias vig='grep -rIn --exclude-dir={node_modules,.git,composer} "" . | fzf --preview "bat --style=numbers --color=always --line-range=:500 $(cut -d: -f1 <<< {})" --preview-window=right:60% | cut -d: -f1 | xargs -o nvim '
 
-## REMEMBER LAST VISITED DIRECTORY  ##
-CURDIR="$(cat ~/.latest-dir)"
-cd(){
-    builtin cd "$@" && ls;
-    pwd > ~/.latest-dir
-}
-cd $CURDIR
-
 ## CD INTO DIRECTORY AFTER CREATING IT ##
 mkcd(){
     mkdir -p "$*"
@@ -212,6 +204,24 @@ export GOPATH=$HOME/go
 # Update PATH to include GOPATH and GOROOT binaries
 export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH
 
-eval "$(zoxide init bash)"
+
 export _ZO_ECHO='1'
+eval "$(zoxide init bash)" # or zsh, depending on your shell
+alias to='z'
+CURDIR="$(cat ~/.latest-dir)"
+
+if [ -f ~/.latest-dir ]; then
+    cd $CURDIR
+fi
+
+# Save the current directory to zoxide
+PROMPT_COMMAND='echo $PWD > ~/.latest-dir; zoxide add $PWD'
+cd(){
+    builtin cd "$@" && ls;
+    pwd > ~/.latest-dir
+    zoxide add $CURDIR  # Save the last directory to zoxide database
+}
+function cds {
+    z query --interactive | fzf --preview="exa --tree -L 2 {} 2>/dev/null" | xargs -r z change
+}
 
