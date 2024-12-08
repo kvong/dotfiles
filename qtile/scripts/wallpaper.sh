@@ -33,7 +33,7 @@ case $1 in
     # Load wallpaper from .cache of last session 
     "init")
         if [ -f $cache_file ]; then
-            wal -q -i $current_wallpaper
+            wal -q -i $current_wallpaper -n
         else
             wal -q -i ~/wallpapers/
         fi

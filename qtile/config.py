@@ -68,7 +68,7 @@ terminal = "alacritty"
 # Keybindings
 # --------------------------------------------------------
 
-mod = "mod4" # SUPER KEY
+mod = "mod1" # SUPER KEY
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -136,7 +136,7 @@ workspaces = [
 # Groups
 # --------------------------------------------------------
 
-group_keys = ['q','w','e','r','a','s','z']
+group_keys = ['1','2','3','q','w','e','a']
 groups = [Group(f"{group_keys[i]}", label="") for i in range(len(group_keys))]
 
 
@@ -447,7 +447,7 @@ screens = [
             background="#000000.0"
         ),
         wallpaper=current_wallpaper,
-        wallpaper_mode='stretch',
+        wallpaper_mode='fill',
     ),
 ]
 
