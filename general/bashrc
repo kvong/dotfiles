@@ -175,6 +175,8 @@ printf "\033[01;35m┐\n"
 export PS1="\[\033[01;35m\]├─[\[\033[01;35m\]\[\033[01;37m\]\D{%A, %B %-d}\[\033[01;35m\]]──[\[\033[01;35m\]\[\033[01;37m\]\D{%-I:%M %p}\[\033[01;35m\]]──\[\033[01;37m\]\[\033[01;35m\][\[\033[01;37m\]\w/\[\033[01;35m\]]\[\033[01;31m\]:$\n\[\033[01;35m\]├────➤ \[\033[01;37m\]"
 export PATH="$PATH:${HOME}/scripts/"
 export PATH="$PATH:${HOME}/.local/bin/"
+export VISUAL=vim
+export EDITOR="$VISUAL"
 
 source $HOME/.keychain/$HOSTNAME-sh
 
