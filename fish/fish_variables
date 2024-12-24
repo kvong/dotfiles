@@ -1,6 +1,6 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR --export CURDIR:/home/blank/\x2econfig
+SETUVAR --export CURDIR:/home/blank/\x2econfig/fish
 SETUVAR --export SSH_AGENT_PID:4397
 SETUVAR --export SSH_AUTH_SOCK:/tmp/ssh\x2db1zQVIRd957T/agent\x2e4396
 SETUVAR __fish_initialized:3400

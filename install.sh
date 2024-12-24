@@ -66,7 +66,8 @@ go install github.com/danielmiessler/fabric@latest
 source ~/.bashrc
 
 # Set fish shell as default shell
-sudo chsh -s /usr/local/bin/fish
+sudo chsh -s (which fish)
+
 
 fish
 
