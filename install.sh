@@ -1,13 +1,16 @@
 #!/bin/bash
 
+sudo apt-add-repository ppa:fish-shell/release-3
+
 echo Updating repo
 sudo apt-get update -y
 sudo apt-get upgrade -y
 
 # Install base apps
 echo Installing base apps
-sudo apt-get -y install neovim htop keychain fzf vim rofi picom lxappearance vim thunar terminator dunst neofetch vifm conky-all rsync xclip fd-find ripgrep eza scrot tmux bat zoxide
+sudo apt-get -y install neovim htop keychain fzf vim rofi picom lxappearance vim thunar terminator dunst neofetch vifm conky-all rsync xclip fd-find ripgrep eza scrot tmux bat zoxide fish
 
+# Install batcat
 mkdir -p ~/.local/bin
 ln -s /usr/bin/batcat ~/.local/bin/bat
 
@@ -36,6 +39,7 @@ rm -rf ~/.config/rofi
 rm -rf ~/.config/nvim
 rm -rf ~/.config/terminator
 rm -rf ~/.config/alacritty
+rm -rf ~/.config/fish
 rm -rf ~/wallpapers
 
 dir=$(pwd)
@@ -54,12 +58,17 @@ ln -s "${HOME}/dotfiles/nvim" ~/.config/nvim
 ln -s "${HOME}/dotfiles/terminator" ~/.config/terminator
 ln -s "${HOME}/dotfiles/alacritty" ~/.config/alacritty
 ln -s "${HOME}/dotfiles/wallpapers" ~/wallpapers
+ln -s "${HOME}/dotfiles/fish" ~/fish
 
 # Install Fabric directly from the repo
 go install github.com/danielmiessler/fabric@latest
 
 source ~/.bashrc
 
+# Set fish shell as default shell
+sudo chsh -s /usr/local/bin/fish
+
+fish
 
 echo "Installation Completed"
 echo "Don't forget to run 'fabric --setup' to setup fabric."
