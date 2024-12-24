@@ -7,4 +7,5 @@ if test -f ~/.latest-dir
     cd $CURDIR
 end
 
+starship init fish | source
 
