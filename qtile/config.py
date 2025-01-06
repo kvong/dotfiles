@@ -68,7 +68,7 @@ terminal = "alacritty"
 # Keybindings
 # --------------------------------------------------------
 
-mod = "mod4" # SUPER KEY
+mod = os.environ.get('MODKEY', 'mod4') # SUPER KEY
 
 keys = [
     # A list of available commands that can be bound to keys can be found
