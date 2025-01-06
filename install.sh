@@ -15,7 +15,7 @@ curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fi
 
 # Install batcat
 mkdir -p ~/.local/bin
-ln -s /usr/bin/batcat ~/.local/bin/bat
+cp /usr/bin/batcat ~/.local/bin/bat
 
 # Install Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -64,17 +64,15 @@ ln -s "${HOME}/dotfiles/alacritty" ~/.config/alacritty
 ln -s "${HOME}/dotfiles/wallpapers" ~/wallpapers
 ln -s "${HOME}/dotfiles/fish" ~/fish
 
+source ~/.bashrc
+
 # Install Fabric directly from the repo
 go install github.com/danielmiessler/fabric@latest
-
-source ~/.bashrc
 
 # Set fish shell as default shell
 sudo chsh -s $(which fish)
 
-
-fish
-
 echo "Installation Completed"
 echo "Don't forget to run 'fabric --setup' to setup fabric."
+fish
 
