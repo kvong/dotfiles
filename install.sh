@@ -62,7 +62,7 @@ ln -s "${HOME}/dotfiles/nvim" ~/.config/nvim
 ln -s "${HOME}/dotfiles/terminator" ~/.config/terminator
 ln -s "${HOME}/dotfiles/alacritty" ~/.config/alacritty
 ln -s "${HOME}/dotfiles/wallpapers" ~/wallpapers
-ln -s "${HOME}/dotfiles/fish" ~/fish
+ln -s "${HOME}/dotfiles/fish" ~/.config/fish
 
 source ~/.bashrc
 
