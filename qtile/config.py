@@ -447,7 +447,7 @@ screens = [
             background="#000000.0"
         ),
         wallpaper=current_wallpaper,
-        wallpaper_mode='stretch',
+        wallpaper_mode=os.getenv('QTILE_WALLPAPER_MODE', 'stretch'),
     ),
 ]
 
