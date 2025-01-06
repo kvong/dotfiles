@@ -8,7 +8,7 @@ sudo apt-get upgrade -y
 
 # Install base apps
 echo Installing base apps
-sudo apt-get -y install neovim htop keychain fzf vim rofi picom lxappearance vim thunar terminator dunst neofetch vifm conky-all rsync xclip fd-find ripgrep eza scrot tmux bat zoxide fish
+sudo apt-get -y install neovim htop keychain fzf vim rofi picom lxappearance vim thunar terminator dunst neofetch vifm conky-all rsync xclip fd-find ripgrep eza scrot tmux bat zoxide fish golang-go
 
 # Install fisher - fish shell plugin manager
 curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
@@ -24,6 +24,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 curl -sS https://starship.rs/install.sh | sh
 
 # Installing .tmux
+rm -rf ~/.config/tmux/tmux.conf "${HOME}/.config/tmux/oh-my-tmux"
 mkdir -p "${HOME}/.config/tmux"
 git clone https://github.com/gpakosz/.tmux.git "${HOME}/.config/tmux/oh-my-tmux"
 ln -s "${HOME}/.config/tmux/oh-my-tmux/.tmux.conf" ~/.config/tmux/tmux.conf
@@ -69,7 +70,7 @@ go install github.com/danielmiessler/fabric@latest
 source ~/.bashrc
 
 # Set fish shell as default shell
-sudo chsh -s (which fish)
+sudo chsh -s $(which fish)
 
 
 fish
