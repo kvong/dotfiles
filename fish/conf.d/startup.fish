@@ -4,7 +4,7 @@ source $HOME/.keychain/$hostname-fish
 eval "$(zoxide init fish)"
 
 if test -f ~/.latest-dir 
-    cd $CURDIR
+    cd $(cat ~/.latest-dir)
 end
 
 starship init fish | source
