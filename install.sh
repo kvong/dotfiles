@@ -29,6 +29,9 @@ mkdir -p "${HOME}/.config/tmux"
 git clone https://github.com/gpakosz/.tmux.git "${HOME}/.config/tmux/oh-my-tmux"
 ln -s "${HOME}/.config/tmux/oh-my-tmux/.tmux.conf" ~/.config/tmux/tmux.conf
 
+# Create ~/vault for obsidian.nvim
+mkdir -p ~/vault/{personal,work}
+
 echo "Creating Symlinks"
 
 rm -rf ~/.vimrc
