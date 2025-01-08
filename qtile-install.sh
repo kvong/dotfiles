@@ -21,7 +21,7 @@ python3 -m venv ~/Apps/qtile/qtile-env/
 source ~/Apps/qtile/qtile-env/bin/activate
 
 # Install dependencies
-python3 -m pip install xcffib psutil finnhub-python
+python3 -m pip install xcffib psutil finnhub-python tomlkit
 python3 -m pip install --no-cache-dir cairocffi qtile qtile-extras
 
 # Cache file for holding the current wallpaper
