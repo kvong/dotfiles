@@ -8,6 +8,7 @@ source ~/.config/fish/conf.d/variables.fish
 source ~/.config/fish/conf.d/startup.fish
 enable_transience
 
+# Use !! and !$ from bash shell but make it better
 function bind_bang
     switch (commandline -t)[-1]
         case "!"
@@ -17,7 +18,6 @@ function bind_bang
             commandline -i !
     end
 end
-
 function bind_dollar
     switch (commandline -t)[-1]
         case "!"
@@ -26,7 +26,6 @@ function bind_dollar
             commandline -i '$'
     end
 end
-
 function fish_user_key_bindings
     bind ! bind_bang
     bind '$' bind_dollar
