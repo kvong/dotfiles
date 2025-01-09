@@ -117,28 +117,15 @@ keys = [
 ]
 
 # --------------------------------------------------------
-# Workspaces
-# --------------------------------------------------------
-workspaces = [
-    # Main Workspaces
-    {"name": "TERM", "key": "q", "matches": [Match(wm_class="Terminator")]},
-    {"name": "WEB", "key": "w", "matches": [Match(wm_class="brave-browser")]},
-    {"name": "CODE", "key": "e"},
-    {"name": "FILES", "key": "r", "matches": [Match(wm_class="Thunar"),Match(wm_class="Filezilla")]},
-    # Temporary Workspaces
-    {"name": "TEMP-Q", "key": "a"},
-    {"name": "TEMP-W", "key": "s"},
-    {"name": "TEMP-E", "key": "z"},
-]
-
-
-# --------------------------------------------------------
 # Groups
 # --------------------------------------------------------
 
-group_keys = ['q','w','e','r','a','s','z']
-groups = [Group(f"{group_keys[i]}", label="") for i in range(len(group_keys))]
+if "QTILE_SPLIT_KEEB" in os.environ:
+    group_keys = ['q','w','e','r','a','s','z']
+else:
+    group_keys = ['1','2','3','4','q','w','a']
 
+groups = [Group(f"{group_keys[i]}", label="") for i in range(len(group_keys))]
 
 for i, g in enumerate(groups):
     keys.extend(
