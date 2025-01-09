@@ -123,7 +123,7 @@ keys = [
 if "QTILE_SPLIT_KEEB" in os.environ:
     group_keys = ['q','w','e','r','a','s','z']
 else:
-    group_keys = ['1','2','3','4','q','w','a']
+    group_keys = ['1','2','3','q','w','e','a']
 
 groups = [Group(f"{group_keys[i]}", label="") for i in range(len(group_keys))]
 
