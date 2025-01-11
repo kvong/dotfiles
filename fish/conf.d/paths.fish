@@ -19,5 +19,5 @@ set -gx PATH $HOME"/.config/herd-lite/bin:$PATH"
 set -gx PHP_INI_SCAN_DIR $HOME"/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 set -gx NVM_DIR "$HOME/.nvm"
 if test -s "$NVM_DIR/nvm.sh"
-    source "$NVM_DIR/nvm.sh"
+    source_bash "$NVM_DIR/nvm.sh"
 end
