@@ -6,7 +6,6 @@ source ~/.config/fish/conf.d/tmux.fish
 source ~/.config/fish/conf.d/exports.fish
 source ~/.config/fish/conf.d/variables.fish
 source ~/.config/fish/conf.d/startup.fish
-enable_transience
 
 # Use !! and !$ from bash shell but make it better
 function bind_bang

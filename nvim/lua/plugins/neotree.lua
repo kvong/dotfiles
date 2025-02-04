@@ -9,6 +9,7 @@ return {
     },
     config = function()
         vim.keymap.set('n', '<C-n>', ':Neotree filesystem toggle left<CR>', {})
+        vim.keymap.set('n', '<C-s>', ':Neotree dir=~/vaults filesystem toggle left<CR>', {})
         vim.keymap.set("n", "<leader>bf", ":Neotree buffers toggle float<CR>", {})
         require("neo-tree").setup({
         event_handlers = {
