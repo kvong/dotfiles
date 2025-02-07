@@ -44,6 +44,3 @@ vim.keymap.set("n", "<leader>ok", ":!mv '%:p' ~/vaults/<cr>:bd<cr>")
 -- delete file in current buffer
 vim.keymap.set("n", "<leader>odd", ":!rm '%:p'<cr>:bd<cr>")
 
-
-
-

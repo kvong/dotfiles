@@ -4,8 +4,8 @@ return {
     lazy = false,
     ft = "markdown",
     dependencies = {
-    -- Required.
-    "nvim-lua/plenary.nvim",
+        -- Required.
+        "nvim-lua/plenary.nvim",
     },
     config = function()
         vim.opt.conceallevel = 1
@@ -24,6 +24,13 @@ return {
                 date_format = "%A, %m-%d-%Y",
                 time_format = "%H:%M:%S",
             },  
+            -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
+            completion = {
+                -- Set to false to disable completion.
+                nvim_cmp = true,
+                -- Trigger completion at 2 chars.
+                min_chars = 2,
+            },
             picker = {
                 -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
                 name = "telescope.nvim",
@@ -40,18 +47,25 @@ return {
                     tag_note = "<C-x>",
                     -- Insert a tag at the current location.
                     insert_tag = "<C-l>",
-                    },
                 },
+            },
+            -- Optional, sort search results by "path", "modified", "accessed", or "created".
+            -- The recommend value is "modified" and `true` for `sort_reversed`, which means, for example,
+            -- that `:ObsidianQuickSwitch` will show the notes sorted by latest modified time
+            sort_by = "modified",
+            sort_reversed = true,
 
-                -- Optional, sort search results by "path", "modified", "accessed", or "created".
-                -- The recommend value is "modified" and `true` for `sort_reversed`, which means, for example,
-                -- that `:ObsidianQuickSwitch` will show the notes sorted by latest modified time
-                sort_by = "modified",
-                sort_reversed = true,
-
-                -- Set the maximum number of lines to read from notes on disk when performing certain searches.
-                search_max_lines = 1000,
+            -- Set the maximum number of lines to read from notes on disk when performing certain searches.
+            search_max_lines = 1000,
         }
         require("obsidian").setup( conf )
+        vim.keymap.set("n", "gf", function()
+            if require("obsidian").util.cursor_on_markdown_link() then
+                return "<cmd>ObsidianFollowLink<CR>"
+            else
+                return "gf"
+            end
+        end, { noremap = false, expr = true })
+        vim.keymap.set("n", "<leader>os", ":ObsidianQuickSwitch")
     end
 }
