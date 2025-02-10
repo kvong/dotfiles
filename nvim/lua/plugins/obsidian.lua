@@ -66,6 +66,6 @@ return {
                 return "gf"
             end
         end, { noremap = false, expr = true })
-        vim.keymap.set("n", "<leader>os", ":ObsidianQuickSwitch")
+        vim.keymap.set("n", "<leader>os", ":ObsidianQuickSwitch<CR>")
     end
 }

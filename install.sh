@@ -79,7 +79,7 @@ source ~/.bashrc
 go install github.com/danielmiessler/fabric@latest
 
 # Set fish shell as default shell
-sudo chsh -s $(which fish)
+# sudo chsh -s $(which fish)
 
 echo "Installation Completed"
 echo "Don't forget to run 'fabric --setup' to setup fabric."

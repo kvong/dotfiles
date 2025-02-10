@@ -56,21 +56,6 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -170,9 +155,6 @@ ex (){
   fi
 }
 
-## BASIC PS1  ##
-printf "\033[01;35m┐\n"
-export PS1="\[\033[01;35m\]├─[\[\033[01;35m\]\[\033[01;37m\]\D{%A, %B %-d}\[\033[01;35m\]]──[\[\033[01;35m\]\[\033[01;37m\]\D{%-I:%M %p}\[\033[01;35m\]]──\[\033[01;37m\]\[\033[01;35m\][\[\033[01;37m\]\w/\[\033[01;35m\]]\[\033[01;31m\]:$\n\[\033[01;35m\]├────➤ \[\033[01;37m\]"
 export PATH="$PATH:${HOME}/scripts/"
 export PATH="$PATH:${HOME}/.local/bin/"
 export VISUAL=vim
@@ -185,7 +167,6 @@ source $HOME/.keychain/$HOSTNAME-sh
 set -o vi
 . "$HOME/.cargo/env"
 
-eval "$(starship init bash)"
 
 # Load users environment variables if any
 source "$HOME/.env"
@@ -216,3 +197,6 @@ function cds {
     z query --interactive | fzf --preview="exa --tree -L 2 {} 2>/dev/null" | xargs -r z change
 }
 
+python ~/.config/alacritty/update_alacritty_from_env.py
+
+eval "$(starship init bash)"
