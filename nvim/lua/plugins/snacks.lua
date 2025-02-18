@@ -37,7 +37,7 @@ return {
         { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
         { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
         { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
-        { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
+        -- { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
         { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
         { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent" },
         -- git
@@ -71,7 +71,7 @@ return {
         { "<leader>sm", function() Snacks.picker.marks() end, desc = "Marks" },
         { "<leader>sM", function() Snacks.picker.man() end, desc = "Man Pages" },
         { "<leader>sp", function() Snacks.picker.lazy() end, desc = "Search for Plugin Spec" },
-        { "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
+        --{ "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
         { "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume" },
         { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
         { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
