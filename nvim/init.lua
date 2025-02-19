@@ -29,4 +29,3 @@ require("keymaps")
 
 -- Setup lazy.nvim
 require("lazy").setup("plugins")
-
