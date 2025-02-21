@@ -68,10 +68,10 @@ terminal = "alacritty"
 # Keybindings
 # --------------------------------------------------------
 
-mod = os.environ.get('MODKEY', 'mod4') # SUPER KEY: mod1 = Alt; mod4 = Win
-
 if "KEYBALL39_IS_ACTIVE" in os.environ:
-    mod = os.environ.get('mod4') # Overwrite mod if keyball is detected
+    mod = os.environ.get('mod4') # Set mod for keyball
+else:
+    mod = os.environ.get('MODKEY', 'mod4') # SUPER KEY: mod1 = Alt; mod4 = Win
 
 keys = [
     # A list of available commands that can be bound to keys can be found
