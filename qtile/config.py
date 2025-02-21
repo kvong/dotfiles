@@ -69,7 +69,7 @@ terminal = "alacritty"
 # --------------------------------------------------------
 
 if "KEYBALL39_IS_ACTIVE" in os.environ:
-    mod = os.environ.get('mod4') # Set mod for keyball
+    mod = 'mod4' # Set mod for keyball
 else:
     mod = os.environ.get('MODKEY', 'mod4') # SUPER KEY: mod1 = Alt; mod4 = Win
 
