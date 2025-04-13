@@ -4,7 +4,7 @@ return {
         tag = '0.1.8',
         dependencies = {
             'nvim-lua/plenary.nvim',
-            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' } -- incase this fails, navigate to ~/.local/share/nvim/lazy/telescope-fzf-native.nvim and run 'make' to create the object file
         },
         config = function ()
             require('telescope').setup{
