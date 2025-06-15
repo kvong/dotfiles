@@ -1,22 +1,12 @@
 #!/bin/bash
 
 declare -a fonts=(
-    BitstreamVeraSansMono
-    CodeNewRoman
-    DroidSansMono
     FiraCode
     FiraMono
-    Go-Mono
     Hack
-    Hermit
     JetBrainsMono
     Meslo
-    Noto
-    Overpass
-    ProggyClean
-    RobotoMono
     SourceCodePro
-    SpaceMono
     Ubuntu
     UbuntuMono
 )

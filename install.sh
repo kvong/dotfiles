@@ -8,7 +8,7 @@ sudo apt-get upgrade -y
 
 # Install base apps
 echo Installing base apps
-sudo apt-get -y install neovim htop keychain fzf vim rofi picom lxappearance vim thunar terminator dunst neofetch vifm conky-all rsync xclip fd-find ripgrep eza scrot tmux bat zoxide fish golang-go wget
+sudo apt-get -y install neovim htop keychain fzf vim rofi picom lxappearance vim thunar terminator dunst neofetch vifm conky-all rsync xclip fd-find ripgrep eza scrot tmux bat zoxide fish golang-go wget fonts-noto-color-emoji
 
 # Install nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
