@@ -14,5 +14,5 @@ end
 
 starship init fish | source
 
-python ~/.config/alacritty/update_alacritty_from_env.py
+python3 ~/.config/alacritty/update_alacritty_from_env.py
 
