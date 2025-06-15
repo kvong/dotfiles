@@ -318,8 +318,8 @@ widget_list = [
     widget.TextBox(
         **decor_left,
         background=Color3+".4",
-        text="",
-        fontsize=18,
+        text="",
+        fontsize=20,
         mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("bash " + home + "/dotfiles/.settings/browser.sh")},
     ),
     widget.TextBox(
@@ -328,6 +328,13 @@ widget_list = [
         text="",
         fontsize=18,
         mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("bash " + home + "/dotfiles/.settings/filemanager.sh")}
+    ),
+    widget.TextBox(
+        **decor_left,
+        background=Color3+".4",
+        text="",
+        fontsize=18,
+        mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("bash " + home + "/dotfiles/.settings/moonlight.sh")}
     ),
     widget.TextBox(
         **decor_right,
