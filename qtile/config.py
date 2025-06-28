@@ -347,9 +347,6 @@ widget_list = [
     widget.Spacer(
         background="#ffffff.0"
     ),
-    widget.Spacer(
-        background="#ffffff.0"
-    ),
     widget.TextBox(
         **decor_right,
         background="#ffffff.0",
@@ -519,5 +516,5 @@ def autostart():
     autostartscript = "~/.config/qtile/autostart.sh"
     home = os.path.expanduser(autostartscript)
     subprocess.Popen([home])
-    bottom.show(False)
+    lazy.hide_show_bar("bottom")
 
