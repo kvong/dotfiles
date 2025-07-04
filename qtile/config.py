@@ -25,7 +25,6 @@ from libqtile.widget.image import Image
 from libqtile.dgroups import simple_key_binder
 from pathlib import Path
 from libqtile.log_utils import logger
-
 from qtile_extras import widget
 from qtile_extras.widget.decorations import RectDecoration
 from qtile_extras.widget.decorations import PowerLineDecoration
@@ -107,7 +106,7 @@ keys = [
     Key([mod], "Escape", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     #Key([mod, "control"], "q", lazy.spawn(home + "/dotfiles/qtile/scripts/powermenu.sh"), desc="Open Powermenu"),
-    Key([mod], "d", lazy.spawn('rofi -show run'), desc="Spawn a command using a rofi launcher"),
+    Key([mod], "d", lazy.spawn('rofi -show -combi-modes "window,run" -modes combi'), desc="Spawn a command using a rofi launcher"),
 
     # Float
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating and tilling"),
