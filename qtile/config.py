@@ -33,19 +33,23 @@ from libqtile.command.client import InteractiveCommandClient
 
 def qtile_to_screen_hook( group_name ):
     def callback(qtile):
-        logger.warning("qtile_to_screen_hook called")
-        screenshot_cmd=f"scrot -q 10 -o ~/.cache/qtile-{group_name}-scrot.jpg"
-        # Spawn the screenshot process and wait for it to complete
-        subprocess.run(screenshot_cmd, shell=True)
-        logger.warning("scrot command completed")
+        logger.warning(f"attemting to switch to {qtile.current_group} screen")
+        scrot_cmd="scrot -q 10 -o ~/.cache/qtile/qtile-scrot/"
+        file_name=f"{qtile.current_group.name}.jpg"
+        subprocess.run( scrot_cmd+file_name, shell=True)
 
-        logger.warning(f"attemting to switch to {group_name} screen")
-        
         for group in qtile.groups:
             logger.warning( group )
             if group.name == group_name:
-                logger.warning(qtile.current_screen.set_group( group ))
-        logger.warning("screen have been switched")
+                qtile.current_screen.set_group( group )
+                file_name=f"{group_name}.jpg"
+                subprocess.run( scrot_cmd+file_name, shell=True)
+                logger.warning("screen have been switched")
+
+        logger.warning("qtile_to_screen_hook called")
+        # Spawn the screenshot process and wait for it to complete
+        logger.warning("scrot command completed")
+
     return callback
 
 # --------------------------------------------------------
@@ -125,7 +129,7 @@ keys = [
     Key([mod], "Escape", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     #Key([mod, "control"], "q", lazy.spawn(home + "/dotfiles/qtile/scripts/powermenu.sh"), desc="Open Powermenu"),
-    Key([mod], "d", lazy.spawn('rofi -show -combi-modes "window,run" -modes combi'), desc="Spawn a command using a rofi launcher"),
+    Key([mod], "d", lazy.spawn('rofi -show run'), desc="Spawn a command using a rofi launcher"),
 
     # Float
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating and tilling"),
@@ -165,7 +169,6 @@ for i, g in enumerate(groups):
                     ),
                 ]
             )
-print(keys) 
 
 # --------------------------------------------------------
 # Scratchpads
