@@ -13,6 +13,9 @@ sudo apt-get -y install neovim htop keychain fzf vim rofi picom lxappearance vim
 # Install Moonlight
 sudo snap install moonlight
 
+# Install uv
+curl -LsSf https://astral.sh/uv/install.sh | less
+
 # Install nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 
