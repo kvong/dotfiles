@@ -346,6 +346,7 @@ widget_list = [
     widget.Spacer(
         background="#ffffff.0"
     ),
+    # There's a bug where anything added here will not display; could be an issue with the way the bar is rendered; If any widged need to be added, add after the memory block.
     widget.TextBox(
         **decor_right,
         background="#ffffff.0",
@@ -353,7 +354,7 @@ widget_list = [
         foreground='ffffff',
         desc='',
         padding=0,
-    ),    
+    ),  
     widget.Memory(
         **decor_left,
         background=Color10+".4",
@@ -372,6 +373,36 @@ widget_list = [
     # Not sure why this needs to be here but had to add this otherwize TextBox for decor_right after it wouldnt show up
     widget.TextBox(
         text='',
+    ),
+    widget.TextBox(
+        **decor_right,
+        background="#ffffff.0",
+        text=' ',
+        foreground='ffffff',
+        desc='',
+        padding=0,
+    ),     
+    widget.CPU(
+        **decor_left,
+        padding=10, 
+        background=Color8+".4",        
+        visible_on_warn=False,
+        max_char=100,
+    ),    
+    widget.TextBox(
+        **decor_right,
+        background="#ffffff.0",
+        text=' ',
+        foreground='ffffff',
+        desc='',
+        padding=0,
+    ),       
+    widget.NetGraph(
+        **decor_left,
+        padding=10, 
+        background=Color8+".4",        
+        visible_on_warn=False,
+        max_char=100,
     ),    
     widget.TextBox(
         **decor_right,
