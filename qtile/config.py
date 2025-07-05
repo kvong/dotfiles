@@ -28,6 +28,25 @@ from libqtile.log_utils import logger
 from qtile_extras import widget
 from qtile_extras.widget.decorations import RectDecoration
 from qtile_extras.widget.decorations import PowerLineDecoration
+from libqtile.log_utils import logger
+from libqtile.command.client import InteractiveCommandClient
+
+def qtile_to_screen_hook( group_name ):
+    def callback(qtile):
+        logger.warning("qtile_to_screen_hook called")
+        screenshot_cmd=f"scrot -q 10 -o ~/.cache/qtile-{group_name}-scrot.jpg"
+        # Spawn the screenshot process and wait for it to complete
+        subprocess.run(screenshot_cmd, shell=True)
+        logger.warning("scrot command completed")
+
+        logger.warning(f"attemting to switch to {group_name} screen")
+        
+        for group in qtile.groups:
+            logger.warning( group )
+            if group.name == group_name:
+                logger.warning(qtile.current_screen.set_group( group ))
+        logger.warning("screen have been switched")
+    return callback
 
 # --------------------------------------------------------
 # Your configuration
@@ -135,8 +154,8 @@ for i, g in enumerate(groups):
                 Key(
                     [mod],
                     g.name,
-                    lazy.group[g.name].toscreen(),
-                    desc="Switch to group {}".format(g.name),
+                    lazy.function(  qtile_to_screen_hook( g.name ) ), 
+                    desc="take screenshot and switch screen"
                     ),
                 Key(
                     [mod, "shift"],
@@ -146,7 +165,7 @@ for i, g in enumerate(groups):
                     ),
                 ]
             )
-
+print(keys) 
 
 # --------------------------------------------------------
 # Scratchpads
