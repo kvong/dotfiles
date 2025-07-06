@@ -179,8 +179,8 @@ groups.append(ScratchPad("scratchpad", [
 ]))
 
 keys.extend([
-    Key([mod], 'o', lazy.group["scratchpad"].dropdown_toggle("openwebui")),
     Key([mod], 'i', lazy.group["scratchpad"].dropdown_toggle("terminal")),
+    Key([mod], 'o', lazy.group["scratchpad"].dropdown_toggle("openwebui")),
 ])
 
 # --------------------------------------------------------
