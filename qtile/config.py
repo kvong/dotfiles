@@ -31,25 +31,23 @@ from qtile_extras.widget.decorations import PowerLineDecoration
 from libqtile.log_utils import logger
 from libqtile.command.client import InteractiveCommandClient
 
+def toggle_group_selector():
+    def callback(qtile):
+        file_name = f""
+        subprocess.run(f"scrot -q 10 -o ~/dotfiles/eww/images/qtile-scrot/{qtile.current_group.name}.jpg && eww open --toggle groups", shell=True)
+    return callback
+
 def qtile_to_screen_hook( group_name ):
     def callback(qtile):
-        logger.warning(f"attemting to switch to {qtile.current_group} screen")
-        scrot_cmd="scrot -q 10 -o ~/.cache/qtile/qtile-scrot/"
+        scrot_cmd="scrot -q 10 -o ~/dotfiles/eww/images/qtile-scrot/"
         file_name=f"{qtile.current_group.name}.jpg"
         subprocess.run( scrot_cmd+file_name, shell=True)
 
         for group in qtile.groups:
-            logger.warning( group )
             if group.name == group_name:
                 qtile.current_screen.set_group( group )
                 file_name=f"{group_name}.jpg"
                 subprocess.run( scrot_cmd+file_name, shell=True)
-                logger.warning("screen have been switched")
-
-        logger.warning("qtile_to_screen_hook called")
-        # Spawn the screenshot process and wait for it to complete
-        logger.warning("scrot command completed")
-
     return callback
 
 # --------------------------------------------------------
@@ -139,6 +137,8 @@ keys = [
     Key([mod], "b", lazy.spawn("sh " + home + "/dotfiles/.settings/browser.sh"), desc="Launch Browser"),
     #Key([mod, "shift"], "w", lazy.spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh"), desc="Update Theme and Wallpaper"),
     Key([mod, "control"], "w", lazy.spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh select"), desc="Select Theme and Wallpaper"),
+
+    Key([mod], "g", lazy.function( toggle_group_selector() ), desc="toggle eww group selector"),
 ]
 
 # --------------------------------------------------------
@@ -146,7 +146,7 @@ keys = [
 # --------------------------------------------------------
 
 if "KEYBALL39_IS_ACTIVE" in os.environ:
-    group_keys = ['q','w','e','r','a','s','z']
+    group_keys = ['q','w','e','a','s','z']
 else:
     group_keys = ['1','2','3','q','w','e','a']
 
@@ -174,18 +174,14 @@ for i, g in enumerate(groups):
 # Scratchpads
 # --------------------------------------------------------
 
-groups.append(ScratchPad("6", [
-    DropDown("chatgpt", "chromium --app=https://chat.openai.com", x=0.3, y=0.1, width=0.40, height=0.4, on_focus_lost_hide=False ),
-    DropDown("mousepad", "mousepad", x=0.3, y=0.1, width=0.40, height=0.4, on_focus_lost_hide=False ),
-    DropDown("terminal", "terminator", x=0.3, y=0.1, width=0.40, height=0.4, on_focus_lost_hide=False ),
-    DropDown("scrcpy", "scrcpy -d", x=0.8, y=0.05, width=0.15, height=0.6, on_focus_lost_hide=False )
+groups.append(ScratchPad("scratchpad", [
+    DropDown("openwebui", "chromium --app=http://127.0.0.1:3000", x=0.3, y=0.1, width=0.40, height=0.8, on_focus_lost_hide=False, opacity=1 ),
+    DropDown("terminal", terminal, x=0.3, y=0.1, width=0.40, height=0.6, on_focus_lost_hide=False ),
 ]))
 
 keys.extend([
-    Key([mod], 'F10', lazy.group["6"].dropdown_toggle("chatgpt")),
-    Key([mod], 'F11', lazy.group["6"].dropdown_toggle("mousepad")),
-    Key([mod], 'F12', lazy.group["6"].dropdown_toggle("terminal")),
-    Key([mod], 'F9', lazy.group["6"].dropdown_toggle("scrcpy"))
+    Key([mod], 'o', lazy.group["scratchpad"].dropdown_toggle("openwebui")),
+    Key([mod], 'i', lazy.group["scratchpad"].dropdown_toggle("terminal")),
 ])
 
 # --------------------------------------------------------

@@ -1,12 +1,42 @@
-(defwindow example
+(defwindow groups
            :monitor 0
            :geometry (geometry :x "0%"
-                               :y "20px"
-                               :width "90%"
-                               :height "30px"
+                               :y "25%"
+                               :width "1520px"
+                               :height "320px"
                                :anchor "top center")
            :stacking "fg"
            :reserve (struts :distance "40px" :side "top")
-           :windowtype "dock"
-           :wm-ignore false
-  "example content")
+           :windowtype "dialog"
+           :wm-ignore true
+           (group1)
+  )
+
+(defvar scrot-names-1 '["q", "w", "e", "r"]')
+(defvar scrot-names-2 '["a", "s"]')
+
+(defwidget group1 []
+    (box :class "scrot_group_wrap" 
+        (for entry in scrot-names-1
+            (button 
+                :style "background-image: url('images/qtile-scrot/${entry}.jpg');"
+                :class "group_btn"
+                :onclick "eww close groups && python ~/dotfiles/qtile/scripts/group_selector.py ${entry}"
+                "${entry}"
+            )
+        )
+    )
+)
+
+(defwidget group2 []
+    (box :class "scrot_group_wrap" 
+        (for entry in scrot-names-2
+            (button 
+                :style "background-image: url('images/qtile-scrot/${entry}.jpg');"
+                :class "group_btn"
+                :onclick "eww close groups"
+                "${entry}"
+            )
+        )
+    )
+)

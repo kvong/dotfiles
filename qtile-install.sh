@@ -5,7 +5,7 @@
 # Source: https://whatacold.io/blog/2019-09-29-how-to-run-the-bleeding-edge-code-of-qtile/
 
 # Install Python
-sudo apt-get install xserver-xorg xinit libpangocairo-1.0-0 python3 python3-pip python3-venv python3-xcffib python3-cairocffi 
+sudo apt-get install xserver-xorg xinit libpangocairo-1.0-0 python3 python3-pip python3-venv python3-xcffib python3-cairocffi python3-tkinter
 
 # Install dependencies for EWW
 sudo apt install libglib2.0-dev
@@ -32,6 +32,7 @@ cargo build --release --no-default-features --features x11
 mkdir -p ~/.config/eww
 # If building for wayland instead of x11
 #cargo build --release --no-default-features --features=wayland
+rm -rf ~/.config/eww
 ln -s "${HOME}/dotfiles/eww/" ~/.config/eww
 
 
@@ -41,12 +42,12 @@ source ~/Apps/qtile/qtile-env/bin/activate
 
 # Install dependencies
 python3 -m pip install xcffib psutil finnhub-python tomlkit
-python3 -m pip install --no-cache-dir cairocffi qtile qtile-extras
+python3 -m pip install --no-cache-dir cairocffi qtile qtile-extras Pillow
 
 # Cache file for holding the current wallpaper
 cache_file="$HOME/.cache/current_wallpaper"
 rasi_file="$HOME/.cache/current_wallpaper.rasi"
-qtile_scrot_dir="$HOME/.cache/qtile/qtile-scrot"
+qtile_scrot_dir="$HOME/dotfiles/eww/images/qtile-scrot"
 
 # Create cache file if not exists
 if [ ! -f $cache_file ] ;then
