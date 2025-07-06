@@ -33,8 +33,7 @@ from libqtile.command.client import InteractiveCommandClient
 
 def toggle_group_selector():
     def callback(qtile):
-        file_name = f""
-        subprocess.run(f"scrot -q 10 -o ~/dotfiles/eww/images/qtile-scrot/{qtile.current_group.name}.jpg && eww open --toggle groups", shell=True)
+        subprocess.run(f"scrot -q 10 -o ~/dotfiles/eww/images/qtile-scrot/{qtile.current_group.name}.jpg && eww open-many --toggle groups-1 groups-2", shell=True)
     return callback
 
 def qtile_to_screen_hook( group_name ):
@@ -146,7 +145,7 @@ keys = [
 # --------------------------------------------------------
 
 if "KEYBALL39_IS_ACTIVE" in os.environ:
-    group_keys = ['q','w','e','a','s','z']
+    group_keys = ['q','w','e','r','a','s','z']
 else:
     group_keys = ['1','2','3','q','w','e','a']
 

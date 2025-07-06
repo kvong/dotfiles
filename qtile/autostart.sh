@@ -1,15 +1,16 @@
 #!/bin/bash
 
-rm ~/dotfiles/eww/images/*
-scrot -q 10 ~/dotfiles/eww/images/q.jpg
-cp ~/dotfiles/eww/images/q.jpg ~/dotfiles/eww/images/w.jpg
-cp ~/dotfiles/eww/images/q.jpg ~/dotfiles/eww/images/e.jpg
-cp ~/dotfiles/eww/images/q.jpg ~/dotfiles/eww/images/a.jpg
-cp ~/dotfiles/eww/images/q.jpg ~/dotfiles/eww/images/s.jpg
-cp ~/dotfiles/eww/images/q.jpg ~/dotfiles/eww/images/z.jpg
+rm ~/dotfiles/eww/images/qtile-scrot/*
+scrot -q 10 ~/dotfiles/eww/images/qtile-scrot/q.jpg
+cp ~/dotfiles/eww/images/qtile-scrot/q.jpg ~/dotfiles/eww/images/qtile-scrot/w.jpg
+cp ~/dotfiles/eww/images/qtile-scrot/q.jpg ~/dotfiles/eww/images/qtile-scrot/e.jpg
+cp ~/dotfiles/eww/images/qtile-scrot/q.jpg ~/dotfiles/eww/images/qtile-scrot/r.jpg
+cp ~/dotfiles/eww/images/qtile-scrot/q.jpg ~/dotfiles/eww/images/qtile-scrot/a.jpg
+cp ~/dotfiles/eww/images/qtile-scrot/q.jpg ~/dotfiles/eww/images/qtile-scrot/s.jpg
+cp ~/dotfiles/eww/images/qtile-scrot/q.jpg ~/dotfiles/eww/images/qtile-scrot/z.jpg
+
 dunst &
 keychain &
 alacritty &
 brave-browser &
 picom &
-scrot -q 10 ~/dotfiles/eww/images/q.jpg
