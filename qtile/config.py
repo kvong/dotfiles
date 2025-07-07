@@ -28,6 +28,26 @@ from libqtile.log_utils import logger
 from qtile_extras import widget
 from qtile_extras.widget.decorations import RectDecoration
 from qtile_extras.widget.decorations import PowerLineDecoration
+from libqtile.log_utils import logger
+from libqtile.command.client import InteractiveCommandClient
+
+def toggle_group_selector():
+    def callback(qtile):
+        subprocess.run(f"scrot -q 10 -o ~/dotfiles/eww/images/qtile-scrot/{qtile.current_group.name}.jpg && eww open-many --toggle groups-1 groups-2", shell=True)
+    return callback
+
+def qtile_to_screen_hook( group_name ):
+    def callback(qtile):
+        scrot_cmd="scrot -q 10 -o ~/dotfiles/eww/images/qtile-scrot/"
+        file_name=f"{qtile.current_group.name}.jpg"
+        subprocess.run( scrot_cmd+file_name, shell=True)
+
+        for group in qtile.groups:
+            if group.name == group_name:
+                qtile.current_screen.set_group( group )
+                file_name=f"{group_name}.jpg"
+                subprocess.run( scrot_cmd+file_name, shell=True)
+    return callback
 
 # --------------------------------------------------------
 # Your configuration
@@ -106,7 +126,7 @@ keys = [
     Key([mod], "Escape", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     #Key([mod, "control"], "q", lazy.spawn(home + "/dotfiles/qtile/scripts/powermenu.sh"), desc="Open Powermenu"),
-    Key([mod], "d", lazy.spawn('rofi -show -combi-modes "window,run" -modes combi'), desc="Spawn a command using a rofi launcher"),
+    Key([mod], "d", lazy.spawn('rofi -show run'), desc="Spawn a command using a rofi launcher"),
 
     # Float
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating and tilling"),
@@ -116,6 +136,8 @@ keys = [
     Key([mod], "b", lazy.spawn("sh " + home + "/dotfiles/.settings/browser.sh"), desc="Launch Browser"),
     #Key([mod, "shift"], "w", lazy.spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh"), desc="Update Theme and Wallpaper"),
     Key([mod, "control"], "w", lazy.spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh select"), desc="Select Theme and Wallpaper"),
+
+    Key([mod], "g", lazy.function( toggle_group_selector() ), desc="toggle eww group selector"),
 ]
 
 # --------------------------------------------------------
@@ -135,8 +157,8 @@ for i, g in enumerate(groups):
                 Key(
                     [mod],
                     g.name,
-                    lazy.group[g.name].toscreen(),
-                    desc="Switch to group {}".format(g.name),
+                    lazy.function(  qtile_to_screen_hook( g.name ) ), 
+                    desc="take screenshot and switch screen"
                     ),
                 Key(
                     [mod, "shift"],
@@ -147,23 +169,18 @@ for i, g in enumerate(groups):
                 ]
             )
 
-
 # --------------------------------------------------------
 # Scratchpads
 # --------------------------------------------------------
 
-groups.append(ScratchPad("6", [
-    DropDown("chatgpt", "chromium --app=https://chat.openai.com", x=0.3, y=0.1, width=0.40, height=0.4, on_focus_lost_hide=False ),
-    DropDown("mousepad", "mousepad", x=0.3, y=0.1, width=0.40, height=0.4, on_focus_lost_hide=False ),
-    DropDown("terminal", "terminator", x=0.3, y=0.1, width=0.40, height=0.4, on_focus_lost_hide=False ),
-    DropDown("scrcpy", "scrcpy -d", x=0.8, y=0.05, width=0.15, height=0.6, on_focus_lost_hide=False )
+groups.append(ScratchPad("scratchpad", [
+    DropDown("openwebui", "chromium --app=http://127.0.0.1:3000", x=0.3, y=0.1, width=0.40, height=0.8, on_focus_lost_hide=False, opacity=1 ),
+    DropDown("terminal", terminal, x=0.3, y=0.1, width=0.40, height=0.6, on_focus_lost_hide=False ),
 ]))
 
 keys.extend([
-    Key([mod], 'F10', lazy.group["6"].dropdown_toggle("chatgpt")),
-    Key([mod], 'F11', lazy.group["6"].dropdown_toggle("mousepad")),
-    Key([mod], 'F12', lazy.group["6"].dropdown_toggle("terminal")),
-    Key([mod], 'F9', lazy.group["6"].dropdown_toggle("scrcpy"))
+    Key([mod], 'i', lazy.group["scratchpad"].dropdown_toggle("terminal")),
+    Key([mod], 'o', lazy.group["scratchpad"].dropdown_toggle("openwebui")),
 ])
 
 # --------------------------------------------------------
