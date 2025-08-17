@@ -16,3 +16,9 @@ starship init fish | source
 
 python3 ~/.config/alacritty/update_alacritty_from_env.py
 
+set -gx PYENV_ROOT "$HOME/.pyenv"
+
+if test -d $PYENV_ROOT/bin
+    set PATH $PYENV_ROOT/bin $PATH
+end
+eval "$(pyenv init - fish)"
