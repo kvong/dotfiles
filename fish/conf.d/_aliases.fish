@@ -22,3 +22,4 @@ alias to 'z'
 alias dotfiles='/usr/bin/git --work-tree=$HOME/dotfiles status'
 alias ff find_file
 alias gg find_grep
+alias go /usr/local/go/bin/go
