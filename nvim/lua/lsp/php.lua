@@ -64,6 +64,9 @@ return {
                 "polylang",
             "sbi"},
             diagnostics = {enable = true},
+            environment = {
+                includePaths = {'/home/blank/.config/composer/vendor/php-stubs/'},
+            },
             files = {
                 maxSize = 10000000;
             };

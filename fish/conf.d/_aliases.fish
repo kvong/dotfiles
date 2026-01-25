@@ -12,8 +12,8 @@ alias frc 'vi ~/.config/fish/config.fish'
 alias vifm. 'vifm .'
 alias rebootw 'sudo grub-reboot 2 && reboot'
 alias restart_audio 'pulseaudio -k && sudo alsa force-reload'
-alias xclip 'xclip -se clipboard'
-alias Qtile 'source ~/Apps/qtile/qtile-venv/bin/activate.fish; startx'
+alias xcopy 'xclip -se clipboard'
+alias Qtile 'source ~/Apps/qtile/qtile-env/bin/activate.fish; startx'
 alias bssh 'bash ~/Work/better-server-ssh/bssh.sh'
 alias dot 'cd ~/dotfiles'
 alias tm 'tmux'
@@ -22,3 +22,4 @@ alias to 'z'
 alias dotfiles='/usr/bin/git --work-tree=$HOME/dotfiles status'
 alias ff find_file
 alias gg find_grep
+alias go /usr/local/go/bin/go
