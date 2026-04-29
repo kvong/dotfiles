@@ -49,3 +49,6 @@ function find_grep
     # Use rg (ripgrep) or grep for performance and include line numbers. Pipe into fzf with file content previews.
     rg --column --line-number --no-heading --color=always --smart-case --hidden --glob '!.git/' '' $search_dir | fzf --ansi --delimiter : --preview "bat --style=numbers --color=always --line-range {2}: {1}" --preview-window=up:60%
 end
+
+# opencode
+fish_add_path /home/blank/.opencode/bin
