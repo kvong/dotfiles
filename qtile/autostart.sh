@@ -14,3 +14,5 @@ keychain &
 alacritty &
 brave-browser &
 picom &
+
+eww daemon &
