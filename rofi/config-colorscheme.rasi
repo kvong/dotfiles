@@ -12,8 +12,8 @@ configuration {
 
 window {
     width:                        520px;
-    location:                     west;
-    anchor:                       west;
+    location:                     center;
+    anchor:                       center;
     x-offset:                     4px;
 }
 
