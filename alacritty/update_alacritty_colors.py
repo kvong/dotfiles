@@ -116,7 +116,7 @@ def update_alacritty_config(colors):
     # Set selection colors
     if "selection" not in config["colors"]:
         config["colors"]["selection"] = {}
-    config["colors"]["selection"]["background"] = fg + "66"  # 40% alpha
+    config["colors"]["selection"]["background"] = fg
     config["colors"]["selection"]["text"] = bg
 
     with open(ALACRITTY_CONFIG, "w") as f:

@@ -300,7 +300,7 @@ widget_list = [
         background=Color1+".4",
         text="",
         fontsize=18,
-        mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(home + "/dotfiles/qtile/scripts/wallpaper.sh select")},
+        mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(home + "/dotfiles/qtile/scripts/change-look.sh")},
     ),
     widget.TextBox(
         **decor_right,

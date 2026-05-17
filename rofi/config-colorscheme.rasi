@@ -12,8 +12,9 @@ configuration {
 
 window {
     width:                        520px;
-    location:                     center;
-    anchor:                       center;
+    location:                     west;
+    anchor:                       west;
+    x-offset:                     4px;
 }
 
 mainbox {
