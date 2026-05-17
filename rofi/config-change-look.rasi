@@ -1,0 +1,48 @@
+/*
+ * rofi — change-look menu
+ * Anchored to the bottom-left, mouse-driven selector
+ */
+
+@import "config-base.rasi"
+
+configuration {
+    hover-select:                 true;
+    kb-row-up:                    "";
+    kb-row-down:                  "";
+    kb-accept:                    "";
+    kb-cancel:                    "Escape";
+}
+
+window {
+    width:                        320px;
+    location:                     southWest;
+    anchor:                       southWest;
+    y-offset:                     -40px;
+    x-offset:                     4px;
+}
+
+mainbox {
+    children:                     [ "listview" ];
+}
+
+inputbar {
+    enabled:                      false;
+}
+
+listview {
+    lines:                        2;
+}
+
+element {
+    padding:                      12px 18px;
+    font:                         "JetBrainsMono Nerd Font 11";
+}
+
+element-text {
+    horizontal-align:             0.0;
+}
+
+element selected.normal {
+    background-color:            rgba(203, 166, 247, 0.55);
+    text-color:                  @foreground;
+}
