@@ -223,8 +223,8 @@ Color15=colors[15]
 layout_theme = { 
     "border_width": 3,
     "margin": 15,
-    "border_focus": Color2,
-    "border_normal": "FFFFFF",
+    "border_focus": "c6a0f6",
+    "border_normal": "b8c0e0",
     "single_border_width": 3
 }
 
