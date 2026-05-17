@@ -1,20 +1,25 @@
+/*
+ * Catppuccin Mocha — hardcoded color scheme
+ * Replaces pywal dynamic colors for a consistent dark theme
+ */
 * {
-    background: rgba(0,0,1,0.5);
-    foreground: #FFFFFF;
-    color0:     "${color0}";
-    color1:     "${color1}";
-    color2:     "${color2}";
-    color3:     "${color3}";
-    color4:     "${color4}";
-    color5:     "${color5}";
-    color6:     "${color6}";
-    color7:     "${color7}";
-    color8:     "${color8}";
-    color9:     "${color9}";
-    color10:    "${color10}";
-    color11:    "${color11}";
-    color12:    "${color12}";
-    color13:    "${color13}";
-    color14:    "${color14}";
-    color15:    "${color15}";
+    background: rgba(30,30,46,0.94);
+    foreground: #cdd6f4;
+
+    color0:     #313244;   /* Surface0    - base bg */
+    color1:     #f38ba8;   /* Red         - errors/urgency */
+    color2:     #a6e3a1;   /* Green       - success */
+    color3:     #f9e2af;   /* Yellow      - warnings */
+    color4:     #89b4fa;   /* Blue        - info */
+    color5:     #f5c2e7;   /* Pink        */
+    color6:     #94e2d5;   /* Teal        */
+    color7:     #cdd6f4;   /* Text        */
+    color8:     #45475a;   /* Surface1    - alt bg */
+    color9:     #f38ba8;   /* Red         - urgent */
+    color10:    #a6e3a1;   /* Green       */
+    color11:    #cba6f7;   /* Mauve       - accent / highlight */
+    color12:    #89b4fa;   /* Blue        */
+    color13:    #b4befe;   /* Lavender    */
+    color14:    #94e2d5;   /* Teal        */
+    color15:    #cdd6f4;   /* Text        */
 }

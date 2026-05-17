@@ -17,9 +17,7 @@ sudo apt install libgdk-pixbuf2.0-dev
 sudo apt install libgtk-3-dev
 sudo apt install libdbusmenu-gtk3-dev
 
-git clone https://github.com/dylanaraps/pywal
-cd pywal
-pip3 install .
+# Colors are now hardcoded as Catppuccin Mocha (no pywal needed)
 
 # Get qtile
 mkdir -p ~/Apps/
@@ -66,6 +64,6 @@ if [ ! -f $qtile_scrot_dir ] ;then
     mkdir -p $qtile_scrot_dir
 fi
 
+# Symlink wal templates (Catppuccin Mocha hardcoded colors)
 rm -rf ~/.config/wal
 ln -s "${HOME}/dotfiles/wal/" ~/.config/wal
-wal -i ~/wallpapers/default.jpg
