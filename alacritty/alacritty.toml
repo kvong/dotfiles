@@ -60,7 +60,7 @@ background = "#a6adc8"
 
 [colors.selection]
 text = "#1e1e2e"
-background = "#cdd6f466"
+background = "#cdd6f4"
 
 [colors.normal]
 black = "#313244"
