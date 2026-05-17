@@ -40,6 +40,8 @@ case $1 in
         fi
         current_wallpaper="$selected_wall"
         echo ":: Restoring wallpaper: $(basename "$selected_wall")"
+        # Sync Alacritty from the cached scheme
+        ~/dotfiles/scripts/sync-alacritty-colorscheme.sh 2>/dev/null || true
     ;;
 
     # Select wallpaper with rofi

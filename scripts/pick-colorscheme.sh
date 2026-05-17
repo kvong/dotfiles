@@ -49,6 +49,10 @@ chosen="${schemes[$idx]}"
 cp "$chosen" "$CACHE_FILE"
 
 name=$(basename "$chosen" .rasi)
+
+# Sync to Alacritty
+"$DIR/scripts/sync-alacritty-colorscheme.sh" 2>/dev/null || true
+
 notify-send -i "/usr/share/icons/kora/actions/24/color-picker.svg" \
     "Color Scheme" "Switched to ${name}"
 echo "Applied scheme: ${name}"

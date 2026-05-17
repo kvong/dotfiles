@@ -32,7 +32,7 @@ bright_foreground = "#cdd6f4"
 
 [colors.cursor]
 text = "#1e1e2e"
-cursor = "#f5e0dc"
+cursor = "#cdd6f4"
 
 [colors.vi_mode_cursor]
 text = "#1e1e2e"
@@ -60,27 +60,27 @@ background = "#a6adc8"
 
 [colors.selection]
 text = "#1e1e2e"
-background = "#f5e0dc"
+background = "#cdd6f466"
 
 [colors.normal]
+black = "#313244"
+red = "#f38ba8"
+green = "#a6e3a1"
+yellow = "#f9e2af"
+blue = "#89b4fa"
+magenta = "#f5c2e7"
+cyan = "#94e2d5"
+white = "#cdd6f4"
+
+[colors.bright]
 black = "#45475a"
 red = "#f38ba8"
 green = "#a6e3a1"
-yellow = "#f9e2af"
+yellow = "#cba6f7"
 blue = "#89b4fa"
-magenta = "#f5c2e7"
+magenta = "#b4befe"
 cyan = "#94e2d5"
-white = "#bac2de"
-
-[colors.bright]
-black = "#585b70"
-red = "#f38ba8"
-green = "#a6e3a1"
-yellow = "#f9e2af"
-blue = "#89b4fa"
-magenta = "#f5c2e7"
-cyan = "#94e2d5"
-white = "#a6adc8"
+white = "#cdd6f4"
 
 [[colors.indexed_colors]]
 index = 16

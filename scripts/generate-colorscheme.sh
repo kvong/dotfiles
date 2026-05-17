@@ -123,4 +123,7 @@ EOF
 # Also update the active cache file (in case this was called directly)
 cp "$output" "$CACHE_FILE"
 
+# Sync to Alacritty
+"$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/sync-alacritty-colorscheme.sh" 2>/dev/null || true
+
 echo "$output"
