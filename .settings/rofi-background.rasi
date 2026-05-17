@@ -1,0 +1,7 @@
+/*
+ * Optional background override.
+ * Not imported by default — the active scheme (~/.cache/colorscheme.rasi)
+ * sets background. Add this import back to config-base.rasi if you want
+ * to lock the background independently of the color scheme.
+ */
+* { background: rgba(30,30,46,0.92); }

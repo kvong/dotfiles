@@ -1,8 +1,8 @@
 /*
- * Catppuccin Mocha — color palette only
- * Background is set separately in .settings/rofi-background.rasi
+ * Catppuccin Mocha — default color scheme
  */
 * {
+    background: rgba(30,30,46,0.92);
     foreground: #cdd6f4;
 
     color0:     #313244;   /* Surface0    - base bg */

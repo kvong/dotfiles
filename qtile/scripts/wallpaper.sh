@@ -33,10 +33,13 @@ case $1 in
     # Load wallpaper from .cache of last session 
     "init")
         if [ -f $cache_file ]; then
-            wal -q -i $current_wallpaper
+            selected_wall=$(cat "$cache_file")
         else
-            wal -q -i ~/wallpapers/
+            selected_wall=$( find "$HOME/wallpapers/" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) | shuf -n1 )
+            echo "$selected_wall" > "$cache_file"
         fi
+        current_wallpaper="$selected_wall"
+        echo ":: Restoring wallpaper: $(basename "$selected_wall")"
     ;;
 
     # Select wallpaper with rofi
@@ -44,17 +47,18 @@ case $1 in
         selected=$( find "$HOME/wallpapers/" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -exec basename {} \; | sort -R | while read rfile
         do
             echo -en "$rfile\x00icon\x1f$HOME/wallpapers/${rfile}\n"
-        done | rofi -dmenu -replace -l 6 -config ~/dotfiles/rofi/config-wallpaper.rasi)
+        done | rofi -dmenu -replace -config ~/dotfiles/rofi/config-wallpaper.rasi)
         if [ ! "$selected" ]; then
             echo "No wallpaper selected"
             exit
         fi
-        wal -q -i ~/wallpapers/$selected
+        selected_wall="$HOME/wallpapers/$selected"
     ;;
 
     # Randomly select wallpaper 
     *)
-        wal -q -i ~/wallpapers/
+        selected=$( find "$HOME/wallpapers/" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) | shuf -n1 )
+        selected_wall="$selected"
     ;;
 
 esac
@@ -62,9 +66,15 @@ esac
 # ----------------------------------------------------- 
 # Get new theme
 # ----------------------------------------------------- 
-source "$HOME/.cache/wal/colors.sh"
-echo "Wallpaper: $wallpaper"
-newwall=$(echo $wallpaper | sed "s|$HOME/wallpaper/||g")
+newwall=$(basename "$selected_wall")
+echo "Wallpaper: $selected_wall"
+
+# Generate color scheme from wallpaper and apply it
+scheme_file=$(~/dotfiles/scripts/generate-colorscheme.sh "$selected_wall")
+cp "$scheme_file" "$HOME/.cache/colorscheme.rasi"
+echo "Color scheme generated"
+
+wallpaper="$selected_wall"
 
 # ----------------------------------------------------- 
 # Created blurred wallpaper
@@ -80,12 +90,10 @@ echo ":: Blurred"
 echo "$wallpaper" > "$cache_file"
 echo "* { current-image: url(\"$blurred\", height); }" > "$rasi_file"
 
-sleep 1
-
 # ----------------------------------------------------- 
 # Send notification
 # ----------------------------------------------------- 
-#notify-send "Colors and Wallpaper updated" "with image $newwall"
+notify-send -i "$wallpaper" "Wallpaper & Colors" "${newwall}"
 echo "Done."
 
 # ----------------------------------------------------- 

@@ -1,0 +1,247 @@
+/*
+ * rofi base theme — shared across all configs
+ * Modern, clean aesthetic using Catppuccin Mocha colors
+ */
+
+/* ---- Configuration defaults ---- */
+configuration {
+    modi:                       "drun,run";
+    font:                       "Fira Sans 11";
+    show-icons:                 true;
+    icon-theme:                 "kora";
+    display-drun:               "  Apps";
+    display-run:                "  Run";
+    display-filebrowser:        "  Files";
+    display-window:             "  Windows";
+    drun-display-format:        "{name}";
+    window-format:              "{w} · {c} · {t}";
+    hover-select:               false;
+    scroll-method:              1;
+    me-select-entry:            "";
+    me-accept-entry:            "MousePrimary";
+    kb-row-up:                  "Up,Control+p";
+    kb-row-down:                "Down,Control+n";
+    kb-cancel:                  "Escape,Control+g,Control+c";
+}
+
+/* ---- Load font ---- */
+@import "~/dotfiles/.settings/rofi-font.rasi"
+
+/* ---- Load active color scheme (from cache file, set by pick-colorscheme.sh) ---- */
+@import "~/.cache/colorscheme.rasi"
+
+/* ---- Load border width ---- */
+@import "~/dotfiles/.settings/rofi-border.rasi"
+
+/* ---- Window ---- */
+window {
+    enabled:                      true;
+    transparency:                 "real";
+    fullscreen:                   false;
+    cursor:                       "default";
+    color:                        @foreground;
+    background-color:             transparent;
+    border:                       @border-width;
+    border-color:                 @color11;
+    border-radius:                14px;
+}
+
+/* ---- Mainbox ---- */
+mainbox {
+    enabled:                      true;
+    orientation:                  vertical;
+    spacing:                      0px;
+    margin:                       0px;
+    background-color:             @background;
+    border-radius:                14px;
+    padding:                      8px;
+    children:                     [ "inputbar", "listview" ];
+}
+
+/* ---- Inputbar ---- */
+inputbar {
+    enabled:                      true;
+    spacing:                      8px;
+    padding:                      12px 14px;
+    margin:                       0px 0px 6px 0px;
+    border-radius:                10px;
+    background-color:             rgba(255,255,255,0.06);
+    text-color:                   @foreground;
+    children:                     [ "textbox-prompt-colon", "entry", "case-indicator" ];
+}
+
+textbox-prompt-colon {
+    enabled:                      true;
+    expand:                       false;
+    str:                          "";
+    padding:                      0px 4px 0px 0px;
+    background-color:             transparent;
+    text-color:                   @color11;
+}
+
+entry {
+    enabled:                      true;
+    background-color:             transparent;
+    text-color:                   @foreground;
+    cursor:                       text;
+    placeholder:                  "Search…";
+    placeholder-color:            rgba(205, 214, 244, 0.4);
+}
+
+case-indicator {
+    enabled:                      true;
+    padding:                      2px 6px;
+    border-radius:                6px;
+    background-color:             rgba(255,255,255,0.08);
+    text-color:                   rgba(205, 214, 244, 0.5);
+    expand:                       false;
+}
+
+/* ---- Mode Switcher ---- */
+mode-switcher {
+    enabled:                      true;
+    spacing:                      6px;
+    margin:                       10px 0px 0px 0px;
+    background-color:             transparent;
+    text-color:                   @foreground;
+}
+
+button {
+    padding:                      6px 12px;
+    border-radius:                8px;
+    background-color:             rgba(255,255,255,0.05);
+    text-color:                   rgba(205, 214, 244, 0.7);
+    cursor:                       pointer;
+    border:                       0px;
+}
+
+button selected {
+    background-color:             @color11;
+    text-color:                   @foreground;
+}
+
+/* ---- Listview ---- */
+listview {
+    enabled:                      true;
+    columns:                      1;
+    lines:                        8;
+    cycle:                        true;
+    dynamic:                      true;
+    scrollbar:                    false;
+    layout:                       vertical;
+    reverse:                      false;
+    fixed-height:                 true;
+    fixed-columns:                true;
+    spacing:                      2px;
+    padding:                      2px;
+    margin:                       0px;
+    background-color:             transparent;
+    border:                       0px;
+}
+
+/* ---- Element ---- */
+element {
+    enabled:                      true;
+    padding:                      10px 14px;
+    margin:                       2px 0px;
+    cursor:                       pointer;
+    background-color:             transparent;
+    border-radius:                10px;
+    border:                       0px;
+}
+
+element normal.normal {
+    background-color:            transparent;
+    text-color:                  @foreground;
+}
+
+element normal.urgent {
+    background-color:            transparent;
+    text-color:                  @color9;
+}
+
+element normal.active {
+    background-color:            transparent;
+    text-color:                  @foreground;
+}
+
+element selected.normal {
+    background-color:            rgba(203, 166, 247, 0.35);
+    text-color:                  @foreground;
+}
+
+element selected.urgent {
+    background-color:            rgba(243, 139, 168, 0.35);
+    text-color:                  @foreground;
+}
+
+element selected.active {
+    background-color:            rgba(203, 166, 247, 0.35);
+    text-color:                  @foreground;
+}
+
+element alternate.normal {
+    background-color:            transparent;
+    text-color:                  @foreground;
+}
+
+element alternate.urgent {
+    background-color:            transparent;
+    text-color:                  @color9;
+}
+
+element alternate.active {
+    background-color:            transparent;
+    text-color:                  @foreground;
+}
+
+/* ---- Element children ---- */
+element-icon {
+    background-color:            transparent;
+    text-color:                  inherit;
+    size:                        28px;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+    padding:                     0px 0px 0px 10px;
+}
+
+/* ---- Message ---- */
+message {
+    background-color:            transparent;
+    border:                      0px;
+    margin:                      6px 0px 0px 0px;
+    padding:                     0px;
+    spacing:                     0px;
+    border-radius:               10px;
+}
+
+textbox {
+    padding:                     12px 14px;
+    margin:                      0px;
+    border-radius:               10px;
+    background-color:            rgba(255,255,255,0.04);
+    text-color:                  @foreground;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+}
+
+error-message {
+    padding:                     12px 16px;
+    border-radius:               12px;
+    background-color:            @background;
+    text-color:                  @color9;
+}
+
+/* ---- Dummy ---- */
+dummy {
+    background-color:            transparent;
+}

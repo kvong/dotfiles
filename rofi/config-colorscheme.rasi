@@ -1,0 +1,38 @@
+/*
+ * rofi — color scheme picker
+ */
+
+configuration {
+    modi:                       "colorschemes";
+    display-colorschemes:       "";
+    show-icons:                 true;
+}
+
+@import "config-base.rasi"
+
+window {
+    width:                        520px;
+    location:                     center;
+    anchor:                       center;
+}
+
+mainbox {
+    children:                     [ "listview" ];
+}
+
+listview {
+    lines:                        12;
+    spacing:                      2px;
+}
+
+element {
+    padding:                      10px 16px;
+}
+
+element-icon {
+    size:                        24px;
+}
+
+element-text {
+    padding:                     0px 0px 0px 12px;
+}

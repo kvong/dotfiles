@@ -1,18 +1,18 @@
 /*
- * rofi — wallpaper picker
- * Compact panel for selecting wallpapers
+ * rofi — wallpaper picker (visual grid)
+ * Shows wallpaper thumbnails in a grid with filenames
  */
 
 configuration {
     modi:                       "wallpapers";
     display-wallpapers:         "";
-    show-icons:                 false;
+    show-icons:                 true;
 }
 
 @import "config-base.rasi"
 
 window {
-    width:                        480px;
+    width:                        900px;
     location:                     center;
     anchor:                       center;
 }
@@ -22,14 +22,43 @@ mainbox {
 }
 
 listview {
-    lines:                        10;
-    spacing:                      2px;
+    columns:                      3;
+    lines:                        4;
+    flow:                         horizontal;
+    spacing:                      8px;
+    padding:                      12px;
+    fixed-columns:                true;
+    fixed-height:                 true;
+    scrollbar:                    false;
 }
 
 element {
-    padding:                      10px 16px;
+    orientation:                  vertical;
+    padding:                      8px;
+    margin:                       0px;
+    border-radius:                12px;
+}
+
+element normal.normal {
+    border:                       2px;
+    border-color:                 transparent;
+}
+
+element selected.normal {
+    border:                       2px;
+    border-color:                 @color11;
+    background-color:             rgba(203, 166, 247, 0.15);
+}
+
+element-icon {
+    size:                        240px;
+    horizontal-align:            0.5;
+    vertical-align:              0.5;
 }
 
 element-text {
-    padding:                     0px;
+    enabled:                      true;
+    padding:                     8px 4px 4px 4px;
+    horizontal-align:            0.5;
+    vertical-align:              0.0;
 }
